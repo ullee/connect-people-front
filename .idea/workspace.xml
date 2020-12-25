@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0407553-fc87-4fe9-9a06-1144b5b37897" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Flutter/.last_build_id" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/.last_build_id" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/default_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/default_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home/components/body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home/components/body.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home/components/categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home/components/categories.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home/components/discount_banner.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home/components/discount_banner.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home/components/home_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home/components/home_header.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home/components/popular_product.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home/components/popular_product.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home/components/search_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home/components/search_field.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/sign_in/components/sign_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/sign_in/components/sign_form.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/splash/components/body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/splash/components/body.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/splash/components/splash_content.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/splash/components/splash_content.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="a0407553-fc87-4fe9-9a06-1144b5b37897" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +63,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608832644484</updated>
-      <workItem from="1608832646941" duration="18047000" />
+      <workItem from="1608832646941" duration="18405000" />
     </task>
     <servers />
   </component>
