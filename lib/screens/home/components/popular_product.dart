@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import '../../../size_config.dart';
+import '../../../constants.dart';
 import 'section_title.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -25,7 +26,7 @@ class Board {
 }
 
 Future<List<Board>> fetchAll() async {
-  final response = await http.get('http://52.79.191.174/boards');
+  final response = await http.get(HOST_CORE + '/boards');
   if (response.statusCode != 200) {
     throw Exception("Fail to request API");
   }

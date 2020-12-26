@@ -25,7 +25,7 @@ class Result {
 
 Future<Result> fetchAll(String brandName, int memberID, String title, String subTitle, String content) async {
   final response = await http.post(
-    'http://52.79.191.174/boards',
+    HOST_CORE + '/boards',
     body: jsonEncode(
       {
         'brandName': brandName,
