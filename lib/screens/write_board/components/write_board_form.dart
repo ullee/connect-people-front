@@ -43,8 +43,6 @@ Future<Result> fetchAll(String brandName, int memberID, String title, String sub
 
   var jsonData = jsonDecode(response.body)['result'];
   var result = Result.fromJson(jsonData);
-  // var jsons = jsonEncode(result.toJson());
-  // print(jsons);
 
   return result;
 }
@@ -82,13 +80,14 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     return Form(
       key: _formKey,
       child: Column(
-        children: [
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
           buildBrandNameFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(10)),
           buildTitleFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(10)),
           buildSubTitleFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(10)),
           buildContentFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
@@ -97,19 +96,11 @@ class _WriteBoardForm extends State<WriteBoardForm> {
             press: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
+                // API Response Parsing
                 FutureBuilder<Result>(
                   future: fetchAll(brandName, 1, title, subTitle, content),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          title: new Text("Info"),
-                          content: new Text("now loading..."),
-                          actions: <Widget>[new FlatButton(
-                              onPressed: null, child: new Text("Close"))
-                          ],
-                        );
-                      });
                       return CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       showDialog(context: context, builder: (context) {
@@ -123,10 +114,11 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                       });
                       return null;
                     } else {
+                      // 글 작성 성공
                       if (snapshot.data.code == 1) {
                         showDialog(context: context, builder: (context) {
                           return AlertDialog(
-                            title: new Text("Error"),
+                            title: new Text("Success!"),
                             content: new Text(snapshot.data.message),
                             actions: <Widget>[
                               new FlatButton(
@@ -139,11 +131,12 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                     }
                   },
                 );
+                // TODO Future 로직 안타서 강제 Alert 차후 개선 필요
                 showDialog(context: context, builder: (context) {
                   return AlertDialog(
-                    title: new Text("Success!!"),
+                    title: new Text("Success!"),
                     content: new Text("작성 완료"),
-                    actions: <Widget>[new FlatButton(onPressed: () {Navigator.pushNamed(context, HomeScreen.routeName);}, child: new Text("Close"))],
+                    actions: <Widget>[new FlatButton(onPressed: () {Navigator.pushNamed(context, HomeScreen.routeName);}, child: new Text("OK"))],
                   );
                 });
               }
@@ -172,9 +165,15 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "BrandName",
+        border: InputBorder.none,
+        labelText: "업체명",
         hintText: "업체명을 입력 하세요",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        isDense: true,
+        contentPadding: EdgeInsets.all(10),
+      ),
+      style: TextStyle(
+          fontSize: 12
       ),
     );
   }
@@ -182,6 +181,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   TextFormField buildContentFormField() {
     return TextFormField(
       keyboardType: TextInputType.multiline,
+      maxLines: null,
       onSaved: (newValue) => content = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -197,9 +197,17 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Content",
+        border: InputBorder.none,
+        filled: true,
+        labelText: "내용",
         hintText: "내용을 입력 하세요",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        isDense: true,
+        // contentPadding: new EdgeInsets.symmetric(vertical: 145.0, horizontal: 10.0),
+        contentPadding: const EdgeInsets.all(8.0),
+      ),
+      style: TextStyle(
+          fontSize: 12
       ),
     );
   }
@@ -224,9 +232,15 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "SubTitle",
+        border: InputBorder.none,
+        labelText: "부제목",
         hintText: "부제목을 입력 하세요",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        isDense: true,
+        contentPadding: EdgeInsets.all(10),
+      ),
+      style: TextStyle(
+          fontSize: 12
       ),
     );
   }
@@ -251,9 +265,15 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Title",
+        border: InputBorder.none,
+        labelText: "제목",
         hintText: "제목을 입력 하세요",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        isDense: true,
+        contentPadding: EdgeInsets.all(10),
+      ),
+      style: TextStyle(
+          fontSize: 12
       ),
     );
   }
