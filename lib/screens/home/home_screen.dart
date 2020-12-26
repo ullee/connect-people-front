@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:shop_app/screens/home/components/body.dart';
 import 'package:shop_app/screens/home/components/search_field.dart';
@@ -17,7 +18,7 @@ class _HomeScreen extends State<HomeScreen> {
     Body(),
     SearchField(),
     LoginSuccessScreen(),
-    LoginSuccessScreen(),
+    CartScreen(),
     LoginSuccessScreen(),
   ];
   @override

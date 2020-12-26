@@ -41,7 +41,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<Post> post = fetchPost();
+    // Future<Post> post = fetchPost();
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
