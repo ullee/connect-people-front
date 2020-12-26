@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/product_card.dart';
-import 'package:shop_app/models/Product.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -34,8 +32,6 @@ Future<List<Board>> fetchAll() async {
 
   var jsonData = jsonDecode(response.body)['data'] as List;
   List<Board> boards = jsonData.map((json) => Board.fromJson(json)).toList();
-
-  print(boards);
 
   return boards;
 }
