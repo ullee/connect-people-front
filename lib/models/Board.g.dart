@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'popular_product.dart';
+part of 'Board.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -9,13 +9,13 @@ part of 'popular_product.dart';
 Board _$BoardFromJson(Map<String, dynamic> json) {
   return Board(
       ID: json['ID'] as int,
-      brandName: json['brandName'],
+      brandName: json['brandName'] as String,
       memberID: json['memberID'] as int,
-      title: json['title'],
-      subTitle: json['subTitle'],
-      content: json['content'],
-      imageUrl: json['imageUrl'],
-      created: json['created']);
+      title: json['title'] as String,
+      subTitle: json['subTitle'] as String,
+      content: json['content'] as String,
+      imageUrl: json['imageUrl'] as String,
+      created: json['created'] as String);
 }
 
 Map<String, dynamic> _$BoardToJson(Board instance) => <String, dynamic>{
