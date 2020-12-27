@@ -66,9 +66,15 @@ class _PopularProducts extends State<PopularProducts> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          leading: Image.network(snapshot.data[index].imageUrl, width: 52, height: 50,),
+                          leading: Image.network(snapshot.data[index].imageUrl, width: 52, height: 50),
                           title: Text(snapshot.data[index].title ?? ""),
-                          subtitle: Text(snapshot.data[index].subTitle ?? ""),
+                          subtitle: Text(
+                              snapshot.data[index].subTitle + "\n" + snapshot.data[index].content ?? "",
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis
+                          ),
+                          isThreeLine: true,
+                          dense: true,
                         );
                     }
                   )
