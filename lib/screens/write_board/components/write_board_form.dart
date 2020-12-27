@@ -87,6 +87,8 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   List<PhotoSource> _photosSources = List<PhotoSource>();
   List<GalleryItem> _galleryItems = List<GalleryItem>();
 
+  SharedPreferences sharedPreferences;
+
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -164,7 +166,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       }
     }
 
-    if (permissionStatus != PermissionStatus.denied) {
+    if (permissionStatus == PermissionStatus.denied) {
       if (Platform.isIOS) {
         _showOpenAppSettingsDialog(context);
       } else {
@@ -205,6 +207,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         });
 
         try {
+          /*
           GenerateImageUrl generateImageUrl = GenerateImageUrl();
           await generateImageUrl.call(fileExtension);
 
@@ -214,16 +217,19 @@ class _WriteBoardForm extends State<WriteBoardForm> {
           } else {
             throw generateImageUrl.message;
           }
+           */
 
-          bool isUploaded = await uploadFile(context, uploadUrl, image);
+          bool isUploaded = await uploadFile(context, image);
           if (isUploaded) {
             print('Uploaded');
+            /*
             setState(() {
               _photosUrls.add(generateImageUrl.downloadUrl);
               _photosStatus
                   .replaceRange(length - 1, length, [PhotoStatus.LOADED]);
               _galleryItems[length - 1].resource = generateImageUrl.downloadUrl;
             });
+            */
           }
         } catch (e) {
           print(e);
@@ -232,6 +238,16 @@ class _WriteBoardForm extends State<WriteBoardForm> {
           });
         }
       }
+    }
+  }
+
+  _onSaveClicked() async {
+    try {
+      sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setStringList("images", _photosUrls);
+      print('Successfully saved');
+    } catch (e) {
+      print('Error saving ');
     }
   }
 
@@ -245,10 +261,10 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     );
   }
 
-  Future<bool> uploadFile(context, String url, File image) async {
+  Future<bool> uploadFile(context, File image) async {
     try {
       UploadFile uploadFile = UploadFile();
-      await uploadFile.call(url, image);
+      await uploadFile.call(image);
 
       if (uploadFile.isUploaded != null && uploadFile.isUploaded) {
         return true;
@@ -418,7 +434,15 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                   return AlertDialog(
                     title: new Text("Success!"),
                     content: new Text("작성 완료"),
-                    actions: <Widget>[new FlatButton(onPressed: () {Navigator.pushNamed(context, HomeScreen.routeName);}, child: new Text("OK"))],
+                    actions: <Widget>[
+                      new FlatButton(
+                          onPressed: () {
+                            _onSaveClicked();
+                            Navigator.pushNamed(context, HomeScreen.routeName);
+                            },
+                          child: new Text("OK")
+                      )
+                    ],
                   );
                 });
               }
