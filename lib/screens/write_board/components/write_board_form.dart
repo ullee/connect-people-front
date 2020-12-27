@@ -10,10 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
-import 'package:http/http.dart' as http;
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'dart:async';
-import 'dart:convert';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -22,46 +20,8 @@ import 'gallery_photo_wrapper.dart';
 import 'delete_widget.dart';
 import 'gallery_item.dart';
 import 'custom_dialog.dart';
-import 'generate_image_url.dart';
 import 'upload_file.dart';
-
-class Result {
-  final int code;
-  final String message;
-  Result({this.code, this.message});
-  Result.fromJson(Map<String, dynamic> json) :
-        code = json['code'],
-        message = json['message'];
-
-  Map<String, dynamic> toJson() => {
-    'code': code,
-    'message': message
-  };
-}
-
-Future<Result> fetchAll(String brandName, int memberID, String title, String subTitle, String content) async {
-  final response = await http.post(
-    HOST_CORE + '/boards',
-    body: jsonEncode(
-      {
-        'brandName': brandName,
-        'memberID': memberID,
-        'title': title,
-        'subTitle': subTitle,
-        'content': content
-      }
-    ),
-    headers: {'Content-Type': 'application/json'}
-  );
-  if (response.statusCode != 200) {
-    throw Exception("Fail to request API");
-  }
-
-  var jsonData = jsonDecode(response.body)['result'];
-  var result = Result.fromJson(jsonData);
-
-  return result;
-}
+import 'save.dart';
 
 enum PhotoStatus { LOADING, ERROR, LOADED }
 enum PhotoSource { FILE, NETWORK }
@@ -77,6 +37,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   String subTitle;
   String content;
   String brandName;
+  List<String> uploadedUrls = [];
   bool remember = false;
   final List<String> errors = [];
 
@@ -207,29 +168,10 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         });
 
         try {
-          /*
-          GenerateImageUrl generateImageUrl = GenerateImageUrl();
-          await generateImageUrl.call(fileExtension);
-
-          String uploadUrl;
-          if (generateImageUrl.isGenerated != null && generateImageUrl.isGenerated) {
-            uploadUrl = generateImageUrl.uploadUrl;
-          } else {
-            throw generateImageUrl.message;
-          }
-           */
 
           bool isUploaded = await uploadFile(context, image);
           if (isUploaded) {
             print('Uploaded');
-            /*
-            setState(() {
-              _photosUrls.add(generateImageUrl.downloadUrl);
-              _photosStatus
-                  .replaceRange(length - 1, length, [PhotoStatus.LOADED]);
-              _galleryItems[length - 1].resource = generateImageUrl.downloadUrl;
-            });
-            */
           }
         } catch (e) {
           print(e);
@@ -241,10 +183,45 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     }
   }
 
-  _onSaveClicked() async {
+  Future<bool> saveBoard(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls) async {
     try {
-      sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setStringList("images", _photosUrls);
+      Save save = Save();
+      await save.call(brandName, memberID, title, subTitle, content, uploadedUrls);
+
+      if (save.success != null && save.success) {
+        return true;
+      } else {
+        throw save.message;
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  _onSaveClicked(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls) async {
+    try {
+      // sharedPreferences = await SharedPreferences.getInstance();
+      // await sharedPreferences.setStringList("images", _photosUrls);
+
+      bool success = await saveBoard(brandName, memberID, title, subTitle, content, uploadedUrls);
+
+      if (success) {
+        showDialog(context: context, builder: (context) {
+          return AlertDialog(
+            title: new Text("Success!"),
+            content: new Text("작성 완료"),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, HomeScreen.routeName);
+                  },
+                  child: new Text("OK")
+              )
+            ],
+          );
+        });
+      }
+
       print('Successfully saved');
     } catch (e) {
       print('Error saving ');
@@ -267,6 +244,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       await uploadFile.call(image);
 
       if (uploadFile.isUploaded != null && uploadFile.isUploaded) {
+        uploadedUrls.add(uploadFile.returnUrl);
         return true;
       } else {
         throw uploadFile.message;
@@ -299,6 +277,9 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   }
 
   Future<bool> _onDeleteReviewPhotoClicked(int index) async {
+    print("delete index : " + (index).toString());
+    uploadedUrls.removeAt(index);
+    print(uploadedUrls);
     if (_photosStatus[index] == PhotoStatus.LOADED) {
       _photosUrls.removeAt(index);
     }
@@ -394,59 +375,10 @@ class _WriteBoardForm extends State<WriteBoardForm> {
             press: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
-                // API Response Parsing
-                FutureBuilder<Result>(
-                  future: fetchAll(brandName, 1, title, subTitle, content),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          title: new Text("Error"),
-                          content: new Text(snapshot.error),
-                          actions: <Widget>[new FlatButton(
-                              onPressed: null, child: new Text("Close"))
-                          ],
-                        );
-                      });
-                      return null;
-                    } else {
-                      // 글 작성 성공
-                      if (snapshot.data.code == 1) {
-                        showDialog(context: context, builder: (context) {
-                          return AlertDialog(
-                            title: new Text("Success!"),
-                            content: new Text(snapshot.data.message),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  onPressed: null, child: new Text("Close"))
-                            ],
-                          );
-                        });
-                      }
-                      return null;
-                    }
-                  },
-                );
-                // TODO Future 로직 안타서 강제 Alert 차후 개선 필요
-                showDialog(context: context, builder: (context) {
-                  return AlertDialog(
-                    title: new Text("Success!"),
-                    content: new Text("작성 완료"),
-                    actions: <Widget>[
-                      new FlatButton(
-                          onPressed: () {
-                            _onSaveClicked();
-                            Navigator.pushNamed(context, HomeScreen.routeName);
-                            },
-                          child: new Text("OK")
-                      )
-                    ],
-                  );
-                });
+                // TODO MemberID 가져와야 함
+                _onSaveClicked(brandName, 1, title, subTitle, content, uploadedUrls);
               }
-            },
+            }
           ),
         ],
       ),
