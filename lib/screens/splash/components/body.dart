@@ -16,16 +16,15 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Welcome to Tokoto, Let’s shop!",
+      "text": "많은 사람들과\n소통 해보세요",
       "image": "assets/images/splash_1.png"
     },
     {
-      "text":
-          "We help people conect with store \naround United State of America",
+      "text": "내가게 내회사를\n홍보 해보세요",
       "image": "assets/images/splash_2.png"
     },
     {
-      "text": "We show the easy way to shop. \nJust stay at home with us",
+      "text": "사고싶은 물건 팔고싶은 물건들을\n자유롭게 올려 보세요",
       "image": "assets/images/splash_3.png"
     },
   ];
@@ -67,13 +66,40 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                     Spacer(flex: 3),
-                    DefaultButton(
-                      text: "Continue",
-                      press: () {
+                    RaisedButton(
+                      onPressed: () {
                         Navigator.pushNamed(context, HomeScreen.routeName);
                       },
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30.0)
+                        ),
+                        child: Container(
+                          constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "로그인",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, HomeScreen.routeName);
+                      },
+                      child: Text("둘러보기"),
+                    ),
                   ],
                 ),
               ),

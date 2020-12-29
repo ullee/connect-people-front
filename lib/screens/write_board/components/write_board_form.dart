@@ -370,15 +370,36 @@ class _WriteBoardForm extends State<WriteBoardForm> {
           buildContentFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
-          DefaultButton(
-            text: "작성 완료",
-            press: () {
+          RaisedButton(
+            onPressed: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 // TODO MemberID 가져와야 함
                 _onSaveClicked(brandName, 1, title, subTitle, content, uploadedUrls);
               }
-            }
+            },
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+            padding: EdgeInsets.all(0.0),
+            child: Ink(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(30.0)
+              ),
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
+                alignment: Alignment.center,
+                child: Text(
+                  "작성 완료",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -471,8 +492,8 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       },
       decoration: InputDecoration(
         border: InputBorder.none,
-        labelText: "부제목",
-        hintText: "부제목을 입력 하세요",
+        labelText: "연락처",
+        hintText: "연락처 또는 이메일을 입력해 주세요",
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         contentPadding: EdgeInsets.all(10),

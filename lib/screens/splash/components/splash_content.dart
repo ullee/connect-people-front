@@ -17,10 +17,10 @@ class SplashContent extends StatelessWidget {
       children: <Widget>[
         Spacer(),
         Text(
-          "CONNECT PEOPLE",
+          "Connect People",
           style: TextStyle(
             fontSize: getProportionateScreenWidth(36),
-            color: Colors.green,
+            color: Colors.blueGrey,
             fontWeight: FontWeight.bold,
           ),
         ),

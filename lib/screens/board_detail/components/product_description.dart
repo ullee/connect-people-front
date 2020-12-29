@@ -53,7 +53,7 @@ class ProductDescription extends StatelessWidget {
             right: getProportionateScreenWidth(64),
           ),
           child: Text(
-            boardDetail.content,
+            boardDetail.subTitle,
             maxLines: 3,
           ),
         ),
@@ -62,23 +62,8 @@ class ProductDescription extends StatelessWidget {
             horizontal: getProportionateScreenWidth(20),
             vertical: 10,
           ),
-          child: GestureDetector(
-            onTap: () {},
-            child: Row(
-              children: [
-                Text(
-                  "See More Detail",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: kPrimaryColor),
-                ),
-                SizedBox(width: 5),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: kPrimaryColor,
-                ),
-              ],
-            ),
+          child: Text(
+            boardDetail.content,
           ),
         )
       ],
