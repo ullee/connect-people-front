@@ -18,20 +18,22 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04),
                 Text(
-                  "Welcome Back",
+                  "환영합니다!",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(28),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(height: 20),
                 Text(
-                  "Sign in with your email and password  \nor continue with social media",
+                  "가입하신 이메일과 패스워드를 입력해 주세요",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
+                /*
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -49,6 +51,7 @@ class Body extends StatelessWidget {
                     ),
                   ],
                 ),
+                */
                 SizedBox(height: getProportionateScreenHeight(20)),
                 NoAccountText(),
               ],

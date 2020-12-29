@@ -8,10 +8,17 @@ import 'package:shop_app/screens/home/home_screen.dart';
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'login.dart';
 
 class SignForm extends StatefulWidget {
   @override
   _SignFormState createState() => _SignFormState();
+}
+
+class Result {
+  int code;
+  String message;
+  Result({this.code, this.message});
 }
 
 class _SignFormState extends State<SignForm> {
@@ -33,6 +40,65 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         errors.remove(error);
       });
+  }
+
+  Result result;
+
+  Future<Result> login(String loginId, String password) async {
+
+      Login login = Login();
+      await login.call(loginId, password);
+      if (login.code != 1) {
+        return Result(
+          code: login.code,
+          message: login.message
+        );
+      }
+
+      return Result(
+          code: 1,
+          message: "ok"
+      );
+  }
+
+  _login(String loginId, String password) async {
+    try {
+      var result = await login(loginId, password);
+
+      if (result.code != 1) {
+        showDialog(context: context, builder: (context) {
+          return AlertDialog(
+            title: new Text("Fail"),
+            content: new Text(result.message),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: new Text("OK")
+              )
+            ],
+          );
+        });
+      } else {
+        showDialog(context: context, builder: (context) {
+          return AlertDialog(
+            title: new Text("Success!"),
+            content: new Text("로그인 성공"),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, HomeScreen.routeName);
+                  },
+                  child: new Text("OK")
+              )
+            ],
+          );
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -70,16 +136,35 @@ class _SignFormState extends State<SignForm> {
           ),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          DefaultButton(
-            text: "Continue",
-            press: () {
+          RaisedButton(
+            onPressed: () {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
-                // if all are valid then go to success screen
-                KeyboardUtil.hideKeyboard(context);
-                Navigator.pushNamed(context, HomeScreen.routeName);
+                _login(email, password);
               }
             },
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+            padding: EdgeInsets.all(0.0),
+            child: Ink(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(30.0)
+              ),
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
+                alignment: Alignment.center,
+                child: Text(
+                  "로그인",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -109,8 +194,8 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Password",
-        hintText: "Enter your password",
+        labelText: "비밀번호",
+        hintText: "비밀번호를 입력 하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -142,8 +227,8 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Email",
-        hintText: "Enter your email",
+        labelText: "아이디",
+        hintText: "로그인 이메일을 입력 하세요",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,

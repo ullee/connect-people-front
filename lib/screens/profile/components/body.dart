@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shop_app/models/Profile.dart';
 
 import 'package:shop_app/constants.dart';
-import 'profile_menu.dart';
+import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'profile_pic.dart';
 
 class Body extends StatefulWidget {
@@ -64,6 +64,18 @@ class _BodyState extends State<Body> {
                         Text("V1.0.0"),
                       ],
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    SizedBox(height: 30),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, SplashScreen.routeName);
+                      },
+                      child: Text(
+                        "로그아웃",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ],
                 ));
