@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/screens/board_detail/board_detail_screen.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -58,6 +59,11 @@ class _PopularProducts extends State<PopularProducts> {
                           ),
                           isThreeLine: true,
                           dense: true,
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            BoardDetailScreen.routeName,
+                            arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
+                          ),
                         );
                     }
                   )
