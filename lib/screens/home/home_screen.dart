@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'package:shop_app/screens/home/components/categories.dart';
+import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/write_board/write_board_screen.dart';
 import 'package:shop_app/screens/home/components/body.dart';
-import 'package:shop_app/screens/sign_up/sign_up_screen.dart';
 
 import 'components/body.dart';
 
@@ -17,8 +17,8 @@ class _HomeScreen extends State<HomeScreen> {
   final List<Widget> _pages = [
     Body(),
     WriteBoardScreen(),
-    CartScreen(),
-    SignUpScreen(),
+    Categories(),
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {

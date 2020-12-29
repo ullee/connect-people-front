@@ -24,6 +24,7 @@ class SectionTitle extends StatelessWidget {
             color: Colors.black,
           ),
         ),
+        /*
         GestureDetector(
           onTap: press,
           child: Text(
@@ -31,6 +32,7 @@ class SectionTitle extends StatelessWidget {
             style: TextStyle(color: Color(0xFFBBBBBB)),
           ),
         ),
+        */
       ],
     );
   }

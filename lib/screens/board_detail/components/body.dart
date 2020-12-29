@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/models/BoardDetail.dart';
-import 'package:shop_app/size_config.dart';
+import 'package:http/http.dart' as http;
 
-import '../../../constants.dart';
+import 'package:shop_app/models/BoardDetail.dart';
+import 'package:shop_app/constants.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
 import 'product_images.dart';
 import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 
 class Body extends StatefulWidget {
   final int boardID;
