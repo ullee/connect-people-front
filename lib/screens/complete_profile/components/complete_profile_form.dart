@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/custom_surfix_icon.dart';
-import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/screens/otp/otp_screen.dart';
+import 'package:connect_people/components/custom_surfix_icon.dart';
+import 'package:connect_people/components/default_button.dart';
+import 'package:connect_people/components/form_error.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -51,11 +50,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "continue",
-            press: () {
-              if (_formKey.currentState.validate()) {
-                Navigator.pushNamed(context, OtpScreen.routeName);
-              }
-            },
+            press: () {},
           ),
         ],
       ),

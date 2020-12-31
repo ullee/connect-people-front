@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/constants.dart';
-import 'package:shop_app/size_config.dart';
+import 'package:connect_people/size_config.dart';
 
 import 'write_board_form.dart';
 

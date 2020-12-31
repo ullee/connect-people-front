@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:shop_app/constants.dart';
+import 'package:connect_people/constants.dart';
 
 class GetBoardDetail {
   bool success;

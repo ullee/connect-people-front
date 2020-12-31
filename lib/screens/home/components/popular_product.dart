@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/screens/board_detail/board_detail_screen.dart';
+import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
 import 'dart:async';
 import 'dart:convert';
 

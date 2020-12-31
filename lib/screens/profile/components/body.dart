@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:shop_app/models/Profile.dart';
+import 'package:connect_people/models/Profile.dart';
 
-import 'package:shop_app/constants.dart';
-import 'package:shop_app/screens/splash/splash_screen.dart';
+import 'package:connect_people/constants.dart';
+import 'package:connect_people/screens/splash/splash_screen.dart';
 import 'profile_pic.dart';
 
 class Body extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:shop_app/models/BoardDetail.dart';
-import 'package:shop_app/constants.dart';
+import 'package:connect_people/models/BoardDetail.dart';
+import 'package:connect_people/constants.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
 import 'product_images.dart';

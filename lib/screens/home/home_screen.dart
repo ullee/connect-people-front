@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/home/components/categories.dart';
-import 'package:shop_app/screens/profile/profile_screen.dart';
-import 'package:shop_app/screens/write_board/write_board_screen.dart';
-import 'package:shop_app/screens/home/components/body.dart';
+import 'package:connect_people/screens/home/components/categories.dart';
+import 'package:connect_people/screens/profile/profile_screen.dart';
+import 'package:connect_people/screens/write_board/write_board_screen.dart';
+import 'package:connect_people/screens/home/components/body.dart';
 
 import 'components/body.dart';
 

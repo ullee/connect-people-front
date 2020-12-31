@@ -8,9 +8,9 @@ import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/screens/home/home_screen.dart';
+import '../../../components/default_button.dart';
+import '../../../components/form_error.dart';
+import 'package:connect_people/screens/home/home_screen.dart';
 import 'dart:async';
 
 import '../../../constants.dart';

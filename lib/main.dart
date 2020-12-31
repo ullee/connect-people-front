@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/routes.dart';
-import 'package:shop_app/screens/profile/profile_screen.dart';
-import 'package:shop_app/screens/splash/splash_screen.dart';
-import 'package:shop_app/theme.dart';
+import 'package:connect_people/routes.dart';
+import 'package:connect_people/screens/profile/profile_screen.dart';
+import 'package:connect_people/screens/splash/splash_screen.dart';
+import 'package:connect_people/theme.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/size_config.dart';
+import 'package:connect_people/size_config.dart';
 
 const HOST_CORE = "http://52.79.191.174";
 
