@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
-class SignUpScreen extends StatelessWidget {
-  static String routeName = "/sign_up";
+class SignUpSuccessScreen extends StatelessWidget {
+  static String routeName = "/signup_success";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("회원 가입"),
+        leading: SizedBox(),
+        title: Text("회원가입 성공"),
       ),
       body: Body(),
     );

@@ -8,6 +8,7 @@ import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:connect_people/screens/splash/splash_screen.dart';
 import 'package:connect_people/screens/write_board/write_board_screen.dart';
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
+import 'package:connect_people/screens/signup_success/signup_success_screen.dart';
 
 import 'screens/sign_up/sign_up_screen.dart';
 
@@ -19,6 +20,7 @@ final Map<String, WidgetBuilder> routes = {
   ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
   LoginSuccessScreen.routeName: (context) => LoginSuccessScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
+  SignUpSuccessScreen.routeName: (context) => SignUpSuccessScreen(),
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
   HomeScreen.routeName: (context) => HomeScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
