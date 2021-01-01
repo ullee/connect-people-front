@@ -101,6 +101,7 @@ class _BodyState extends State<Body> {
                       },
                       child: Text("둘러보기"),
                     ),
+                    Spacer()
                   ],
                 ),
               ),

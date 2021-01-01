@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
@@ -32,7 +33,7 @@ class _PopularProducts extends State<PopularProducts> {
             if (!snapshot.hasData) {
               return Container(
                 child: Center(
-                  child: Text("Loading..."),
+                  child: CupertinoActivityIndicator(),
                 ),
               );
             } else {
@@ -43,7 +44,7 @@ class _PopularProducts extends State<PopularProducts> {
                     child: SectionTitle(title: "오늘의 파트너", press: () {}),
                   ),
                   SizedBox(height: getProportionateScreenWidth(20)),
-                  ListView.builder(
+                  ListView.separated(
                       physics: NeverScrollableScrollPhysics(), // 스크롤 막기
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -65,7 +66,10 @@ class _PopularProducts extends State<PopularProducts> {
                             arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
                           ),
                         );
-                    }
+                    },
+                    separatorBuilder: (context, index) {
+                        return Divider();
+                    },
                   )
                 ],
               );
