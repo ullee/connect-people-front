@@ -38,40 +38,91 @@ class _PopularProducts extends State<PopularProducts> {
               );
             } else {
               return Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-                    child: SectionTitle(title: "오늘의 파트너", press: () {}),
-                  ),
-                  SizedBox(height: getProportionateScreenWidth(20)),
-                  ListView.separated(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 15.0),
+                    GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.55,
+                        mainAxisSpacing: 1.0,
+                        crossAxisSpacing: 1.0,
+                      ),
                       physics: NeverScrollableScrollPhysics(), // 스크롤 막기
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: Image.network(snapshot.data[index].imageUrl, width: 52, height: 50),
-                          title: Text(snapshot.data[index].title ?? ""),
-                          subtitle: Text(
-                              snapshot.data[index].subTitle + "\n" + snapshot.data[index].content ?? "",
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis
-                          ),
-                          isThreeLine: true,
-                          dense: true,
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            BoardDetailScreen.routeName,
-                            arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
+                        return Container(
+                          padding: EdgeInsets.only(bottom: 15.0, left: 6.0, right: 6.0, top: 15.0),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Expanded(
+                                    child: InkWell(
+                                      onTap: () => Navigator.pushNamed(
+                                          context,
+                                          BoardDetailScreen.routeName,
+                                          arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
+                                      ),
+                                      child: Container(
+                                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                                        height: 350,
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(snapshot.data[index].imageUrl),
+                                              fit: BoxFit.cover
+                                          ),
+                                          borderRadius: BorderRadius.circular(5.0),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.2),
+                                              spreadRadius: 2.0,
+                                              blurRadius: 5.0,
+                                            )
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                        child: Text(
+                                            snapshot.data[index].brandName,
+                                            style: TextStyle(color: Colors.white),
+                                            maxLines: 1
+                                        ),
+                                      ),
+                                    )
+                                ),
+                                Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children:[
+                                      SizedBox(height: 5.0),
+                                      Text(
+                                          snapshot.data[index].subTitle,
+                                          style: TextStyle(color: Colors.grey, fontSize: 11),
+                                          maxLines: 1
+                                      ),
+                                      SizedBox(height: 10.0),
+                                      Text(
+                                          snapshot.data[index].title,
+                                          style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(height: 10.0),
+                                      Text(
+                                          snapshot.data[index].content,
+                                          style: TextStyle(color: Colors.black, fontSize: 12),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                      )
+                                    ]
+                                )
+                              ]
                           ),
                         );
-                    },
-                    separatorBuilder: (context, index) {
-                        return Divider();
-                    },
-                  )
-                ],
+                      },
+                    )
+                  ]
               );
             }
           },
