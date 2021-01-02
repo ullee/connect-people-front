@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import '../../../models/BoardDetail.dart';
 
 import '../../../constants.dart';
@@ -20,51 +21,27 @@ class _ProductImagesState extends State<ProductImages> {
   int selectedImage = 0;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: getProportionateScreenWidth(238),
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: Hero(
-              tag: widget.boardDetail.ID.toString(),
-              child: Image.network(widget.boardDetail.imageUrls[selectedImage]),
-            ),
-          ),
+    return Container(
+      width: double.infinity,
+      height: 300.0,
+      child: Swiper(
+        loop: false,
+        itemCount: widget.boardDetail.imageUrls.length,
+        scrollDirection: Axis.horizontal,
+        pagination: SwiperPagination(
+          builder: DotSwiperPaginationBuilder(
+            color: Colors.grey, activeColor: Colors.blueGrey
+          )
         ),
-        // SizedBox(height: getProportionateScreenWidth(20)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ...List.generate(widget.boardDetail.imageUrls.length,
-                (index) => buildSmallProductPreview(index)),
-          ],
-        )
-      ],
-    );
-  }
-
-  GestureDetector buildSmallProductPreview(int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedImage = index;
-        });
-      },
-      child: AnimatedContainer(
-        duration: defaultDuration,
-        margin: EdgeInsets.only(right: 15),
-        padding: EdgeInsets.all(8),
-        height: getProportionateScreenWidth(48),
-        width: getProportionateScreenWidth(48),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-              color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
-        ),
-        child: Image.network(widget.boardDetail.imageUrls[index]),
-      ),
+        itemBuilder: (context, index) {
+          var image = widget.boardDetail.imageUrls[index];
+          return Container(
+            width: 300.0,
+            height: 300.0,
+            child: Image.network(image, fit: BoxFit.cover),
+          );
+        },
+      )
     );
   }
 }

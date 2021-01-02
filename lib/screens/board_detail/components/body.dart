@@ -1,3 +1,4 @@
+import 'package:connect_people/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +41,10 @@ class _BodyState extends State<Body> {
             return ListView(
               children: [
                 ProductImages(boardDetail: snapshot.data),
-                TopRoundedContainer(
+                Container(
+                  margin: EdgeInsets.only(top: getProportionateScreenWidth(20)),
+                  padding: EdgeInsets.only(top: getProportionateScreenWidth(20)),
+                  width: double.infinity,
                   color: Colors.white,
                   child: Column(
                     children: [

@@ -11,8 +11,9 @@ class BoardDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final BoardDetailArguments args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      backgroundColor: Color(0xFFF5F6F9),
-      appBar: CustomAppBar(rating: 1.0),
+      // backgroundColor: Color(0xFFF5F6F9),
+      // appBar: CustomAppBar(rating: 1.0),
+      appBar: AppBar(),
       body: Body(boardID: args.boardID),
     );
   }

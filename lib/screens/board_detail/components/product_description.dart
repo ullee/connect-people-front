@@ -56,6 +56,7 @@ class ProductDescription extends StatelessWidget {
             maxLines: 3,
           ),
         ),
+        SizedBox(height: 10),
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenWidth(20),
@@ -63,6 +64,7 @@ class ProductDescription extends StatelessWidget {
           ),
           child: Text(
             boardDetail.content,
+            style: TextStyle(color: Colors.black),
           ),
         )
       ],
