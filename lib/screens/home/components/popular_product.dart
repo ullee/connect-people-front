@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
 import 'dart:async';
@@ -114,6 +115,27 @@ class _PopularProducts extends State<PopularProducts> {
                                           style: TextStyle(color: Colors.black, fontSize: 12),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(height: 10.0),
+                                      Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                              child: SvgPicture.asset(
+                                                "assets/icons/Heart Icon_2.svg",
+                                                color: Colors.orange,
+                                                height: getProportionateScreenWidth(9),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                " 5.0",
+                                                style: TextStyle(color: Colors.black, fontSize: 11),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       )
                                     ]
                                 )
