@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:connect_people/screens/category/category_screen.dart';
 import 'package:connect_people/screens/profile/profile_screen.dart';
-import 'package:connect_people/screens/write_board/write_board_screen.dart';
 import 'package:connect_people/screens/home/components/body.dart';
 
 import 'components/body.dart';
