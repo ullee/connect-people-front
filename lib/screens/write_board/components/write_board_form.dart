@@ -8,7 +8,6 @@ import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-import '../../../components/default_button.dart';
 import '../../../components/form_error.dart';
 import 'package:connect_people/screens/home/home_screen.dart';
 import 'dart:async';
@@ -27,6 +26,14 @@ enum PhotoStatus { LOADING, ERROR, LOADED }
 enum PhotoSource { FILE, NETWORK }
 
 class WriteBoardForm extends StatefulWidget {
+
+  const WriteBoardForm({
+    Key key,
+    @required this.categoryIDs
+  }) : super(key: key);
+
+  final List<int> categoryIDs;
+
   @override
   _WriteBoardForm createState() => _WriteBoardForm();
 }
@@ -74,7 +81,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         color: Color(0xFFA3A3A3),
         child: Center(
           child: Icon(
-            MaterialIcons.add_to_photos,
+            MaterialIcons.photo_camera,
             color: kLightGray,
           ),
         ),
@@ -186,7 +193,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   Future<bool> saveBoard(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls) async {
     try {
       Save save = Save();
-      await save.call(brandName, memberID, title, subTitle, content, uploadedUrls);
+      await save.call(brandName, memberID, title, subTitle, content, uploadedUrls, widget.categoryIDs);
 
       if (save.success != null && save.success) {
         return true;
@@ -291,6 +298,12 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     return true;
   }
 
+  _test() {
+    for (int i = 0; i < widget.categoryIDs.length; i++) {
+      print(widget.categoryIDs[i]);
+    }
+  }
+
   Widget images() {
     return Container(
       height: 100,
@@ -319,7 +332,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                     )
                 ),
                 Visibility(
-                  visible: _photosStatus[index - 1] == PhotoStatus.LOADING,
+                  visible: _photosStatus[index - 1] == PhotoStatus.LOADED,
                   child: Positioned.fill(
                     child: SpinKitWave(
                       size: 25,
@@ -437,16 +450,17 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     );
   }
 
-  TextFormField buildContentFormField() {
+  TextFormField buildTitleFormField() {
     return TextFormField(
-      keyboardType: TextInputType.multiline,
-      maxLines: null,
-      onSaved: (newValue) => content = newValue,
+      keyboardType: TextInputType.text,
+      onSaved: (newValue) => title = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
         }
-        content = value;
+        title = value;
       },
       validator: (value) {
         if (value.isEmpty) {
@@ -457,13 +471,11 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       },
       decoration: InputDecoration(
         border: InputBorder.none,
-        filled: true,
-        labelText: "내용",
-        hintText: "내용을 입력 하세요",
+        labelText: "제목",
+        hintText: "제목을 입력 하세요",
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
-        // contentPadding: new EdgeInsets.symmetric(vertical: 145.0, horizontal: 10.0),
-        contentPadding: const EdgeInsets.all(8.0),
+        contentPadding: EdgeInsets.all(10),
       ),
       style: TextStyle(
           fontSize: 12
@@ -504,17 +516,16 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     );
   }
 
-  TextFormField buildTitleFormField() {
+  TextFormField buildContentFormField() {
     return TextFormField(
-      keyboardType: TextInputType.text,
-      onSaved: (newValue) => title = newValue,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      onSaved: (newValue) => content = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
-        } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
+          removeError(error: kPassNullError);
         }
-        title = value;
+        content = value;
       },
       validator: (value) {
         if (value.isEmpty) {
@@ -525,11 +536,13 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       },
       decoration: InputDecoration(
         border: InputBorder.none,
-        labelText: "제목",
-        hintText: "제목을 입력 하세요",
+        filled: true,
+        labelText: "내용",
+        hintText: "내용을 입력 하세요",
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
-        contentPadding: EdgeInsets.all(10),
+        // contentPadding: new EdgeInsets.symmetric(vertical: 145.0, horizontal: 10.0),
+        contentPadding: const EdgeInsets.all(8.0),
       ),
       style: TextStyle(
           fontSize: 12

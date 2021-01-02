@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:connect_people/screens/home/components/categories.dart';
+import 'package:connect_people/screens/category/category_screen.dart';
 import 'package:connect_people/screens/profile/profile_screen.dart';
 import 'package:connect_people/screens/write_board/write_board_screen.dart';
 import 'package:connect_people/screens/home/components/body.dart';
@@ -16,8 +16,8 @@ class _HomeScreen extends State<HomeScreen> {
   int _selectIndex = 0;
   final List<Widget> _pages = [
     Body(),
-    WriteBoardScreen(),
-    Categories(),
+    CategoryScreen(),
+    CategoryScreen(),
     ProfileScreen(),
   ];
   @override

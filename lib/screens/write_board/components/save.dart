@@ -7,7 +7,7 @@ class Save {
   bool success;
   String message;
 
-  Future<void> call(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls) async {
+  Future<void> call(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls, List<int> categoryIDs) async {
     try {
       final response = await http.post(
           HOST_CORE + '/boards',
@@ -18,7 +18,8 @@ class Save {
                 'title': title,
                 'subTitle': subTitle,
                 'content': content,
-                'imageUrls': uploadedUrls
+                'imageUrls': uploadedUrls,
+                'categoryIDs': categoryIDs
               }
           ),
           headers: {'Content-Type': 'application/json'}

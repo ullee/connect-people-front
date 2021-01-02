@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+
 import 'package:connect_people/size_config.dart';
 
 import 'write_board_form.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  const Body({
+    Key key,
+    @required this.categoryIDs
+  }) : super(key: key);
+
+  final List<int> categoryIDs;
+
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,7 +35,7 @@ class Body extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.01),
-                WriteBoardForm(),
+                WriteBoardForm(categoryIDs: widget.categoryIDs),
                 SizedBox(height: SizeConfig.screenHeight * 0.01),
               ],
             ),
