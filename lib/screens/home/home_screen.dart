@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:connect_people/screens/category/category_screen.dart';
 import 'package:connect_people/screens/profile/profile_screen.dart';
 import 'package:connect_people/screens/home/components/body.dart';
+import 'package:connect_people/size_config.dart';
 
 import 'components/body.dart';
 
@@ -21,6 +22,7 @@ class _HomeScreen extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Center(
         child: _pages[_selectIndex],

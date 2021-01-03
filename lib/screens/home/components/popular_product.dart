@@ -41,7 +41,7 @@ class _PopularProducts extends State<PopularProducts> {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(height: 15.0),
+                    // SizedBox(height: 15.0),
                     GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,

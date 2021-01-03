@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:connect_people/models/BoardDetail.dart';
 import 'package:connect_people/constants.dart';
 import 'product_description.dart';
-import 'top_rounded_container.dart';
 import 'product_images.dart';
 import 'dart:convert';
 

@@ -45,8 +45,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   String content;
   String brandName;
   List<String> uploadedUrls = [];
-  bool remember = false;
-  final List<String> errors = [];
 
   List<File> _photos = List<File>();
   List<String> _photosUrls = List<String>();
@@ -57,19 +55,10 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
   SharedPreferences sharedPreferences;
 
-  void addError({String error}) {
-    if (!errors.contains(error))
-      setState(() {
-        errors.add(error);
-      });
-  }
-
-  void removeError({String error}) {
-    if (errors.contains(error))
-      setState(() {
-        errors.remove(error);
-      });
-  }
+  TextEditingController brandNameController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController subTitleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
 
   _buildAddPhoto() {
     return InkWell(
@@ -368,81 +357,83 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          images(),
-          buildBrandNameFormField(),
-          SizedBox(height: getProportionateScreenHeight(10)),
-          buildTitleFormField(),
-          SizedBox(height: getProportionateScreenHeight(10)),
-          buildSubTitleFormField(),
-          SizedBox(height: getProportionateScreenHeight(10)),
-          buildContentFormField(),
-          FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(40)),
-          RaisedButton(
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                // TODO MemberID 가져와야 함
-                _onSaveClicked(brandName, 1, title, subTitle, content, uploadedUrls);
-              }
-            },
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-            padding: EdgeInsets.all(0.0),
-            child: Ink(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.circular(30.0)
-              ),
-              child: Container(
-                constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
-                alignment: Alignment.center,
-                child: Text(
-                  "작성 완료",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            images(),
+            buildBrandNameFormField(),
+            SizedBox(height: getProportionateScreenHeight(10)),
+            buildTitleFormField(),
+            SizedBox(height: getProportionateScreenHeight(10)),
+            buildSubTitleFormField(),
+            SizedBox(height: getProportionateScreenHeight(10)),
+            buildContentFormField(),
+            SizedBox(height: getProportionateScreenHeight(10)),
+            RaisedButton(
+              onPressed: () {
+                if (brandNameController.text.isEmpty) {
+                  showSnackBar(context, "대표명을 입력해 주세요");
+                } else if (titleController.text.isEmpty) {
+                  showSnackBar(context, "제목을 입력해 주세요");
+                } else if (subTitleController.text.isEmpty) {
+                  showSnackBar(context, "연락처를 입력해 주세요");
+                } else if (contentController.text.isEmpty) {
+                  showSnackBar(context, "내용을 입력해 주세요");
+                } else {
+                  _onSaveClicked(brandName, 1, title, subTitle, content, uploadedUrls);
+                }
+              },
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+              padding: EdgeInsets.all(0.0),
+              child: Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(30.0)
+                ),
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "작성 완료",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  TextFormField buildBrandNameFormField() {
-    return TextFormField(
+  TextField buildBrandNameFormField() {
+    return TextField(
+      controller: brandNameController,
       keyboardType: TextInputType.text,
-      onSaved: (newValue) => content = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        }
-        brandName = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        }
-        return null;
-      },
       decoration: InputDecoration(
         border: InputBorder.none,
-        labelText: "업체명",
-        hintText: "업체명을 입력 하세요",
+        hintText: "대표명을 입력하세요. Ex) ㈜커넥피플, 홍길동",
+        hintStyle: TextStyle(
+            color: Colors.grey
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         contentPadding: EdgeInsets.all(10),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))
+        ),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))
+        ),
       ),
       style: TextStyle(
           fontSize: 12
@@ -450,32 +441,25 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     );
   }
 
-  TextFormField buildTitleFormField() {
-    return TextFormField(
+  TextField buildTitleFormField() {
+    return TextField(
+      controller: titleController,
       keyboardType: TextInputType.text,
-      onSaved: (newValue) => title = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
-        } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
-        }
-        title = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        }
-        return null;
-      },
       decoration: InputDecoration(
         border: InputBorder.none,
-        labelText: "제목",
-        hintText: "제목을 입력 하세요",
+        hintText: "제목을 입력하세요. Ex) 저희 0000을 소개합니다.",
+        hintStyle: TextStyle(
+            color: Colors.grey
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         contentPadding: EdgeInsets.all(10),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))
+        ),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))
+        ),
       ),
       style: TextStyle(
           fontSize: 12
@@ -483,32 +467,25 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     );
   }
 
-  TextFormField buildSubTitleFormField() {
-    return TextFormField(
+  TextField buildSubTitleFormField() {
+    return TextField(
+      controller: subTitleController,
       keyboardType: TextInputType.text,
-      onSaved: (newValue) => subTitle = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.length >= 8) {
-          removeError(error: kShortPassError);
-        }
-        title = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        }
-        return null;
-      },
       decoration: InputDecoration(
         border: InputBorder.none,
-        labelText: "연락처",
-        hintText: "연락처 또는 이메일을 입력해 주세요",
+        hintText: "홈페이지 Ex) www.ConnectPeople.com",
+        hintStyle: TextStyle(
+            color: Colors.grey
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         contentPadding: EdgeInsets.all(10),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))
+        ),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))
+        ),
       ),
       style: TextStyle(
           fontSize: 12
@@ -516,29 +493,21 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     );
   }
 
-  TextFormField buildContentFormField() {
-    return TextFormField(
+  TextField buildContentFormField() {
+    return TextField(
+      controller: contentController,
       keyboardType: TextInputType.multiline,
-      maxLines: null,
-      onSaved: (newValue) => content = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        }
-        content = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        }
-        return null;
-      },
+      maxLines: 13,
+      textAlignVertical: TextAlignVertical.top,
       decoration: InputDecoration(
         border: InputBorder.none,
-        filled: true,
-        labelText: "내용",
-        hintText: "내용을 입력 하세요",
+        hintText: "내용을 입력하세요.\n\nEx) 안녕하세요.\n여드름패치 및 습윤밴드 해외수출 및 OEM, 오프라인 판매 진행하실 대표님들 모십니다.\n"
+            + "시중에나오는 메디폼과, 듀오덤이라고 생각해주시면 됩니다.\n온라인스토어가 아닌 해외수출, OEM, 오프라인 판매에\n"
+            + "관심있는 파트너 분들을 모집하며\n"
+            + "미국FDA/벤처인증/KTR인증/의약외품 인증받은 제품입니다.\n코로나로인한 마스크 착용으로 여드름패치가 각광받고있으며 함께 WIN-WIN하실분 연락주십시오.",
+        hintStyle: TextStyle(
+          color: Colors.grey
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         // contentPadding: new EdgeInsets.symmetric(vertical: 145.0, horizontal: 10.0),
@@ -549,4 +518,18 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       ),
     );
   }
+}
+
+void showSnackBar(BuildContext context, String message) {
+  Scaffold.of(context).hideCurrentSnackBar();
+  Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+            message,
+            textAlign: TextAlign.center
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.lightBlue,
+      )
+  );
 }
