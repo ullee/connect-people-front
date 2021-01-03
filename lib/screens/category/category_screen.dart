@@ -8,7 +8,8 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('카테고리'),
+          title: Text('카테고리'),
+          automaticallyImplyLeading: false
       ),
       body: Body(),
     );

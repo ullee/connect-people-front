@@ -1,7 +1,9 @@
+import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:connect_people/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:connect_people/models/BoardDetail.dart';
 import 'package:connect_people/constants.dart';
@@ -22,12 +24,21 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
 
   Future<BoardDetail> fetch() async {
-    final response = await http.get(HOST_CORE + '/boards/${widget.boardID}/detail');
+    final prefs = await SharedPreferences.getInstance();
+    final response = await http.get(
+        HOST_CORE + '/boards/${widget.boardID}/detail',
+        headers: {'token': prefs.getString('token')}
+    );
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }
 
+    Map jsonResult = json.decode(response.body)['result'];
     Map jsonData = json.decode(response.body)['data'];
+
+    if (jsonResult != null && jsonResult['code'] != 1) {
+      Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+    }
 
     return BoardDetail.fromJson(jsonData);
   }

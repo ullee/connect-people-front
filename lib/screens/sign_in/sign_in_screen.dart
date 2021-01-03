@@ -9,6 +9,10 @@ class SignInScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("로그인"),
+        leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => Navigator.of(context).pop(null)
+        ),
       ),
       body: Body(),
     );

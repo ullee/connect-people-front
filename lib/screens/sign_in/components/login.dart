@@ -6,6 +6,7 @@ import 'package:connect_people/constants.dart';
 class Login {
   int code;
   String message;
+  String token;
 
   Future<void> call(String loginId, String password) async {
     try {
@@ -24,6 +25,10 @@ class Login {
         var jsonResult = json.decode(response.body)['result'];
         code = jsonResult['code'];
         message = jsonResult['message'];
+        var jsonData = json.decode(response.body)['data'];
+        if (jsonData != null) {
+          token = jsonData['token'];
+        }
       }
 
     } catch (e) {

@@ -9,6 +9,10 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("회원 가입"),
+        leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => Navigator.of(context).pop(null)
+        ),
       ),
       body: Body(),
     );
