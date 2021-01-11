@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ic_launcher.png",
+      "filename" : "logo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ic_launcher@2x.png",
+      "filename" : "logo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ic_launcher@3x.png",
+      "filename" : "logo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
