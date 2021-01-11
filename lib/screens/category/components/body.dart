@@ -54,7 +54,16 @@ class _BodySate extends State<Body> {
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        var icon = Icons.airline_seat_recline_normal_outlined;
+                        if (index == 1) {
+                          icon = Icons.accessibility;
+                        } else if (index == 2) {
+                          icon = Icons.agriculture;
+                        } else if (index == 3) {
+                          icon = Icons.airplanemode_active_outlined;
+                        }
                         return ListTile(
+                          leading: Icon(icon),
                           title: Text(snapshot.data[index].name ?? ""),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           dense: true,

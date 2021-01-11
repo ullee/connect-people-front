@@ -62,113 +62,115 @@ class _MediumDepthState extends State<MediumDepth> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('카테고리'),
+          title: Center(child: Text('카테고리')),
           automaticallyImplyLeading: false, // 백버튼 비활성화
         ),
         body: SafeArea(
             child: Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-              child: SingleChildScrollView(child:FutureBuilder(
-                  future: fetch(widget.parentID),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container(
-                        child: Center(
-                          child: CupertinoActivityIndicator(),
-                        ),
-                      );
-                    } else {
-                      return Column(
-                        children: <Widget>[
-                          Row(
+              child: SingleChildScrollView(
+                  child:FutureBuilder(
+                      future: fetch(widget.parentID),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container(
+                            child: Center(
+                              child: CupertinoActivityIndicator(),
+                            ),
+                          );
+                        } else {
+                          return Column(
                             children: <Widget>[
-                              new Flexible(
-                                  child:ListTile(
-                                    leading: Icon(Icons.keyboard_arrow_left),
-                                    title: Text("이전 카테고리"),
-                                    dense: true,
-                                    onTap: () => {
-                                      setState(() {
-                                        if (categoryIDs.contains(widget.parentID)) {
-                                          categoryIDs.remove(widget.parentID);
-                                        }
-                                      }),
-                                      Navigator.pop(context),
-                                    },
-                                  )
-                              ),
-                              new Flexible(
-                                  child:ListTile(
-                                      trailing: Icon(Icons.keyboard_arrow_right),
-                                      title: Text("다음"),
-                                      dense: true,
-                                      onTap: () => {
-                                        setState(() {
-                                          if (!categoryIDs.contains(widget.parentID)) {
-                                            categoryIDs.add(widget.parentID);
-                                          }
-                                        }),
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => WriteBoardScreen(categoryIDs: categoryIDs)))
-                                      }
-                                  )
-                              ),
-                            ],
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),),
-                          Divider(),
-                          SizedBox(),
-                          ListView.separated(
-                            physics: NeverScrollableScrollPhysics(), // 스크롤 막기
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  ListTile(
-                                      title: Text(snapshot.data[index].name ?? ""),
-                                      dense: true,
-                                      selected: true
-                                  ),
-                                  Divider(),
-                                  ListView.separated(
-                                    physics: NeverScrollableScrollPhysics(), // 스크롤 막기
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data[index].minorData != null ? snapshot.data[index].minorData.length : 0,
-                                    itemBuilder: (ctx, idx) {
-                                      return CheckboxListTile(
-                                        title: Text(snapshot.data[index].minorData[idx]['name'] ?? ""),
-                                        value: checkList[idx].isCheck,
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            checkList[idx].isCheck = value;
-                                            if (value) {
-                                              categoryIDs.add(checkList[idx].categoryID);
-                                            } else {
-                                              categoryIDs.remove(checkList[idx].categoryID);
-                                            }
-                                          });
-                                          },
+                              Row(
+                                children: <Widget>[
+                                  new Flexible(
+                                      child: ListTile(
+                                        leading: Icon(Icons.keyboard_arrow_left),
+                                        title: Text("이전 카테고리"),
                                         dense: true,
-                                      );
-                                    },
-                                    separatorBuilder: (ctx, idx) {
-                                      return Divider();
-                                      },
-                                  )
+                                        onTap: () => {
+                                          setState(() {
+                                            if (categoryIDs.contains(widget.parentID)) {
+                                              categoryIDs.remove(widget.parentID);
+                                            }
+                                          }),
+                                          Navigator.pop(context),
+                                        },
+                                      )
+                                  ),
+                                  new Flexible(
+                                      child:ListTile(
+                                          trailing: Icon(Icons.keyboard_arrow_right),
+                                          title: Text("다음"),
+                                          dense: true,
+                                          onTap: () => {
+                                            setState(() {
+                                              if (!categoryIDs.contains(widget.parentID)) {
+                                                categoryIDs.add(widget.parentID);
+                                              }
+                                            }),
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => WriteBoardScreen(categoryIDs: categoryIDs))
+                                            )
+                                          }
+                                      )
+                                  ),
                                 ],
-                              );
-                              },
-                            separatorBuilder: (context, index) {
-                              return Divider();
-                              },
-                          )
-                        ],
-                      );
-                    }
-                  })
+                              ),
+                              Padding(padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),),
+                              Divider(),
+                              SizedBox(),
+                              ListView.separated(
+                                physics: NeverScrollableScrollPhysics(), // 스크롤 막기
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                          title: Text(snapshot.data[index].name ?? ""),
+                                          dense: true,
+                                          selected: true
+                                      ),
+                                      Divider(),
+                                      ListView.separated(
+                                        physics: NeverScrollableScrollPhysics(), // 스크롤 막기
+                                        scrollDirection: Axis.vertical,
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data[index].minorData != null ? snapshot.data[index].minorData.length : 0,
+                                        itemBuilder: (ctx, idx) {
+                                          return CheckboxListTile(
+                                            title: Text(snapshot.data[index].minorData[idx]['name'] ?? ""),
+                                            value: checkList[idx].isCheck,
+                                            onChanged: (bool value) {
+                                              setState(() {
+                                                checkList[idx].isCheck = value;
+                                                if (value) {
+                                                  categoryIDs.add(checkList[idx].categoryID);
+                                                } else {
+                                                  categoryIDs.remove(checkList[idx].categoryID);
+                                                }
+                                              });
+                                            },
+                                            dense: true,
+                                          );
+                                        },
+                                        separatorBuilder: (ctx, idx) {
+                                          return Divider();
+                                          },
+                                      )
+                                    ],
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return Divider();
+                                },
+                              )
+                            ],
+                          );
+                        }
+                      })
               ),
             )
         )
