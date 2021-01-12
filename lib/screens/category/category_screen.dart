@@ -8,7 +8,7 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Center(child: Text('카테고리')),
+          title: Center(child: Text('글쓰기')),
           automaticallyImplyLeading: false
       ),
       body: Body(),

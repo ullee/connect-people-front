@@ -91,7 +91,7 @@ class _MediumDepthState extends State<MediumDepth> {
             color: Colors.white,
             child: Row(
               children: [
-                Text("글쓰기"),
+                Text("다음"),
                 Icon(Icons.keyboard_arrow_right),
               ],
             ),
@@ -112,7 +112,7 @@ class _MediumDepthState extends State<MediumDepth> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('카테고리')),
+          title: Center(child: Text('글쓰기')),
           automaticallyImplyLeading: false, // 백버튼 비활성화
         ),
         body: SafeArea(

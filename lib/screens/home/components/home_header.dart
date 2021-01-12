@@ -7,33 +7,6 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class Post {
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
-
-  Post({this.userId, this.id, this.title, this.body});
-
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
-    );
-  }
-}
-
-Future<Post> fetchPost() async {
-  final response = await http.get('https://jsonplaceholder.typicode.com/posts/1');
-  if (response.statusCode == 200) {
-    return Post.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Failed to load post');
-  }
-}
-
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     Key key,
@@ -48,31 +21,48 @@ class HomeHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          /*
-          FutureBuilder<Post>(
-              future: post,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Text("로그인이 필요합니다.");
-                } else {
-                  return TextButton.icon(
-                      onPressed: null,
-                      icon: IconBtnWithCounter(
-                        svgSrc: "assets/icons/Log out.svg",
-                        press: () => Navigator.pushNamed(context, SignInScreen.routeName),
-                      ),
-                      label: Text(snapshot.data.userId.toString())
-                  );
-                }
-              }
-          ),
-          */
           SearchField(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "총 등록자수 :",
+                style: TextStyle(color: Colors.black, fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "신규등록자수 :",
+                style: TextStyle(color: Colors.black, fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "12900",
+                style: TextStyle(color: Colors.black, fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "1000",
+                style: TextStyle(color: Colors.black, fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+          /*
           IconBtnWithCounter(
             svgSrc: "assets/icons/Bell.svg",
             numOfitem: 3,
             press: () {},
           ),
+          */
         ],
       ),
     );
