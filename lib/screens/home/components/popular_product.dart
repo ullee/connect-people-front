@@ -85,11 +85,13 @@ class _PopularProducts extends State<PopularProducts> {
                                           ],
                                           color: Colors.white,
                                         ),
+                                        /*
                                         child: Text(
                                             snapshot.data[index].brandName,
                                             style: TextStyle(color: Colors.white),
                                             maxLines: 1
                                         ),
+                                        */
                                       ),
                                     )
                                 ),
@@ -97,6 +99,12 @@ class _PopularProducts extends State<PopularProducts> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children:[
                                       SizedBox(height: 5.0),
+                                      Text(
+                                          snapshot.data[index].brandName,
+                                          style: TextStyle(color: Colors.orange),
+                                          maxLines: 1
+                                      ),
+                                      SizedBox(height: 10.0),
                                       Text(
                                           snapshot.data[index].subTitle,
                                           style: TextStyle(color: Colors.grey, fontSize: 11),
@@ -129,7 +137,7 @@ class _PopularProducts extends State<PopularProducts> {
                                             ),
                                             Container(
                                               child: Text(
-                                                " 5.0",
+                                                " 99",
                                                 style: TextStyle(color: Colors.black, fontSize: 11),
                                                 overflow: TextOverflow.ellipsis,
                                               ),
