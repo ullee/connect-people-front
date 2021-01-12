@@ -39,11 +39,7 @@ class WriteBoardForm extends StatefulWidget {
 }
 
 class _WriteBoardForm extends State<WriteBoardForm> {
-  final _formKey = GlobalKey<FormState>();
-  String title;
-  String subTitle;
-  String content;
-  String brandName;
+
   List<String> uploadedUrls = [];
 
   List<File> _photos = List<File>();
@@ -383,7 +379,14 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                 } else if (contentController.text.isEmpty) {
                   showSnackBar(context, "내용을 입력해 주세요");
                 } else {
-                  _onSaveClicked(brandName, 1, title, subTitle, content, uploadedUrls);
+                  _onSaveClicked(
+                      brandNameController.text,
+                      1,
+                      titleController.text,
+                      subTitleController.text,
+                      contentController.text,
+                      uploadedUrls
+                  );
                 }
               },
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),

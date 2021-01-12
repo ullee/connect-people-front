@@ -1,5 +1,5 @@
 import 'package:connect_people/models/Category.dart';
-import 'package:connect_people/screens/write_board/write_board_screen.dart';
+import 'package:connect_people/screens/category_result/category_result_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -91,7 +91,7 @@ class _MediumDepthState extends State<MediumDepth> {
             color: Colors.white,
             child: Row(
               children: [
-                Text("글쓰기"),
+                Text("다음"),
                 Icon(Icons.keyboard_arrow_right),
               ],
             ),
@@ -101,7 +101,7 @@ class _MediumDepthState extends State<MediumDepth> {
                   categoryIDs.add(widget.parentID);
                 }
               }),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => WriteBoardScreen(categoryIDs: categoryIDs)))
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryResultScreen(categoryIDs: categoryIDs)))
             },
         ),
       ],
