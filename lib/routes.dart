@@ -11,6 +11,7 @@ import 'package:connect_people/screens/signup_success/signup_success_screen.dart
 import 'package:connect_people/screens/category/category_screen.dart';
 import 'package:connect_people/screens/category_main/category_main_screen.dart';
 import 'package:connect_people/screens/category_result/category_result_screen.dart';
+import 'package:connect_people/screens/search/search_screen.dart';
 
 import 'screens/sign_up/sign_up_screen.dart';
 
@@ -30,4 +31,5 @@ final Map<String, WidgetBuilder> routes = {
   ProfileScreen.routeName: (context) => ProfileScreen(),
   WriteBoardScreen.routeName: (context) => WriteBoardScreen(),
   BoardDetailScreen.routeName: (context) => BoardDetailScreen(),
+  SearchScreen.routeName: (context) => SearchScreen(),
 };

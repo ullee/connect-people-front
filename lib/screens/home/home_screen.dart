@@ -3,6 +3,7 @@ import 'package:connect_people/screens/category/category_screen.dart';
 import 'package:connect_people/screens/category_main/category_main_screen.dart';
 import 'package:connect_people/screens/profile/profile_screen.dart';
 import 'package:connect_people/screens/home/components/body.dart';
+import 'package:connect_people/screens/search/search_screen.dart';
 import 'package:connect_people/size_config.dart';
 
 import 'components/body.dart';
@@ -18,6 +19,7 @@ class _HomeScreen extends State<HomeScreen> {
   final List<Widget> _pages = [
     Body(),
     CategoryScreen(),
+    SearchScreen(),
     CategoryMainScreen(),
     ProfileScreen(),
   ];
@@ -39,6 +41,7 @@ class _HomeScreen extends State<HomeScreen> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("홈")),
           BottomNavigationBarItem(icon: Icon(Icons.app_registration), title: Text("글쓰기")),
+          BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("검색")),
           BottomNavigationBarItem(icon: Icon(Icons.widgets), title: Text("카테고리")),
           BottomNavigationBarItem(icon: Icon(Icons.account_circle), title: Text("내정보")),
         ],

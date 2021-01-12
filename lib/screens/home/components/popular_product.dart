@@ -59,7 +59,8 @@ class _PopularProducts extends State<PopularProducts> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Expanded(
+                                Container(
+                                    height: 189,
                                     child: InkWell(
                                       onTap: () => Navigator.pushNamed(
                                           context,
@@ -67,9 +68,7 @@ class _PopularProducts extends State<PopularProducts> {
                                           arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
                                       ),
                                       child: Container(
-                                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                                        height: 350,
-                                        width: 200,
+                                        // padding: EdgeInsets.all(getProportionateScreenWidth(8)),
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                               image: NetworkImage(snapshot.data[index].imageUrl),
@@ -100,15 +99,10 @@ class _PopularProducts extends State<PopularProducts> {
                                     children:[
                                       SizedBox(height: 5.0),
                                       Text(
-                                          snapshot.data[index].brandName,
-                                          style: TextStyle(color: Colors.orange),
-                                          maxLines: 1
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Text(
-                                          snapshot.data[index].subTitle,
-                                          style: TextStyle(color: Colors.grey, fontSize: 11),
-                                          maxLines: 1
+                                          snapshot.data[index].majorCategoryName,
+                                          style: TextStyle(color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                       ),
                                       SizedBox(height: 10.0),
                                       Text(

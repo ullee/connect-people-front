@@ -14,6 +14,7 @@ Board _$BoardFromJson(Map<String, dynamic> json) {
       title: json['title'] as String,
       subTitle: json['subTitle'] as String,
       content: json['content'] as String,
+      majorCategoryName: json['majorCategoryName'] as String,
       imageUrl: json['imageUrl'] as String,
       created: json['created'] as String);
 }
@@ -25,6 +26,7 @@ Map<String, dynamic> _$BoardToJson(Board instance) => <String, dynamic>{
       'title': instance.title,
       'subTitle': instance.subTitle,
       'content': instance.content,
+      'majorCategoryName': instance.majorCategoryName,
       'imageUrl': instance.imageUrl,
       'created': instance.created
     };

@@ -10,9 +10,10 @@ class Board {
   final String title;
   final String subTitle;
   final String content;
+  final String majorCategoryName;
   final String imageUrl;
   final String created;
-  Board({this.ID, this.brandName, this.memberID, this.title, this.subTitle, this.content, this.imageUrl, this.created});
+  Board({this.ID, this.brandName, this.memberID, this.title, this.subTitle, this.content, this.majorCategoryName, this.imageUrl, this.created});
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
   Map<String, dynamic> toJson() => _$BoardToJson(this);
 }
