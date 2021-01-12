@@ -1,5 +1,5 @@
 import 'package:connect_people/models/Category.dart';
-import 'package:connect_people/screens/category_main/components/medium_depth.dart';
+import 'package:connect_people/screens/category_result/category_result_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -11,99 +11,114 @@ import 'package:connect_people/constants.dart';
 
 class Body extends StatefulWidget {
   @override
-  _BodySate createState() => _BodySate();
+  _BodyState createState() => _BodyState();
 }
 
-Future<List<Category>> fetch() async {
-  final response = await http.get(HOST_CORE + '/categories/major');
-  if (response.statusCode != 200) {
-    throw Exception("Fail to request API");
+class _BodyState extends State<Body> {
+  Future<List<Category>> fetch() async {
+    final response = await http.get(HOST_CORE + '/categories/minor/1');
+    if (response.statusCode != 200) {
+      throw Exception("Fail to request API");
+    }
+
+    var jsonData = jsonDecode(response.body)['data'] as List;
+    List<Category> categories =
+        jsonData.map((json) => Category.fromJson(json)).toList();
+
+    return categories;
   }
 
-  var jsonData = jsonDecode(response.body)['data'] as List;
-  List<Category> categories = jsonData.map((json) => Category.fromJson(json)).toList();
-
-  return categories;
-}
-
-class _BodySate extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: FutureBuilder(
-            future: fetch(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Container(
-                  child: Center(
-                    child: CupertinoActivityIndicator(),
-                  ),
-                );
-              } else {
-                return Column(
-                  children: <Widget>[
-                    GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                      ),
-                      physics: NeverScrollableScrollPhysics(), // 스크롤 막기
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        var icon = Icons.airline_seat_recline_normal_outlined;
-                        if (index == 1) {
-                          icon = Icons.accessibility;
-                        } else if (index == 2) {
-                          icon = Icons.agriculture;
-                        } else if (index == 3) {
-                          icon = Icons.airplanemode_active_outlined;
-                        }
-                        return GestureDetector(
-                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MediumDepth(parentID: snapshot.data[index].ID))),
-                              child: Card(
-                                margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                                semanticContainer: true,
-                                elevation: 5,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(icon),
-                                    SizedBox(height: 10.0),
-                                    Text(snapshot.data[index].name ?? ""),
-                                  ],
-                                ),
-                            )
-                        );
-                        return GestureDetector(
-                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MediumDepth(parentID: snapshot.data[index].ID))),
-                          child: Card(
-                            clipBehavior: Clip.antiAlias,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(icon),
-                                SizedBox(height: 10.0),
-                                Text(snapshot.data[index].name ?? ""),
-                              ],
-                            ),
+        child: Padding(
+          padding:
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: SingleChildScrollView(
+              child: FutureBuilder(
+                  future: fetch(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
+                        child: Center(
+                          child: CupertinoActivityIndicator(),
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
                           ),
-                        );
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-                    ),
-                  ],
-                );
-              }
-            }),
-      )
-    );
+                          Divider(),
+                          SizedBox(),
+                          ListView.separated(
+                            physics: NeverScrollableScrollPhysics(), // 스크롤 막기
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              var icon = Icons.accessibility_new_rounded;
+                              if (snapshot.data[index].ID == 6) {
+                                icon = Icons.add_a_photo_outlined;
+                              } else if (snapshot.data[index].ID == 7) {
+                                icon = Icons.add_business;
+                              } else if (snapshot.data[index].ID == 8) {
+                                icon = Icons.adb_sharp;
+                              } else if (snapshot.data[index].ID == 9) {
+                                icon = Icons.audiotrack_sharp;
+                              } else if (snapshot.data[index].ID == 10) {
+                                icon = Icons.auto_awesome;
+                              }
+                              return Column(
+                                children: <Widget>[
+                                  ListTile(
+                                      leading: Icon(icon),
+                                      title: Text(
+                                          snapshot.data[index].name ?? "",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                      ),
+                                      dense: true,
+                                      selected: true
+                                  ),
+                                  Divider(),
+                                  GridView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 5.55,
+                                      mainAxisSpacing: 3.0,
+                                      crossAxisSpacing: 3.0,
+                                    ),
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data[index].minorData != null ? snapshot.data[index].minorData.length : 0,
+                                    itemBuilder: (ctx, idx) {
+                                      return FlatButton(
+                                        onPressed: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => CategoryResultScreen(categoryID: snapshot.data[index].minorData[idx]['ID']))),
+                                        child: Text(snapshot.data[index].minorData[idx]['name'] ?? ""),
+                                        color: Color(0xFFDCEBFF),
+                                      );
+                                  },
+                              ),
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider();
+                        },
+                      )
+                    ],
+                  );
+                }
+              })),
+    ));
   }
 }

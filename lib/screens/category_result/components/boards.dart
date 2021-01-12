@@ -14,10 +14,10 @@ class Boards extends StatefulWidget {
 
   const Boards({
     Key key,
-    @required this.categoryIDs
+    @required this.categoryID
   }) : super(key: key);
 
-  final List<int> categoryIDs;
+  final int categoryID;
 
   @override
   _Boards createState() => _Boards();
@@ -25,8 +25,8 @@ class Boards extends StatefulWidget {
 
 class _Boards extends State<Boards> {
 
-  Future<List<Board>> fetchAll() async {
-    final response = await http.get(HOST_CORE + '/boards');
+  Future<List<Board>> fetch(int categoryID) async {
+    final response = await http.get(HOST_CORE + '/boards/categories/' + categoryID.toString());
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }
@@ -37,12 +37,93 @@ class _Boards extends State<Boards> {
     return boards;
   }
 
+  Widget _images(context, snapshot, index) {
+    return Container(
+        height: 189,
+        child: InkWell(
+          onTap: () => Navigator.pushNamed(
+              context,
+              BoardDetailScreen.routeName,
+              arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
+          ),
+          child: Container(
+            // padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(snapshot.data[index].imageUrl),
+                  fit: BoxFit.cover
+              ),
+              borderRadius: BorderRadius.circular(5.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2.0,
+                  blurRadius: 5.0,
+                )
+              ],
+              color: Colors.white,
+            ),
+          ),
+        )
+    );
+  }
+
+  Widget _content(context, snapshot, index) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:[
+          SizedBox(height: 5.0),
+          Text(
+            snapshot.data[index].majorCategoryName,
+            style: TextStyle(color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 10.0),
+          Text(
+            snapshot.data[index].title,
+            style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 10.0),
+          Text(
+            snapshot.data[index].content,
+            style: TextStyle(color: Colors.black, fontSize: 12),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 10.0),
+          Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: SvgPicture.asset(
+                      "assets/icons/Heart Icon_2.svg",
+                      color: Colors.orange,
+                      height: getProportionateScreenWidth(9),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      " 99",
+                      style: TextStyle(color: Colors.black, fontSize: 11),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              )
+          )
+        ]
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         child: FutureBuilder(
-          future: fetchAll(),
+          future: fetch(widget.categoryID),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Container(
@@ -72,86 +153,8 @@ class _Boards extends State<Boards> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Expanded(
-                                    child: InkWell(
-                                      onTap: () => Navigator.pushNamed(
-                                          context,
-                                          BoardDetailScreen.routeName,
-                                          arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
-                                      ),
-                                      child: Container(
-                                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                                        height: 350,
-                                        width: 200,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: NetworkImage(snapshot.data[index].imageUrl),
-                                              fit: BoxFit.cover
-                                          ),
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey.withOpacity(0.2),
-                                              spreadRadius: 2.0,
-                                              blurRadius: 5.0,
-                                            )
-                                          ],
-                                          color: Colors.white,
-                                        ),
-                                        child: Text(
-                                            snapshot.data[index].brandName,
-                                            style: TextStyle(color: Colors.white),
-                                            maxLines: 1
-                                        ),
-                                      ),
-                                    )
-                                ),
-                                Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children:[
-                                      SizedBox(height: 5.0),
-                                      Text(
-                                          snapshot.data[index].subTitle,
-                                          style: TextStyle(color: Colors.grey, fontSize: 11),
-                                          maxLines: 1
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Text(
-                                          snapshot.data[index].title,
-                                          style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Text(
-                                          snapshot.data[index].content,
-                                          style: TextStyle(color: Colors.black, fontSize: 12),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              child: SvgPicture.asset(
-                                                "assets/icons/Heart Icon_2.svg",
-                                                color: Colors.orange,
-                                                height: getProportionateScreenWidth(9),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                " 5.0",
-                                                style: TextStyle(color: Colors.black, fontSize: 11),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      )
-                                    ]
-                                )
+                                _images(context, snapshot, index),
+                                _content(context, snapshot, index),
                               ]
                           ),
                         );

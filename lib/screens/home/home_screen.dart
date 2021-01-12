@@ -39,11 +39,11 @@ class _HomeScreen extends State<HomeScreen> {
         },
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("홈")),
-          BottomNavigationBarItem(icon: Icon(Icons.app_registration), title: Text("글쓰기")),
-          BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("검색")),
-          BottomNavigationBarItem(icon: Icon(Icons.widgets), title: Text("카테고리")),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle), title: Text("내정보")),
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("홈", style: TextStyle(fontSize: 12))),
+          BottomNavigationBarItem(icon: Icon(Icons.app_registration), title: Text("글쓰기", style: TextStyle(fontSize: 12))),
+          BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("검색", style: TextStyle(fontSize: 12))),
+          BottomNavigationBarItem(icon: Icon(Icons.widgets), title: Text("카테고리", style: TextStyle(fontSize: 12))),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle), title: Text("내정보", style: TextStyle(fontSize: 12))),
         ],
       ),
     );

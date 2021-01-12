@@ -8,11 +8,10 @@ class CategoryResultScreen extends StatefulWidget {
 
   const CategoryResultScreen({
     Key key,
-    @required this.categoryIDs
+    @required this.categoryID
   }) : super(key: key);
 
-  final List<int> categoryIDs;
-
+  final int categoryID;
 
   @override
   _CategoryResultScreen createState() => _CategoryResultScreen();
@@ -23,7 +22,7 @@ class _CategoryResultScreen extends State<CategoryResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Body(),
+      body: Body(categoryID: widget.categoryID),
     );
   }
 }
