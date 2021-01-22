@@ -1,5 +1,5 @@
 import 'package:connect_people/models/Category.dart';
-import 'package:connect_people/screens/search/search_screen.dart';
+import 'package:connect_people/screens/write_board/write_board_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -101,7 +101,7 @@ class _MediumDepthState extends State<MediumDepth> {
                   categoryIDs.add(widget.parentID);
                 }
               }),
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen(categoryIDs: categoryIDs)))
+              Navigator.push(context, MaterialPageRoute(builder: (context) => WriteBoardScreen(categoryIDs: categoryIDs)))
             },
         ),
       ],
