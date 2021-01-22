@@ -146,8 +146,8 @@ class _SignFormState extends State<SignForm> {
       controller: passwordController,
       obscureText: true,
       decoration: InputDecoration(
-        labelText: "비밀번호",
-        hintText: "비밀번호를 입력 하세요",
+        // labelText: "비밀번호",
+        hintText: "비밀번호",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -159,8 +159,8 @@ class _SignFormState extends State<SignForm> {
       controller: loginIdController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: "아이디",
-        hintText: "로그인 이메일을 입력 하세요",
+        // labelText: "아이디",
+        hintText: "아이디(이메일)",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
