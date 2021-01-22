@@ -370,7 +370,11 @@ class _WriteBoardForm extends State<WriteBoardForm> {
             SizedBox(height: getProportionateScreenHeight(10)),
             RaisedButton(
               onPressed: () {
-                if (brandNameController.text.isEmpty) {
+                if (uploadedUrls == null || uploadedUrls.isEmpty || uploadedUrls.length == 0) {
+                  showSnackBar(context, "이미지를 하나이상 업로드 해주세요");
+                } else if (uploadedUrls.length > 5) {
+                  showSnackBar(context, "이미지는 최대 5개 까지 업로드 가능 합니다.");
+                } else if (brandNameController.text.isEmpty) {
                   showSnackBar(context, "대표명을 입력해 주세요");
                 } else if (titleController.text.isEmpty) {
                   showSnackBar(context, "제목을 입력해 주세요");
