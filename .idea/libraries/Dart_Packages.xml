@@ -240,6 +240,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_tags">
+          <value>
+            <list>
+              <option value="/usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_tags-0.4.9+1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_test">
           <value>
             <list>
@@ -794,6 +801,7 @@
       <root url="file:///usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1/lib" />
       <root url="file:///usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.18.1/lib" />
       <root url="file:///usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_swiper-1.1.6/lib" />
+      <root url="file:///usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_tags-0.4.9+1/lib" />
       <root url="file:///usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/front_end-0.1.19/lib" />
       <root url="file:///usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/glob-1.2.0/lib" />
       <root url="file:///usr/local/src/flutter/.pub-cache/hosted/pub.dartlang.org/graphs-0.2.0/lib" />

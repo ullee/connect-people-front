@@ -8,7 +8,6 @@ import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-import '../../../components/form_error.dart';
 import 'package:connect_people/screens/home/home_screen.dart';
 import 'dart:async';
 
@@ -281,12 +280,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     _galleryItems.removeAt(index);
     setState(() {});
     return true;
-  }
-
-  _test() {
-    for (int i = 0; i < widget.categoryIDs.length; i++) {
-      print(widget.categoryIDs[i]);
-    }
   }
 
   Widget images() {

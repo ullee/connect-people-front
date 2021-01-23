@@ -7,10 +7,13 @@ class _SearchState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("검색"),
-        ),
-        body: Body(categoryIDs: widget.categoryIDs)
+      appBar: AppBar(
+          title: Text('검색')
+      ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Body(categoryIDs: widget.categoryIDs),
+      ),
     );
   }
 }
@@ -28,22 +31,3 @@ class SearchScreen extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
 }
-
-/*
-class SearchScreen extends StatelessWidget {
-  static String routeName = "/search";
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Center(child: Text('검색')),
-          automaticallyImplyLeading: false
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Body(),
-      ),
-    );
-  }
-}
-*/
