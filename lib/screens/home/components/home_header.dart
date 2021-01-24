@@ -26,13 +26,13 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "총 등록자수 :",
+                "총 등록건수 :",
                 style: TextStyle(color: Colors.black, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                "신규등록자수 :",
+                "신규등록건수 :",
                 style: TextStyle(color: Colors.black, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

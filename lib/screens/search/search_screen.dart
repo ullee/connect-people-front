@@ -10,10 +10,7 @@ class _SearchState extends State<SearchScreen> {
       appBar: AppBar(
           title: Text('검색')
       ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Body(categoryIDs: widget.categoryIDs),
-      ),
+      body: Body(categoryIDs: widget.categoryIDs),
     );
   }
 }
