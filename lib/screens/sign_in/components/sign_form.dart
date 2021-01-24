@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:connect_people/components/custom_surfix_icon.dart';
+import 'package:connect_people/components/default_button.dart';
 import 'package:connect_people/screens/home/home_screen.dart';
 import 'package:connect_people/screens/forgot_password/forgot_password_screen.dart';
 import 'package:connect_people/size_config.dart';
@@ -84,21 +84,28 @@ class _SignFormState extends State<SignForm> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.08),
-            buildEmailFormField(),
+            buildLoginIdField(),
             SizedBox(height: getProportionateScreenHeight(30)),
-            buildPasswordFormField(),
+            buildPasswordField(),
             SizedBox(height: getProportionateScreenHeight(30)),
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                  context, ForgotPasswordScreen.routeName),
-              child: Text(
-                "비밀번호 찾기",
-                style: TextStyle(decoration: TextDecoration.underline),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, ForgotPasswordScreen.routeName),
+                  child: Text("아이디 찾기", style: TextStyle(fontSize: 12)),
+                ),
+                Text(" | ", style: TextStyle(fontSize: 10),),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, ForgotPasswordScreen.routeName),
+                  child: Text("비밀번호 찾기", style: TextStyle(fontSize: 12)),
+                ),
+              ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
-            RaisedButton(
-              onPressed: () {
+            DefaultButton(
+              text: "로그인",
+              press: () {
                 if (loginIdController.text.isEmpty && passwordController.text.isEmpty) {
                   showSnackBar(context, "아이디와 비밀번호를 입력해 주세요");
                 } else if (loginIdController.text.isEmpty) {
@@ -112,28 +119,6 @@ class _SignFormState extends State<SignForm> {
                   _login(email, password);
                 }
               },
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-              padding: EdgeInsets.all(0.0),
-              child: Ink(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0)
-                ),
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "로그인",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
@@ -141,28 +126,32 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  TextField buildPasswordFormField() {
+  TextField buildPasswordField() {
     return TextField(
       controller: passwordController,
       obscureText: true,
       decoration: InputDecoration(
         // labelText: "비밀번호",
         hintText: "비밀번호",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        // labelStyle: TextStyle(fontSize: 18),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
 
-  TextField buildEmailFormField() {
+  TextField buildLoginIdField() {
     return TextField(
       controller: loginIdController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         // labelText: "아이디",
         hintText: "아이디(이메일)",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        // labelStyle: TextStyle(fontSize: 18),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );
   }

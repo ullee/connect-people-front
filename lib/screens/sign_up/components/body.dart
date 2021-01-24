@@ -22,7 +22,7 @@ class Body extends StatelessWidget {
                   "이메일 인증을 통해\n회원가입을 완료 해주세요",
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
                 SignUpForm(),
               ],
             ),

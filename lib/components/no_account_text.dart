@@ -14,18 +14,10 @@ class NoAccountText extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "계정이 없으신가요? ",
-          style: TextStyle(fontSize: getProportionateScreenWidth(16)),
-        ),
+        Text("처음이신가요? ", style: TextStyle(fontSize: 14)),
         GestureDetector(
           onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
-          child: Text(
-            "회원가입",
-            style: TextStyle(
-                fontSize: getProportionateScreenWidth(16),
-                color: kPrimaryColor),
-          ),
+          child: Text("회원가입", style: TextStyle(fontSize: 14, color: Colors.blue)),
         ),
       ],
     );

@@ -1,9 +1,7 @@
-import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:connect_people/screens/signup_success/signup_success_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:connect_people/components/custom_surfix_icon.dart';
 import 'package:connect_people/components/default_button.dart';
-import 'package:connect_people/components/form_error.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -21,27 +19,17 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+
+  TextEditingController loginIdController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
   String conform_password;
   String name;
-  bool remember = false;
-  final List<String> errors = [];
-
-  void addError({String error}) {
-    if (!errors.contains(error))
-      setState(() {
-        errors.add(error);
-      });
-  }
-
-  void removeError({String error}) {
-    if (errors.contains(error))
-      setState(() {
-        errors.remove(error);
-      });
-  }
 
   Result result;
 
@@ -108,145 +96,135 @@ class _SignUpFormState extends State<SignUpForm> {
       key: _formKey,
       child: Column(
         children: [
-          buildEmailFormField(),
+          buildLoginIdField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildPasswordFormField(),
+          buildPasswordField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildConformPassFormField(),
+          buildPasswordConfirmField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildNameFormField(),
-          FormError(errors: errors),
+          buildNameField(),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "가입하기",
             press: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                _signup(email, password, name);
+              if (loginIdController.text.isEmpty) {
+                showSnackBar(context, "아이디를 입력해 주세요");
+                return;
+              } else if (passwordController.text.isEmpty) {
+                showSnackBar(context, "패스워드를 입력해 주세요");
+                return;
+              } else if (passwordConfirmController.text.isEmpty) {
+                showSnackBar(context, "패스워드를 재확인해 주세요");
+                return;
+              } else if (passwordController.text != passwordConfirmController.text) {
+                showSnackBar(context, "패스워드가 불일치 합니다");
+                return;
+              } else if (nameController.text.isEmpty) {
+                showSnackBar(context, "이름를 입력해 주세요");
+                return;
               }
+              _signup(email, password, name);
             },
           ),
+          SizedBox(height: getProportionateScreenHeight(40)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("가입시 ", style: TextStyle(fontSize: 12, color: Colors.grey)),
+              GestureDetector(
+                // onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
+                onTap: () => {},
+                child: Text("이용약관", style: TextStyle(fontSize: 12, color: Colors.grey, decoration: TextDecoration.underline)),
+              ),
+              Text(" 및 ", style: TextStyle(fontSize: 12, color: Colors.grey)),
+              GestureDetector(
+                onTap: () => {},
+                child: Text("개인정보취급방침", style: TextStyle(fontSize: 12, color: Colors.grey, decoration: TextDecoration.underline)),
+              ),
+              Text(", ", style: TextStyle(fontSize: 12, color: Colors.grey)),
+              GestureDetector(
+                onTap: () => {},
+                child: Text("위치정보제공", style: TextStyle(fontSize: 12, color: Colors.grey, decoration: TextDecoration.underline)),
+              ),
+              Text("에 동의합니다.", style: TextStyle(fontSize: 12, color: Colors.grey)),
+            ],
+          )
         ],
       ),
     );
   }
 
-  TextFormField buildConformPassFormField() {
-    return TextFormField(
+  TextField buildPasswordConfirmField() {
+    return TextField(
       obscureText: true,
-      onSaved: (newValue) => conform_password = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && password == conform_password) {
-          removeError(error: kMatchPassError);
-        }
-        conform_password = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        } else if ((password != value)) {
-          addError(error: kMatchPassError);
-          return "";
-        }
-        return null;
-      },
+      controller: passwordConfirmController,
       decoration: InputDecoration(
         labelText: "비밀번호 확인",
         hintText: "비밀번호 재입력",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        labelStyle: TextStyle(fontSize: 18),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
 
-  TextFormField buildPasswordFormField() {
-    return TextFormField(
+  TextField buildPasswordField() {
+    return TextField(
       obscureText: true,
-      onSaved: (newValue) => password = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.length >= 8) {
-          removeError(error: kShortPassError);
-        }
-        password = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        } else if (value.length < 8) {
-          addError(error: kShortPassError);
-          return "";
-        }
-        return null;
-      },
+      controller: passwordController,
       decoration: InputDecoration(
         labelText: "비밀번호",
         hintText: "8~15자, 숫자/영문/특수문자 조합",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        labelStyle: TextStyle(fontSize: 18),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
 
-  TextFormField buildEmailFormField() {
-    return TextFormField(
+  TextField buildLoginIdField() {
+    return TextField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
-        } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kEmailNullError);
-          return "";
-        } else if (!emailValidatorRegExp.hasMatch(value)) {
-          addError(error: kInvalidEmailError);
-          return "";
-        }
-        return null;
-      },
+      controller: loginIdController,
       decoration: InputDecoration(
-        labelText: "이메일",
-        hintText: "example@example.com",
+        labelText: "아이디(이메일)",
+        hintText: "이메일 주소 입력",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        labelStyle: TextStyle(fontSize: 18),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );
   }
 
-  TextFormField buildNameFormField() {
-    return TextFormField(
+  TextField buildNameField() {
+    return TextField(
       keyboardType: TextInputType.name,
-      onSaved: (newValue) => name = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kNameNullError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kNameNullError);
-          return "";
-        }
-        return null;
-      },
+      controller: nameController,
       decoration: InputDecoration(
         labelText: "이름",
-        hintText: "이름을 입력하세요",
+        hintText: "이름 입력",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        labelStyle: TextStyle(fontSize: 18),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
     );
   }
+}
+
+void showSnackBar(BuildContext context, String message) {
+  Scaffold.of(context).hideCurrentSnackBar();
+  Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+            message,
+            textAlign: TextAlign.center
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.lightBlue,
+      )
+  );
 }
