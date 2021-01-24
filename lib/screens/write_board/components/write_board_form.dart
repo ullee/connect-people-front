@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:connect_people/components/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -361,8 +362,36 @@ class _WriteBoardForm extends State<WriteBoardForm> {
             SizedBox(height: getProportionateScreenHeight(10)),
             buildContentFormField(),
             SizedBox(height: getProportionateScreenHeight(10)),
+            /* 그라데이션 버튼 예제
             RaisedButton(
-              onPressed: () {
+              onPressed: () {},
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+              padding: EdgeInsets.all(0.0),
+              child: Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(30.0)
+                ),
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "작성 완료",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            */
+            DefaultButton(
+              text: "작성 완료",
+              press: () {
                 if (uploadedUrls == null || uploadedUrls.isEmpty || uploadedUrls.length == 0) {
                   showSnackBar(context, "이미지를 하나이상 업로드 해주세요");
                 } else if (uploadedUrls.length > 5) {
@@ -386,28 +415,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                   );
                 }
               },
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-              padding: EdgeInsets.all(0.0),
-              child: Ink(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0)
-                ),
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "작성 완료",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
