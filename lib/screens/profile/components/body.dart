@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
 import 'package:connect_people/screens/home/home_screen.dart';
 import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +61,22 @@ class _BodyState extends State<Body> {
     return boards;
   }
 
+  Future<void> _delete(int boardID) async {
+    try {
+      final response = await http.delete(
+          HOST_CORE + '/boards/' + boardID.toString()
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+
+    } catch (e) {
+      print('Error delete board');
+      return false;
+    }
+  }
+
   bool _isChecked = true;
 
   Widget notLogin(context, snapshot) {
@@ -111,6 +128,38 @@ class _BodyState extends State<Body> {
     );
   }
 
+  void _showDialog(snapshot, index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: new Text("정말 게시글을 삭제 하시겠습니까?", style: TextStyle(fontSize: 13)),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Yes", style: TextStyle(fontSize: 13)),
+              onPressed: () {
+                _delete(snapshot.data[index].boardID);
+                setState(() {
+                  snapshot.data.removeAt(index);
+                });
+                Navigator.pop(context);
+              },
+            ),
+            new FlatButton(
+              child: new Text("No", style: TextStyle(fontSize: 13)),
+              onPressed: () {
+                setState(() {
+                  snapshot.data.removeAt(index);
+                });
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _myBoardList(context, snapshot) {
     return Container(
       child: Column(
@@ -121,12 +170,27 @@ class _BodyState extends State<Body> {
             scrollDirection: Axis.vertical,
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                  leading: Image.network(snapshot.data[index].imageUrl, fit: BoxFit.cover),
-                  title: Text(snapshot.data[index].title ?? ""),
-                  trailing: Icon(Icons.restore_from_trash),
-                  dense: true,
-                  onTap: () => {}
+              final item = snapshot.data[index].boardID.toString();
+              return Dismissible(
+                key: Key(item),
+                onDismissed: (direction) {
+                  _showDialog(snapshot, index);
+                },
+                background: Container(color: Colors.red),
+                child: ListTile(
+                    leading: Image.network(
+                        snapshot.data[index].imageUrl,
+                        fit: BoxFit.cover
+                    ),
+                    title: Text(snapshot.data[index].title ?? ""),
+                    trailing: Icon(Icons.restore_from_trash),
+                    dense: true,
+                    onTap: () => Navigator.pushNamed(
+                        context,
+                        BoardDetailScreen.routeName,
+                        arguments: BoardDetailArguments(boardID: snapshot.data[index].boardID)
+                    ),
+                ),
               );
             },
             separatorBuilder: (context, index) {
