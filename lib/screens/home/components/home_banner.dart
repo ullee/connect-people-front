@@ -18,7 +18,7 @@ class _HomeBannerState extends State<HomeBanner> {
   Future<List<Banners>> fetch() async {
     final response = await http.get(HOST_CORE + '/banners');
     if (response.statusCode != 200) {
-      throw Exception("Fail to request API");
+      throw Exception("Fail to request banners API");
     }
 
     var jsonData = jsonDecode(response.body)['data'] as List;
