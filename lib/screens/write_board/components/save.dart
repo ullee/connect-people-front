@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../../constants.dart';
 
@@ -7,14 +8,14 @@ class Save {
   bool success;
   String message;
 
-  Future<void> call(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls, List<int> categoryIDs) async {
+  Future<void> call(String brandName, String title, String subTitle, String content, List<String> uploadedUrls, List<int> categoryIDs) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
       final response = await http.post(
           HOST_CORE + '/boards',
           body: jsonEncode(
               {
                 'brandName': brandName,
-                'memberID': memberID,
                 'title': title,
                 'subTitle': subTitle,
                 'content': content,
@@ -22,7 +23,7 @@ class Save {
                 'categoryIDs': categoryIDs
               }
           ),
-          headers: {'Content-Type': 'application/json'}
+          headers: {'Content-Type': 'application/json', 'token': prefs.getString('token')}
       );
 
       if (response.statusCode == 200) {

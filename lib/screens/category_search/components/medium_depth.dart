@@ -75,7 +75,7 @@ class _MediumDepthState extends State<MediumDepth> {
             child: Row(
               children: [
                 Icon(Icons.keyboard_arrow_left),
-                Text("이전 카테고리"),
+                Text("이전"),
               ],
             ),
             onPressed: () => {

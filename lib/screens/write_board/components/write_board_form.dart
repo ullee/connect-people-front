@@ -175,10 +175,10 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     }
   }
 
-  Future<bool> saveBoard(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls) async {
+  Future<bool> saveBoard(String brandName, String title, String subTitle, String content, List<String> uploadedUrls) async {
     try {
       Save save = Save();
-      await save.call(brandName, memberID, title, subTitle, content, uploadedUrls, widget.categoryIDs);
+      await save.call(brandName, title, subTitle, content, uploadedUrls, widget.categoryIDs);
 
       if (save.success != null && save.success) {
         return true;
@@ -195,28 +195,25 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       // sharedPreferences = await SharedPreferences.getInstance();
       // await sharedPreferences.setStringList("images", _photosUrls);
 
-      bool success = await saveBoard(brandName, memberID, title, subTitle, content, uploadedUrls);
+      bool success = await saveBoard(brandName, title, subTitle, content, uploadedUrls);
 
       if (success) {
         showDialog(context: context, builder: (context) {
           return AlertDialog(
-            title: new Text("Success!"),
-            content: new Text("작성 완료"),
+            content: new Text("작성 완료", style: TextStyle(fontSize: 13)),
             actions: <Widget>[
               new FlatButton(
                   onPressed: () {
                     Navigator.pushNamed(context, HomeScreen.routeName);
                   },
-                  child: new Text("OK")
+                  child: new Text("Close", style: TextStyle(fontSize: 13))
               )
             ],
           );
         });
       }
-
-      print('Successfully saved');
     } catch (e) {
-      print('Error saving ');
+      print('Error saving');
     }
   }
 
@@ -397,7 +394,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                 } else if (uploadedUrls.length > 5) {
                   showSnackBar(context, "이미지는 최대 5개 까지 업로드 가능 합니다.");
                 } else if (brandNameController.text.isEmpty) {
-                  showSnackBar(context, "대표명을 입력해 주세요");
+                  showSnackBar(context, "파트너명을 입력해 주세요");
                 } else if (titleController.text.isEmpty) {
                   showSnackBar(context, "제목을 입력해 주세요");
                 } else if (subTitleController.text.isEmpty) {
@@ -480,7 +477,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         border: InputBorder.none,
-        hintText: "홈페이지 Ex) www.ConnectPeople.com",
+        hintText: "연락처 Ex)010-0000-0000 or 카카오톡 ID or E-Mail",
         hintStyle: TextStyle(
             color: Colors.grey
         ),
@@ -511,7 +508,8 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         hintText: "내용을 입력하세요.\n\nEx) 안녕하세요.\n여드름패치 및 습윤밴드 해외수출 및 OEM, 오프라인 판매 진행하실 대표님들 모십니다.\n"
             + "시중에나오는 메디폼과, 듀오덤이라고 생각해주시면 됩니다.\n온라인스토어가 아닌 해외수출, OEM, 오프라인 판매에\n"
             + "관심있는 파트너 분들을 모집하며\n"
-            + "미국FDA/벤처인증/KTR인증/의약외품 인증받은 제품입니다.\n코로나로인한 마스크 착용으로 여드름패치가 각광받고있으며 함께 WIN-WIN하실분 연락주십시오.",
+            + "미국FDA/벤처인증/KTR인증/의약외품 인증받은 제품입니다.\n코로나로인한 마스크 착용으로 여드름패치가 각광받고있으며 함께 WIN-WIN하실분 연락주십시오.\n"
+            + "홈페이지: www.ConnectPeople.com",
         hintStyle: TextStyle(
           color: Colors.grey
         ),
