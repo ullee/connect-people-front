@@ -18,11 +18,8 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
                 Text("회원 가입", style: headingStyle),
-                Text(
-                  "이메일 인증을 통해\n회원가입을 완료 해주세요",
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: SizeConfig.screenHeight * 0.04),
+                // Text("휴대폰 인증을 통해\n회원가입을 완료 해주세요", textAlign: TextAlign.center),
+                SizedBox(height: SizeConfig.screenHeight * 0.02),
                 SignUpForm(),
               ],
             ),

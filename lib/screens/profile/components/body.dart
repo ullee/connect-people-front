@@ -183,7 +183,7 @@ class _BodyState extends State<Body> {
                         fit: BoxFit.cover
                     ),
                     title: Text(snapshot.data[index].title ?? ""),
-                    trailing: Icon(Icons.restore_from_trash),
+                    // trailing: Icon(Icons.restore_from_trash),
                     dense: true,
                     onTap: () => Navigator.pushNamed(
                         context,

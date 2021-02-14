@@ -23,12 +23,16 @@ class _SignUpFormState extends State<SignUpForm> {
   TextEditingController loginIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController authNumberController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
   String conform_password;
+  String mobile;
+  String authNumber;
   String name;
 
   Result result;
@@ -90,6 +94,24 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
+  void _authMobile() {
+    showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: new Text("인증번호를 발송 했습니다.", style: TextStyle(fontSize: 14, color: Colors.grey)),
+        content: buildAuthMobileField(),
+        actions: <Widget>[
+          new FlatButton(
+              onPressed: () => {
+                // TODO: 휴대폰 인증 API
+                Navigator.of(context).pop(null)
+              },
+              child: new Text("인증")
+          )
+        ],
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -97,11 +119,36 @@ class _SignUpFormState extends State<SignUpForm> {
       child: Column(
         children: [
           buildLoginIdField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(20)),
           buildPasswordField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(20)),
           buildPasswordConfirmField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(20)),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 270,
+                child: buildMobileField(),
+              ),
+              SizedBox(
+                height: 40,
+                width: 90,
+                child: DefaultButton(
+                    text: "인증요청",
+                    press: () {
+                      if (mobileController.text.isEmpty) {
+                        showSnackBar(context, "휴대폰번호를 입력해 주세요");
+                        return;
+                      }
+                      _authMobile();
+                    }
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: getProportionateScreenHeight(20)),
           buildNameField(),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -154,6 +201,34 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  TextField buildMobileField() {
+    return TextField(
+      keyboardType: TextInputType.phone,
+      controller: mobileController,
+      decoration: InputDecoration(
+        labelText: "휴대폰번호",
+        hintText: "숫자만 입력",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        labelStyle: TextStyle(fontSize: 18),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+      ),
+    );
+  }
+
+  TextField buildAuthMobileField() {
+    return TextField(
+      keyboardType: TextInputType.number,
+      controller: authNumberController,
+      decoration: InputDecoration(
+        hintText: "인증번호 숫자 4자리",
+        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+        labelStyle: TextStyle(fontSize: 18),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
   TextField buildPasswordConfirmField() {
     return TextField(
       obscureText: true,
@@ -175,7 +250,7 @@ class _SignUpFormState extends State<SignUpForm> {
       controller: passwordController,
       decoration: InputDecoration(
         labelText: "비밀번호",
-        hintText: "8~15자, 숫자/영문/특수문자 조합",
+        hintText: "영문,숫자,특수문자 포함 6~15자",
         hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
         labelStyle: TextStyle(fontSize: 18),
         floatingLabelBehavior: FloatingLabelBehavior.always,
