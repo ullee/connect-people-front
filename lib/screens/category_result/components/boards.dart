@@ -128,7 +128,8 @@ class _Boards extends State<Boards> {
             if (!snapshot.hasData) {
               return Container(
                 child: Center(
-                  child: CupertinoActivityIndicator(),
+                  // child: CupertinoActivityIndicator(),
+                  child: Text("카테고리 내 게시글이 존재하지 않습니다."),
                 ),
               );
             } else {

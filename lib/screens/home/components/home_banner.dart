@@ -34,7 +34,7 @@ class _HomeBannerState extends State<HomeBanner> {
           if (snapshot.hasData) {
             return Container(
                 width: double.infinity,
-                height: 100.0,
+                height: 130.0,
                 child: Swiper(
                   autoplay: true,
                   autoplayDelay: 5000,
