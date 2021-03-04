@@ -237,6 +237,14 @@ class _BodyState extends State<Body> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
               SizedBox(height: 30),
+              Row(
+                children: [
+                  Text("내 작성글 ", style: TextStyle(color: Colors.black)),
+                  Text("* 슬라이드로 삭제 가능", style: TextStyle(color: Colors.grey))
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              SizedBox(height: 30),
               FutureBuilder(
                 future: _getMyBoards(),
                 builder: (context, snapshot) {

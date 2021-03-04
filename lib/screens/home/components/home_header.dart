@@ -43,13 +43,13 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "12900",
+                "***0",
                 style: TextStyle(color: Colors.black, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                "1000",
+                "**0",
                 style: TextStyle(color: Colors.black, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

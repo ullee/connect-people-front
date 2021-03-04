@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,7 +58,7 @@ class _PopularProducts extends State<PopularProducts> {
     );
   }
 
-  Widget _content(context, snapshot, index) {
+  Widget _content(context, snapshot, index, rand) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:[
@@ -94,7 +96,7 @@ class _PopularProducts extends State<PopularProducts> {
                   ),
                   Container(
                     child: Text(
-                      " 99",
+                      " " + rand.toString(),
                       style: TextStyle(color: Colors.black, fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -136,13 +138,14 @@ class _PopularProducts extends State<PopularProducts> {
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        int rand1 = Random().nextInt(16); // 랜덤 추천수
                         return Container(
                           padding: EdgeInsets.only(bottom: 15.0, left: 6.0, right: 6.0, top: 15.0),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 _images(context, snapshot, index),
-                                _content(context, snapshot, index),
+                                _content(context, snapshot, index, rand1),
                               ]
                           ),
                         );

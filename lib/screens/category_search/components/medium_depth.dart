@@ -87,6 +87,7 @@ class _MediumDepthState extends State<MediumDepth> {
               Navigator.pop(context),
             }
         ),
+        Text("(복수선택가능)", style: TextStyle(fontSize: 13)),
         FlatButton(
             color: Colors.white,
             child: Row(

@@ -124,7 +124,7 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           buildPasswordConfirmField(),
           SizedBox(height: getProportionateScreenHeight(20)),
-          /*
+
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,7 +150,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ],
           ),
           SizedBox(height: getProportionateScreenHeight(20)),
-          */
+
           buildNameField(),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(

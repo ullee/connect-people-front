@@ -348,7 +348,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             images(),
             buildBrandNameFormField(),
@@ -413,6 +413,8 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                 }
               },
             ),
+            SizedBox(height: getProportionateScreenHeight(10)),
+            Text("(등록 후 수정 불가)", style: TextStyle(color: Colors.grey))
           ],
         ),
       ),
@@ -508,7 +510,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         hintText: "내용을 입력하세요.\n\nEx) 안녕하세요.\n여드름패치 및 습윤밴드 해외수출 및 OEM, 오프라인 판매 진행하실 대표님들 모십니다.\n"
             + "시중에나오는 메디폼과, 듀오덤이라고 생각해주시면 됩니다.\n온라인스토어가 아닌 해외수출, OEM, 오프라인 판매에\n"
             + "관심있는 파트너 분들을 모집하며\n"
-            + "미국FDA/벤처인증/KTR인증/의약외품 인증받은 제품입니다.\n코로나로인한 마스크 착용으로 여드름패치가 각광받고있으며 함께 WIN-WIN하실분 연락주십시오.\n"
+            + "미국FDA/벤처인증/KTR인증/의약외품 인증받은 제품입니다.\n코로나로인한 마스크 착용으로 여드름패치가 각광받고있으며 함께 WIN-WIN하실분 연락주십시오.\n\n"
             + "홈페이지: www.ConnectPeople.com",
         hintStyle: TextStyle(
           color: Colors.grey
