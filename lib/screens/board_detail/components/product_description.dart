@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:connect_people/models/BoardDetail.dart';
+import 'package:path/path.dart';
 
 import '../../../size_config.dart';
 
@@ -52,11 +53,23 @@ class ProductDescription extends StatelessWidget {
             right: getProportionateScreenWidth(64),
           ),
           child: Text(
+            boardDetail.brandName,
+            style: Theme.of(context).textTheme.headline6,
+            maxLines: 3,
+          ),
+        ),
+        SizedBox(height: 20),
+        Padding(
+          padding: EdgeInsets.only(
+            left: getProportionateScreenWidth(20),
+            right: getProportionateScreenWidth(64),
+          ),
+          child: Text(
             boardDetail.subTitle,
             maxLines: 3,
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 20),
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenWidth(20),
