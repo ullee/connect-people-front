@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
@@ -14,6 +16,10 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    int rand1 = Random().nextInt(9); // 총 등록건수 @TODO:추후 실제 카운팅으로 변경
+    int rand2 = Random().nextInt(9); // 신규 등록건수 @TODO:추후 실제 카운팅으로 변경
+
     // Future<Post> post = fetchPost();
     return Padding(
       padding:
@@ -43,13 +49,13 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "***0",
+                "***" + rand1.toString(),
                 style: TextStyle(color: Colors.black, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                "**0",
+                "**" + rand2.toString(),
                 style: TextStyle(color: Colors.black, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

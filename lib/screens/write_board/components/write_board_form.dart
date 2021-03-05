@@ -427,7 +427,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         border: InputBorder.none,
-        hintText: "대표명을 입력하세요. Ex) ㈜커넥피플, 홍길동",
+        hintText: "파트너명을 입력하세요. Ex) ㈜커넥피플, 홍길동",
         hintStyle: TextStyle(
             color: Colors.grey
         ),

@@ -270,6 +270,8 @@ class _BodyState extends State<Body> {
                   ),
                 ),
               ),
+              SizedBox(height: 30),
+              Text("광고 및 기타문의: Connectpeople119@nate.com", style: TextStyle(color: Colors.grey, fontSize: 13))
             ],
           ),
         )

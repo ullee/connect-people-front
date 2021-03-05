@@ -138,7 +138,7 @@ class _PopularProducts extends State<PopularProducts> {
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
-                        int rand1 = Random().nextInt(16); // 랜덤 추천수
+                        int rand1 = Random().nextInt(16) + 5; // 랜덤 추천수
                         return Container(
                           padding: EdgeInsets.only(bottom: 15.0, left: 6.0, right: 6.0, top: 15.0),
                           child: Column(

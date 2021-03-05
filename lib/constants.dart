@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:connect_people/size_config.dart';
 
-const HOST_CORE = "http://52.79.191.174";
+const HOST_CORE = "http://52.78.173.151";
 
 const kPrimaryColor = Color(0xFFFF7643);
 const kPrimaryLightColor = Color(0xFFFFECDF);
