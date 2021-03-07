@@ -16,7 +16,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   Future<List<Category>> fetch() async {
-    final response = await http.get(HOST_CORE + '/categories/minor/1');
+    final response = await http.get(HOST_CORE + '/categories/minor');
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }

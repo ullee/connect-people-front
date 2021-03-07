@@ -13,20 +13,12 @@ import 'search_no_result.dart';
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
 
 class Body extends StatefulWidget {
-  const Body({
-    Key key,
-    @required this.categoryIDs
-  }) : super(key: key);
-
-  final List<int> categoryIDs;
 
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-
-  final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
 
   String searchText = "";
   bool _firstSearch = true;
@@ -54,30 +46,12 @@ class _BodyState extends State<Body> {
 
   final TextEditingController searchController = TextEditingController();
 
-  Future<List<dynamic>> getCategoryNames() async {
-    final response = await http.post(
-        HOST_CORE + '/categories/names',
-        body: jsonEncode(
-            {
-              'categoryIDs': widget.categoryIDs,
-            }
-        ),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if (response.statusCode != 200) {
-      throw Exception("Fail to request API");
-    }
-
-    return jsonDecode(response.body)['data']['categoryNames'];
-  }
-
   Future<List<Board>> getSearchResult() async {
     final response = await http.post(
-        HOST_CORE + '/boards/search',
+        HOST_CORE + '/boards/search-brand',
         body: jsonEncode(
             {
-              // 'keyword': searchText,
-              'categoryIDs': widget.categoryIDs
+              'keyword': searchText,
             }
         ),
         headers: {'Content-Type': 'application/json'}
@@ -99,7 +73,6 @@ class _BodyState extends State<Body> {
         color: kSecondaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
       ),
-      /*
       child: TextField(
         // onChanged: (value) => print(value),
         controller: searchController,
@@ -115,7 +88,6 @@ class _BodyState extends State<Body> {
           prefixIcon: Icon(Icons.search),
         ),
       ),
-      */
     );
   }
 
@@ -128,36 +100,6 @@ class _BodyState extends State<Body> {
           searchField(),
         ],
       ),
-    );
-  }
-
-  Widget tags() {
-    return FutureBuilder(
-        future: getCategoryNames(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Container(
-              child: Center(
-                child: CupertinoActivityIndicator(),
-              ),
-            );
-          } else {
-            return Tags(
-              key: _tagStateKey,
-              itemCount: snapshot.data.length,
-              itemBuilder: (index) {
-                return ItemTags(
-                  key: Key(index.toString()),
-                  index: index, // required
-                  title: snapshot.data[index],
-                  textStyle: TextStyle(fontSize: 14),
-                  combine: ItemTagsCombine.withTextBefore,
-                  // removeButton: ItemTagsRemoveButton(onRemoved: (){if (snapshot.data.length > 0) {setState(() {snapshot.data.removeAt(index);});}return true;},),
-                );
-              },
-            );
-          }
-        }
     );
   }
 
@@ -300,12 +242,7 @@ class _BodyState extends State<Body> {
             SizedBox(height: getProportionateScreenHeight(20)),
             header(),
             SizedBox(height: getProportionateScreenWidth(30)),
-            searchResult(),
-            /*
-            tags(),
-            SizedBox(height: getProportionateScreenWidth(30)),
             _firstSearch ? SearchNoResult() : searchResult()
-            */
           ],
         ),
       ),

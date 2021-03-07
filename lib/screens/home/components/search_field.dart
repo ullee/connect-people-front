@@ -1,3 +1,4 @@
+import 'package:connect_people/screens/home_search/home_search_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
@@ -17,7 +18,12 @@ class SearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
-        onChanged: (value) => print(value),
+        // onChanged: (value) => print(value),
+        onTap: () => Navigator.pushNamed(
+            context,
+            HomeSearchScreen.routeName,
+        ),
+        readOnly: true,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20),
