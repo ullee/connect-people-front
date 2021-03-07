@@ -8,7 +8,7 @@ class _HomeSearchState extends State<HomeSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('검색2')
+          title: Text('검색')
       ),
       body: Body(),
     );
