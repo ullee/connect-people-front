@@ -33,8 +33,8 @@ class _MediumDepthState extends State<MediumDepth> {
   List<CheckList> checkList = new List<CheckList>();
   List<int> categoryIDs = new List<int>();
 
-  Future<List<Category>> fetch(int parentID) async {
-    final response = await http.get(HOST_CORE + '/categories/minor/${parentID}');
+  Future<List<Category>> fetch() async {
+    final response = await http.get(HOST_CORE + '/categories/minor');
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }
@@ -122,7 +122,7 @@ class _MediumDepthState extends State<MediumDepth> {
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
               child: SingleChildScrollView(
                   child:FutureBuilder(
-                      future: fetch(widget.parentID),
+                      future: fetch(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Container(
