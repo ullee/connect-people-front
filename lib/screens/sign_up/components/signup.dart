@@ -7,7 +7,7 @@ class Signup {
   int code;
   String message;
 
-  Future<void> call(String loginId, String password, String name) async {
+  Future<void> call(String loginId, String password, String name, String phone) async {
     try {
       final response = await http.post(
           HOST_CORE + '/signup',
@@ -16,6 +16,7 @@ class Signup {
                 'loginId': loginId,
                 'password': password,
                 'name': name,
+                'phone': phone,
               }
           ),
           headers: {'Content-Type': 'application/json'}

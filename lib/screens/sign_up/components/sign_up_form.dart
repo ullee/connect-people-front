@@ -1,3 +1,4 @@
+import 'package:connect_people/screens/sign_up/components/send_sms.dart';
 import 'package:connect_people/screens/signup_success/signup_success_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextEditingController loginIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController authNumberController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
@@ -31,16 +32,16 @@ class _SignUpFormState extends State<SignUpForm> {
   String email;
   String password;
   String conform_password;
-  String mobile;
+  String phone;
   String authNumber;
   String name;
 
   Result result;
 
-  Future<Result> signup(String loginId, String password, String name) async {
+  Future<Result> signup(String loginId, String password, String name, String phone) async {
 
     Signup signup = Signup();
-    await signup.call(loginId, password, name);
+    await signup.call(loginId, password, name, phone);
     if (signup.code != 1) {
       return Result(
           code: signup.code,
@@ -54,9 +55,9 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  _signup(String loginId, String password, String name) async {
+  _signup(String loginId, String password, String name, String phone) async {
     try {
-      var result = await signup(loginId, password, name);
+      var result = await signup(loginId, password, name, phone);
 
       if (result.code != 1) {
         showDialog(context: context, builder: (context) {
@@ -94,15 +95,44 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
-  void _authMobile() {
+  Future<bool> _sendSms(String phone) async {
+    try {
+      SendSms sms = SendSms();
+      await sms.call(phone);
+
+      if (sms.success != null && sms.success) {
+        return true;
+      } else {
+        throw sms.message;
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<bool> _sendAuthNumber(String number) async {
+    try {
+      SendSms sms = SendSms();
+      await sms.auth(number);
+
+      if (sms.success != null && sms.success) {
+        return true;
+      } else {
+        throw sms.message;
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  void _authSms() {
     showDialog(context: context, builder: (context) {
       return AlertDialog(
         title: new Text("인증번호를 발송 했습니다.", style: TextStyle(fontSize: 14, color: Colors.grey)),
-        content: buildAuthMobileField(),
+        content: buildAuthPhoneField(),
         actions: <Widget>[
           new FlatButton(
               onPressed: () => {
-                // TODO: 휴대폰 인증 API
                 Navigator.of(context).pop(null)
               },
               child: new Text("인증")
@@ -131,7 +161,7 @@ class _SignUpFormState extends State<SignUpForm> {
             children: [
               SizedBox(
                 width: 270,
-                child: buildMobileField(),
+                child: buildPhoneField(),
               ),
               SizedBox(
                 height: 40,
@@ -139,11 +169,12 @@ class _SignUpFormState extends State<SignUpForm> {
                 child: DefaultButton(
                     text: "인증요청",
                     press: () {
-                      if (mobileController.text.isEmpty) {
+                      if (phoneController.text.isEmpty) {
                         showSnackBar(context, "휴대폰번호를 입력해 주세요");
                         return;
                       }
-                      _authMobile();
+                      _sendSms(phoneController.text);
+                      _authSms();
                     }
                 ),
               )
@@ -171,8 +202,11 @@ class _SignUpFormState extends State<SignUpForm> {
               } else if (nameController.text.isEmpty) {
                 showSnackBar(context, "이름를 입력해 주세요");
                 return;
+              } else if (phoneController.text.isEmpty) {
+                showSnackBar(context, "휴대폰번호를 입력해 주세요");
+                return;
               }
-              _signup(email, password, name);
+              _signup(email, password, name, phone);
             },
           ),
           SizedBox(height: getProportionateScreenHeight(40)),
@@ -203,10 +237,10 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  TextField buildMobileField() {
+  TextField buildPhoneField() {
     return TextField(
       keyboardType: TextInputType.phone,
-      controller: mobileController,
+      controller: phoneController,
       decoration: InputDecoration(
         labelText: "휴대폰번호",
         hintText: "숫자만 입력",
@@ -218,7 +252,7 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  TextField buildAuthMobileField() {
+  TextField buildAuthPhoneField() {
     return TextField(
       keyboardType: TextInputType.number,
       controller: authNumberController,
