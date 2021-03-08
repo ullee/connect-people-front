@@ -181,7 +181,6 @@ class _SignUpFormState extends State<SignUpForm> {
             ],
           ),
           SizedBox(height: getProportionateScreenHeight(20)),
-
           buildNameField(),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -206,7 +205,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 showSnackBar(context, "휴대폰번호를 입력해 주세요");
                 return;
               }
-              _signup(email, password, name, phone);
+              _signup(loginIdController.text, passwordController.text, nameController.text, phoneController.text);
             },
           ),
           SizedBox(height: getProportionateScreenHeight(40)),
