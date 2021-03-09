@@ -29,16 +29,17 @@ class _ProductImagesState extends State<ProductImages> {
         itemCount: widget.boardDetail.imageUrls.length,
         scrollDirection: Axis.horizontal,
         pagination: SwiperPagination(
-          builder: DotSwiperPaginationBuilder(
-            color: Colors.grey, activeColor: Colors.blueGrey
-          )
+            alignment: Alignment.bottomRight,
+            builder: FractionPaginationBuilder(
+                color: Colors.grey, activeColor: Colors.blueGrey, fontSize: 10, activeFontSize: 10
+            )
         ),
         itemBuilder: (context, index) {
           var image = widget.boardDetail.imageUrls[index];
           return Container(
             width: 300.0,
             height: 300.0,
-            child: Image.network(image, fit: BoxFit.cover),
+            child: Image.network(image, fit: BoxFit.contain),
           );
         },
       )

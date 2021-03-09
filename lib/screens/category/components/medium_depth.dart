@@ -87,7 +87,12 @@ class _MediumDepthState extends State<MediumDepth> {
               Navigator.pop(context),
             }
         ),
-        Text("(복수선택가능)", style: TextStyle(fontSize: 13)),
+        Column(
+          children: [
+            Text("글쓰기"),
+            Text("(복수선택가능)", style: TextStyle(fontSize: 13)),
+          ],
+        ),
         FlatButton(
             color: Colors.white,
             child: Row(
@@ -113,7 +118,10 @@ class _MediumDepthState extends State<MediumDepth> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('글쓰기')),
+          // title: Center(child: Text('글쓰기')),
+          title: Center(
+            child: _topButton(context)
+          ),
           automaticallyImplyLeading: false, // 백버튼 비활성화
         ),
         body: SafeArea(
@@ -133,7 +141,7 @@ class _MediumDepthState extends State<MediumDepth> {
                         } else {
                           return Column(
                             children: <Widget>[
-                              _topButton(context),
+                              // _topButton(context),
                               Padding(padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),),
                               Divider(),
                               SizedBox(),

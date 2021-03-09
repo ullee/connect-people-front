@@ -252,7 +252,8 @@ class _BodyState extends State<Body> {
                     return _myBoardList(context, snapshot);
                   } else {
                     return Container(
-                      child: Center(child: CupertinoActivityIndicator()),
+                      // child: Center(child: CupertinoActivityIndicator()),
+                      child: Text("등록된 게시글이 없습니다.", style: TextStyle(color: Colors.black, fontSize: 12)),
                     );
                   }
                 },
