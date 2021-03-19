@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -110,8 +111,14 @@ class _PopularProducts extends State<PopularProducts> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+        height: 1000,
         padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+        child: WebView(
+          initialUrl: "http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main",
+          javascriptMode: JavascriptMode.unrestricted,
+        ),
+        /*
         child: FutureBuilder(
           future: fetchAll(),
           builder: (context, snapshot) {
@@ -156,6 +163,7 @@ class _PopularProducts extends State<PopularProducts> {
             }
           },
         )
+        */
     );
   }
 }
