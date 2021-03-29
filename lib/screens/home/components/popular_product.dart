@@ -115,7 +115,7 @@ class _PopularProducts extends State<PopularProducts> {
         height: 1000,
         padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         child: WebView(
-          initialUrl: "http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main",
+          initialUrl: "http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main/list",
           javascriptMode: JavascriptMode.unrestricted,
         ),
         /*
