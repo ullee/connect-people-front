@@ -27,23 +27,19 @@ Future<List<Board>> fetchAll() async {
 }
 
 class _PopularProducts extends State<PopularProducts> {
-
   Widget _images(context, snapshot, index) {
     return Container(
         height: 189,
         child: InkWell(
-          onTap: () => Navigator.pushNamed(
-              context,
-              BoardDetailScreen.routeName,
-              arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)
-          ),
+          onTap: () => Navigator.pushNamed(context, BoardDetailScreen.routeName,
+              arguments:
+                  BoardDetailArguments(boardID: snapshot.data[index].ID)),
           child: Container(
             // padding: EdgeInsets.all(getProportionateScreenWidth(8)),
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(snapshot.data[index].imageUrl),
-                  fit: BoxFit.cover
-              ),
+                  fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(5.0),
               boxShadow: [
                 BoxShadow(
@@ -55,70 +51,70 @@ class _PopularProducts extends State<PopularProducts> {
               color: Colors.white,
             ),
           ),
-        )
-    );
+        ));
   }
 
   Widget _content(context, snapshot, index, rand) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:[
-          SizedBox(height: 5.0),
-          Text(
-            snapshot.data[index].majorCategoryName,
-            style: TextStyle(color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: 10.0),
-          Text(
-            snapshot.data[index].title,
-            style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: 10.0),
-          Text(
-            snapshot.data[index].content,
-            style: TextStyle(color: Colors.black, fontSize: 12),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: 10.0),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      SizedBox(height: 5.0),
+      Text(
+        snapshot.data[index].majorCategoryName,
+        style: TextStyle(
+            color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      SizedBox(height: 10.0),
+      Text(
+        snapshot.data[index].title,
+        style: TextStyle(
+            color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      SizedBox(height: 10.0),
+      Text(
+        snapshot.data[index].content,
+        style: TextStyle(color: Colors.black, fontSize: 12),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      SizedBox(height: 10.0),
+      Container(
+          child: Row(
+        children: <Widget>[
           Container(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    child: SvgPicture.asset(
-                      "assets/icons/Heart Icon_2.svg",
-                      color: Colors.orange,
-                      height: getProportionateScreenWidth(9),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      " " + rand.toString(),
-                      style: TextStyle(color: Colors.black, fontSize: 11),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              )
-          )
-        ]
-    );
+            child: SvgPicture.asset(
+              "assets/icons/Heart Icon_2.svg",
+              color: Colors.orange,
+              height: getProportionateScreenWidth(9),
+            ),
+          ),
+          Container(
+            child: Text(
+              " " + rand.toString(),
+              style: TextStyle(color: Colors.black, fontSize: 11),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ))
+    ]);
   }
 
   @override
   Widget build(BuildContext context) {
+    double heightD = MediaQuery.of(context).size.height;
     return Container(
-        height: 1000,
-        padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-        child: WebView(
-          initialUrl: "http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main/list",
-          javascriptMode: JavascriptMode.unrestricted,
-        ),
-        /*
+      height: heightD - 367,
+      // constraints: BoxConstraints.tightForFinite(height: 1000),
+      // padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      child: WebView(
+        initialUrl:
+            "http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main/list",
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
+      /*
         child: FutureBuilder(
           future: fetchAll(),
           builder: (context, snapshot) {

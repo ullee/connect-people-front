@@ -4,11 +4,7 @@ import '../../../size_config.dart';
 import 'boards.dart';
 
 class Body extends StatefulWidget {
-
-  const Body({
-    Key key,
-    @required this.categoryID
-  }) : super(key: key);
+  const Body({Key key, @required this.categoryID}) : super(key: key);
 
   final int categoryID;
 

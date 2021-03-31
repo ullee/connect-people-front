@@ -16,7 +16,6 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     int rand1 = Random().nextInt(9); // 총 등록건수 @TODO:추후 실제 카운팅으로 변경
     int rand2 = Random().nextInt(9); // 신규 등록건수 @TODO:추후 실제 카운팅으로 변경
 

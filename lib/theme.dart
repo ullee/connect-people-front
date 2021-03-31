@@ -25,12 +25,8 @@ InputDecorationTheme inputDecorationTheme() {
     // if we are define our floatingLabelBehavior in our theme then it's not applayed
     floatingLabelBehavior: FloatingLabelBehavior.always,
     contentPadding: EdgeInsets.symmetric(horizontal: 42, vertical: 20),
-    enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Color(0xFFC3C3C3))
-    ),
-    focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Color(0xFFC3C3C3))
-    ),
+    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFFC3C3C3))),
+    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFFC3C3C3))),
     // border: outlineInputBorder,
   );
 }
