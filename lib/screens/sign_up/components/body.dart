@@ -4,7 +4,14 @@ import 'package:connect_people/size_config.dart';
 
 import 'sign_up_form.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  final String phone;
+  const Body({Key key, @required this.phone}) : super(key: key);
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,7 +27,7 @@ class Body extends StatelessWidget {
                 Text("회원 가입", style: headingStyle),
                 // Text("휴대폰 인증을 통해\n회원가입을 완료 해주세요", textAlign: TextAlign.center),
                 SizedBox(height: SizeConfig.screenHeight * 0.02),
-                SignUpForm(),
+                SignUpForm(phone: widget.phone),
               ],
             ),
           ),

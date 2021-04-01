@@ -178,7 +178,9 @@ class _MobileCertificationFormState extends State<MobileCertificationForm> {
                 showSnackBar(context, "휴대폰번호를 입력해 주세요");
                 return;
               }
-              Navigator.pushNamed(context, SignUpScreen.routeName);
+              Navigator.pushNamed(context, SignUpScreen.routeName,
+                  arguments:
+                      SignUpScreenArguments(phone: phoneController.text));
             },
           ),
         ],

@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'components/body.dart';
 
 class CategoryResultScreen extends StatefulWidget {
-
   static String routeName = "/category_result";
 
-  const CategoryResultScreen({
-    Key key,
-    @required this.categoryID
-  }) : super(key: key);
+  const CategoryResultScreen({Key key, @required this.categoryID = null})
+      : super(key: key);
 
   final int categoryID;
 

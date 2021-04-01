@@ -102,6 +102,9 @@ class _PopularProducts extends State<PopularProducts> {
     ]);
   }
 
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
+
   @override
   Widget build(BuildContext context) {
     double heightD = MediaQuery.of(context).size.height;
@@ -113,6 +116,11 @@ class _PopularProducts extends State<PopularProducts> {
         initialUrl:
             "http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main/list",
         javascriptMode: JavascriptMode.unrestricted,
+
+        // 웹뷰가 생성되면 패키지에서 받는 콜백 위치
+        onWebViewCreated: (WebViewController webViewController) {
+          _controller.complete(webViewController);
+        },
       ),
       /*
         child: FutureBuilder(

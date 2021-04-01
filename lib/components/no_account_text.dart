@@ -1,9 +1,5 @@
 import 'package:connect_people/screens/mobile_certification/mobile_certification_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:connect_people/screens/sign_up/sign_up_screen.dart';
-
-import '../constants.dart';
-import '../size_config.dart';
 
 class NoAccountText extends StatelessWidget {
   const NoAccountText({

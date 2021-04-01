@@ -16,6 +16,8 @@ class Result {
 }
 
 class SignUpForm extends StatefulWidget {
+  final String phone;
+  const SignUpForm({Key key, @required this.phone}) : super(key: key);
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
@@ -24,16 +26,12 @@ class _SignUpFormState extends State<SignUpForm> {
   TextEditingController loginIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController authNumberController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
   String conform_password;
-  String phone;
-  String authNumber;
   String name;
 
   Result result;
@@ -92,53 +90,6 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
-  Future<bool> _sendSms(String phone) async {
-    try {
-      SendSms sms = SendSms();
-      await sms.call(phone);
-
-      if (sms.success != null && sms.success) {
-        return true;
-      } else {
-        throw sms.message;
-      }
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  Future<bool> _sendAuthNumber(String number) async {
-    try {
-      SendSms sms = SendSms();
-      await sms.auth(number);
-
-      if (sms.success != null && sms.success) {
-        return true;
-      } else {
-        throw sms.message;
-      }
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  void _authSms() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: new Text("인증번호를 발송 했습니다.",
-                style: TextStyle(fontSize: 14, color: Colors.grey)),
-            content: buildAuthPhoneField(),
-            actions: <Widget>[
-              new FlatButton(
-                  onPressed: () => {Navigator.of(context).pop(null)},
-                  child: new Text("인증"))
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -174,7 +125,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 return;
               }
               _signup(loginIdController.text, passwordController.text,
-                  nameController.text, phoneController.text);
+                  nameController.text, widget.phone);
             },
           ),
           SizedBox(height: getProportionateScreenHeight(40)),
@@ -214,34 +165,6 @@ class _SignUpFormState extends State<SignUpForm> {
             ],
           )
         ],
-      ),
-    );
-  }
-
-  TextField buildPhoneField() {
-    return TextField(
-      keyboardType: TextInputType.phone,
-      controller: phoneController,
-      decoration: InputDecoration(
-        labelText: "휴대폰번호",
-        hintText: "숫자만 입력",
-        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
-        labelStyle: TextStyle(fontSize: 18),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
-      ),
-    );
-  }
-
-  TextField buildAuthPhoneField() {
-    return TextField(
-      keyboardType: TextInputType.number,
-      controller: authNumberController,
-      decoration: InputDecoration(
-        hintText: "인증번호 숫자 4자리",
-        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
-        labelStyle: TextStyle(fontSize: 18),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
   }
