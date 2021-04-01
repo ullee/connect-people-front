@@ -10,9 +10,7 @@ class SignInScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("로그인"),
         leading: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(null)
-        ),
+            icon: Icon(Icons.close), onPressed: () => Navigator.pop(context)),
       ),
       body: Body(),
     );

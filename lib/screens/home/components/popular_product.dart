@@ -8,15 +8,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_paginator/flutter_paginator.dart';
-import 'package:flutter_paginator/enums.dart';
-
 import '../../../size_config.dart';
 import '../../../constants.dart';
 import '../../../models/Board.dart';
 
 Future<List<Board>> fetchAll() async {
-  final response = await http.get(HOST_CORE + '/boards?limit=100');
+  final response = await http.get(HOST_CORE + '/boards?limit=20');
   if (response.statusCode != 200) {
     throw Exception("Fail to request API");
   }
@@ -103,12 +100,11 @@ class _PopularProducts extends State<PopularProducts> {
     ]);
   }
 
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  // final Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
-    double heightD = MediaQuery.of(context).size.height;
+    // double heightD = MediaQuery.of(context).size.height;
     return Container(
         height: 520,
         // constraints: BoxConstraints.tightForFinite(height: 1000),
