@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,13 +8,15 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_paginator/flutter_paginator.dart';
+import 'package:flutter_paginator/enums.dart';
+
 import '../../../size_config.dart';
 import '../../../constants.dart';
-import 'section_title.dart';
 import '../../../models/Board.dart';
 
 Future<List<Board>> fetchAll() async {
-  final response = await http.get(HOST_CORE + '/boards');
+  final response = await http.get(HOST_CORE + '/boards?limit=100');
   if (response.statusCode != 200) {
     throw Exception("Fail to request API");
   }
@@ -109,9 +110,11 @@ class _PopularProducts extends State<PopularProducts> {
   Widget build(BuildContext context) {
     double heightD = MediaQuery.of(context).size.height;
     return Container(
-      height: heightD - 367,
-      // constraints: BoxConstraints.tightForFinite(height: 1000),
-      // padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+        height: 520,
+        // constraints: BoxConstraints.tightForFinite(height: 1000),
+        padding:
+            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+        /*
       child: WebView(
         initialUrl:
             "http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main/list",
@@ -122,7 +125,8 @@ class _PopularProducts extends State<PopularProducts> {
           _controller.complete(webViewController);
         },
       ),
-      /*
+      */
+
         child: FutureBuilder(
           future: fetchAll(),
           builder: (context, snapshot) {
@@ -136,39 +140,36 @@ class _PopularProducts extends State<PopularProducts> {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    // SizedBox(height: 15.0),
-                    GridView.builder(
+                    Expanded(
+                        child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.55,
                         mainAxisSpacing: 1.0,
                         crossAxisSpacing: 1.0,
                       ),
-                      physics: NeverScrollableScrollPhysics(), // 스크롤 막기
+                      // physics: NeverScrollableScrollPhysics(), // 스크롤 막기
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         int rand1 = Random().nextInt(16) + 5; // 랜덤 추천수
                         return Container(
-                          padding: EdgeInsets.only(bottom: 15.0, left: 6.0, right: 6.0, top: 15.0),
+                          padding: EdgeInsets.only(
+                              bottom: 15.0, left: 6.0, right: 6.0, top: 15.0),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 _images(context, snapshot, index),
                                 _content(context, snapshot, index, rand1),
-                              ]
-                          ),
+                              ]),
                         );
                       },
-                    )
-                  ]
-              );
+                    ))
+                  ]);
             }
           },
-        )
-        */
-    );
+        ));
   }
 }
 
