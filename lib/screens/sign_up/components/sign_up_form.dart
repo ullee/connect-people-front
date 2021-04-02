@@ -1,11 +1,8 @@
-import 'package:connect_people/screens/mobile_certification/mobile_certification_screen.dart';
-import 'package:connect_people/screens/sign_up/components/send_sms.dart';
 import 'package:connect_people/screens/signup_success/signup_success_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:connect_people/components/default_button.dart';
 
-import '../../../constants.dart';
 import '../../../size_config.dart';
 import 'signup.dart';
 
@@ -29,10 +26,6 @@ class _SignUpFormState extends State<SignUpForm> {
   TextEditingController nameController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  String email;
-  String password;
-  String conform_password;
-  String name;
 
   Result result;
 
@@ -92,6 +85,9 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
+    RegExp regex = new RegExp(
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+
     return Form(
       key: _formKey,
       child: Column(
@@ -109,6 +105,9 @@ class _SignUpFormState extends State<SignUpForm> {
             press: () {
               if (loginIdController.text.isEmpty) {
                 showSnackBar(context, "아이디를 입력해 주세요");
+                return;
+              } else if (!regex.hasMatch(loginIdController.text)) {
+                showSnackBar(context, "아이디가 이메일 형식이 아닙니다");
                 return;
               } else if (passwordController.text.isEmpty) {
                 showSnackBar(context, "패스워드를 입력해 주세요");
