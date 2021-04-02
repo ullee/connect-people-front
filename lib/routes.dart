@@ -15,6 +15,8 @@ import 'package:connect_people/screens/search/search_screen.dart';
 import 'package:connect_people/screens/home_search/home_search_screen.dart';
 import 'package:connect_people/screens/category_search/category_search_screen.dart';
 import 'package:connect_people/screens/mobile_certification/mobile_certification_screen.dart';
+import 'package:connect_people/screens/notice/notice_screen.dart';
+import 'package:connect_people/screens/my_board/my_board_screen.dart';
 
 import 'screens/sign_up/sign_up_screen.dart';
 
@@ -38,4 +40,6 @@ final Map<String, WidgetBuilder> routes = {
   HomeSearchScreen.routeName: (context) => HomeSearchScreen(),
   CategorySearchScreen.routeName: (context) => CategorySearchScreen(),
   MobileCertificationScreen.routeName: (context) => MobileCertificationScreen(),
+  NoticeScreen.routeName: (context) => NoticeScreen(),
+  MyBoardScreen.routeName: (context) => MyBoardScreen()
 };

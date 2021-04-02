@@ -7,7 +7,7 @@ import 'package:connect_people/screens/category_search/category_search_screen.da
 import 'package:connect_people/size_config.dart';
 
 import 'components/body.dart';
-import 'components/WebViewContainer.dart';
+import '../../components/WebViewContainer.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = "/home";
@@ -19,7 +19,6 @@ class _HomeScreen extends State<HomeScreen> {
   int _selectIndex = 0;
   final List<Widget> _pages = [
     Body(),
-    // WebViewContainer("http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/main/list"),
     CategoryScreen(),
     CategorySearchScreen(),
     CategoryMainScreen(),

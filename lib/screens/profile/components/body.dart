@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
 import 'package:connect_people/screens/home/home_screen.dart';
+import 'package:connect_people/screens/my_board/my_board_screen.dart';
+import 'package:connect_people/screens/notice/notice_screen.dart';
 import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +24,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   Future<Profile> _fetch() async {
     final prefs = await SharedPreferences.getInstance();
-    final response = await http.get(
-        HOST_CORE + '/me',
-        headers: {'token': prefs.getString('token')}
-    );
+    final response = await http
+        .get(HOST_CORE + '/me', headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }
@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
     }
 
     if (jsonData == null) {
-      var temp = {"ID":0, "loginId":null, "name":null, "phone":null};
+      var temp = {"ID": 0, "loginId": null, "name": null, "phone": null};
       jsonData = temp;
     }
 
@@ -47,30 +47,27 @@ class _BodyState extends State<Body> {
 
   Future<List<MyBoards>> _getMyBoards() async {
     final prefs = await SharedPreferences.getInstance();
-    final response = await http.get(
-        HOST_CORE + '/my/boards',
-        headers: {'token': prefs.getString('token')}
-    );
+    final response = await http.get(HOST_CORE + '/my/boards',
+        headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request board API");
     }
 
     var jsonData = jsonDecode(response.body)['data'] as List;
-    List<MyBoards> boards = jsonData.map((json) => MyBoards.fromJson(json)).toList();
+    List<MyBoards> boards =
+        jsonData.map((json) => MyBoards.fromJson(json)).toList();
 
     return boards;
   }
 
   Future<void> _delete(int boardID) async {
     try {
-      final response = await http.delete(
-          HOST_CORE + '/boards/' + boardID.toString()
-      );
+      final response =
+          await http.delete(HOST_CORE + '/boards/' + boardID.toString());
 
       if (response.statusCode == 200) {
         return true;
       }
-
     } catch (e) {
       print('Error delete board');
       return false;
@@ -88,23 +85,20 @@ class _BodyState extends State<Body> {
               child: Column(
                 children: [
                   ListTile(
-                      title: Text(
-                          "로그인이 필요합니다.",
+                      title: Text("로그인이 필요합니다.",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 25,
-                              fontWeight: FontWeight.bold
-                          )
-                      ),
+                              fontWeight: FontWeight.bold)),
                       trailing: IconButton(
                           icon: const Icon(Icons.keyboard_arrow_right),
                           onPressed: () {
-                            Navigator.pushNamed(context, SignInScreen.routeName);
+                            Navigator.pushNamed(
+                                context, SignInScreen.routeName);
                           }),
                       onTap: () {
                         Navigator.pushNamed(context, SignInScreen.routeName);
-                      }
-                  ),
+                      }),
                 ],
               ),
             ),
@@ -124,8 +118,7 @@ class _BodyState extends State<Body> {
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 
   void _showDialog(snapshot, index) {
@@ -133,7 +126,8 @@ class _BodyState extends State<Body> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: new Text("정말 게시글을 삭제 하시겠습니까?", style: TextStyle(fontSize: 13)),
+          content:
+              new Text("정말 게시글을 삭제 하시겠습니까?", style: TextStyle(fontSize: 13)),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Yes", style: TextStyle(fontSize: 13)),
@@ -178,18 +172,15 @@ class _BodyState extends State<Body> {
                 },
                 background: Container(color: Colors.red),
                 child: ListTile(
-                    leading: Image.network(
-                        snapshot.data[index].imageUrl,
-                        fit: BoxFit.cover
-                    ),
-                    title: Text(snapshot.data[index].title ?? ""),
-                    // trailing: Icon(Icons.restore_from_trash),
-                    dense: true,
-                    onTap: () => Navigator.pushNamed(
-                        context,
-                        BoardDetailScreen.routeName,
-                        arguments: BoardDetailArguments(boardID: snapshot.data[index].boardID)
-                    ),
+                  leading: Image.network(snapshot.data[index].imageUrl,
+                      fit: BoxFit.cover),
+                  title: Text(snapshot.data[index].title ?? ""),
+                  // trailing: Icon(Icons.restore_from_trash),
+                  dense: true,
+                  onTap: () => Navigator.pushNamed(
+                      context, BoardDetailScreen.routeName,
+                      arguments: BoardDetailArguments(
+                          boardID: snapshot.data[index].boardID)),
                 ),
               );
             },
@@ -216,6 +207,14 @@ class _BodyState extends State<Body> {
               Text(snapshot.data.phone ?? "-"),
               Row(
                 children: [
+                  Text("버전정보"),
+                  Text("V1.0.1"),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
                   Text("마케팅 정보 수신 동의"),
                   Switch(
                     value: _isChecked,
@@ -231,32 +230,28 @@ class _BodyState extends State<Body> {
               SizedBox(height: 20),
               Row(
                 children: [
-                  Text("버전정보"),
-                  Text("V1.0.0"),
+                  Text("공지사항"),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, NoticeScreen.routeName);
+                    },
+                    child: Icon(Icons.arrow_forward_ios_sharp),
+                  ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
               SizedBox(height: 30),
               Row(
                 children: [
-                  Text("내 작성글 ", style: TextStyle(color: Colors.black)),
-                  Text("* 슬라이드로 삭제 가능", style: TextStyle(color: Colors.grey))
+                  Text("내 작성글"),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, MyBoardScreen.routeName);
+                    },
+                    child: Icon(Icons.arrow_forward_ios_sharp),
+                  ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              ),
-              SizedBox(height: 30),
-              FutureBuilder(
-                future: _getMyBoards(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return _myBoardList(context, snapshot);
-                  } else {
-                    return Container(
-                      // child: Center(child: CupertinoActivityIndicator()),
-                      child: Text("등록된 게시글이 없습니다.", style: TextStyle(color: Colors.black, fontSize: 12)),
-                    );
-                  }
-                },
               ),
               SizedBox(height: 30),
               GestureDetector(
@@ -272,11 +267,11 @@ class _BodyState extends State<Body> {
                 ),
               ),
               SizedBox(height: 30),
-              Text("광고 및 기타문의: Connectpeople119@nate.com", style: TextStyle(color: Colors.grey, fontSize: 13))
+              Text("광고 및 기타문의: Connectpeople119@nate.com",
+                  style: TextStyle(color: Colors.grey, fontSize: 13))
             ],
           ),
-        )
-    );
+        ));
   }
 
   void _signout() async {
