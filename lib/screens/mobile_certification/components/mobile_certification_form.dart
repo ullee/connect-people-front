@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:connect_people/screens/sign_up/components/send_sms.dart';
 import 'package:connect_people/screens/sign_up/sign_up_screen.dart';
@@ -9,7 +11,6 @@ import 'package:flutter/services.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
-import 'signup.dart';
 
 class Result {
   int code;
@@ -30,62 +31,9 @@ class _MobileCertificationFormState extends State<MobileCertificationForm> {
   final _formKey = GlobalKey<FormState>();
   String phone;
   String authNumber;
+  bool isAuth = false;
 
   Result result;
-
-  Future<Result> signup(
-      String loginId, String password, String name, String phone) async {
-    Signup signup = Signup();
-    await signup.call(loginId, password, name, phone);
-    if (signup.code != 1) {
-      return Result(code: signup.code, message: signup.message);
-    }
-
-    return Result(code: 1, message: "ok");
-  }
-
-  _signup(String loginId, String password, String name, String phone) async {
-    try {
-      var result = await signup(loginId, password, name, phone);
-
-      if (result.code != 1) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: new Text("Fail"),
-                content: new Text(result.message),
-                actions: <Widget>[
-                  new FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: new Text("OK"))
-                ],
-              );
-            });
-      } else {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: new Text("Success!"),
-                content: new Text("회원가입 성공"),
-                actions: <Widget>[
-                  new FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, SignUpSuccessScreen.routeName);
-                      },
-                      child: new Text("OK"))
-                ],
-              );
-            });
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   Future<bool> _sendSms(String phone) async {
     try {
@@ -127,7 +75,12 @@ class _MobileCertificationFormState extends State<MobileCertificationForm> {
             content: buildAuthPhoneField(),
             actions: <Widget>[
               new FlatButton(
-                  onPressed: () => {Navigator.of(context).pop(null)},
+                  onPressed: () => {
+                        if (authNumberController.text.isEmpty)
+                          {showSnackBar(context, "휴대폰번호를 입력해 주세요")},
+                        isAuth = true, // TODO:나중에 실제로 인증되게 바꿔야함
+                        Navigator.of(context).pop(null)
+                      },
                   child: new Text("인증"))
             ],
           );
@@ -136,6 +89,8 @@ class _MobileCertificationFormState extends State<MobileCertificationForm> {
 
   @override
   Widget build(BuildContext context) {
+    RegExp regex = new RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$');
+
     return Form(
       key: _formKey,
       child: Column(
@@ -158,8 +113,6 @@ class _MobileCertificationFormState extends State<MobileCertificationForm> {
                         showSnackBar(context, "휴대폰번호를 입력해 주세요");
                         return;
                       }
-                      String pattern = r'^(?:[+0][1-9])?[0-9]{10,12}$';
-                      RegExp regex = new RegExp(pattern);
                       if (!regex.hasMatch(phoneController.text)) {
                         showSnackBar(context, "휴대폰번호가 올바르지 않습니다");
                         return;
@@ -176,6 +129,14 @@ class _MobileCertificationFormState extends State<MobileCertificationForm> {
             press: () {
               if (phoneController.text.isEmpty) {
                 showSnackBar(context, "휴대폰번호를 입력해 주세요");
+                return;
+              }
+              if (!regex.hasMatch(phoneController.text)) {
+                showSnackBar(context, "휴대폰번호가 올바르지 않습니다");
+                return;
+              }
+              if (!isAuth) {
+                showSnackBar(context, "휴대폰 인증을 완료 해주세요");
                 return;
               }
               Navigator.pushNamed(context, SignUpScreen.routeName,
