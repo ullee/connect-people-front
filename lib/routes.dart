@@ -4,6 +4,7 @@ import 'package:connect_people/screens/home/home_screen.dart';
 import 'package:connect_people/screens/login_success/login_success_screen.dart';
 import 'package:connect_people/screens/profile/profile_screen.dart';
 import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
+import 'package:connect_people/screens/sign_up/sign_up_screen.dart';
 import 'package:connect_people/screens/splash/splash_screen.dart';
 import 'package:connect_people/screens/write_board/write_board_screen.dart';
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
@@ -17,8 +18,6 @@ import 'package:connect_people/screens/category_search/category_search_screen.da
 import 'package:connect_people/screens/mobile_certification/mobile_certification_screen.dart';
 import 'package:connect_people/screens/notice/notice_screen.dart';
 import 'package:connect_people/screens/my_board/my_board_screen.dart';
-
-import 'screens/sign_up/sign_up_screen.dart';
 
 // We use name route
 // All our routes will be available here

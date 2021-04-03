@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
 import 'package:connect_people/screens/home/home_screen.dart';
 import 'package:connect_people/screens/my_board/my_board_screen.dart';
 import 'package:connect_people/screens/notice/notice_screen.dart';
@@ -8,10 +6,7 @@ import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:connect_people/models/MyBoards.dart';
 import 'package:connect_people/models/Profile.dart';
-
 import 'package:connect_people/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'profile_pic.dart';
