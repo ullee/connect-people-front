@@ -101,11 +101,12 @@ class _MediumDepthState extends State<MediumDepth> {
           onPressed: () => {
             setState(() {
               if (categoryIDs.isEmpty) {
+                print(categoryIDs);
                 showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: new Text("Error"),
+                        title: new Text("필수"),
                         content: new Text("카테고리를 한개이상 선택해 주세요"),
                         actions: <Widget>[
                           new FlatButton(
@@ -115,15 +116,12 @@ class _MediumDepthState extends State<MediumDepth> {
                       );
                     });
               } else {
-                print(categoryIDs);
-                if (!categoryIDs.contains(widget.parentID)) {
-                  categoryIDs.add(widget.parentID);
-                }
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            WriteBoardScreen(categoryIDs: categoryIDs)));
+                        builder: (context) => WriteBoardScreen(
+                            categoryIDs: categoryIDs,
+                            parentID: widget.parentID)));
               }
             }),
           },

@@ -87,10 +87,12 @@ class _BodyState extends State<Body> {
 
   Widget _myBoardList(context, snapshot) {
     return Container(
+      height: 590,
       child: Column(
         children: <Widget>[
-          ListView.separated(
-            physics: NeverScrollableScrollPhysics(), // 스크롤 막기
+          Expanded(
+              child: ListView.separated(
+            // physics: NeverScrollableScrollPhysics(), // 스크롤 막기
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             itemCount: snapshot.data.length,
@@ -118,7 +120,7 @@ class _BodyState extends State<Body> {
             separatorBuilder: (context, index) {
               return Divider();
             },
-          )
+          )),
         ],
       ),
     );

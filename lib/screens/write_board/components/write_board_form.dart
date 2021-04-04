@@ -26,20 +26,18 @@ enum PhotoStatus { LOADING, ERROR, LOADED }
 enum PhotoSource { FILE, NETWORK }
 
 class WriteBoardForm extends StatefulWidget {
-
-  const WriteBoardForm({
-    Key key,
-    @required this.categoryIDs
-  }) : super(key: key);
+  const WriteBoardForm(
+      {Key key, @required this.categoryIDs, @required this.parentID})
+      : super(key: key);
 
   final List<int> categoryIDs;
+  final int parentID;
 
   @override
   _WriteBoardForm createState() => _WriteBoardForm();
 }
 
 class _WriteBoardForm extends State<WriteBoardForm> {
-
   List<String> uploadedUrls = [];
 
   List<File> _photos = List<File>();
@@ -75,7 +73,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   }
 
   _onAddPhotoClicked(context) async {
-
     Permission permission;
 
     if (Platform.isIOS) {
@@ -160,7 +157,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         });
 
         try {
-
           bool isUploaded = await uploadFile(context, image);
           if (isUploaded) {
             print('Uploaded');
@@ -175,10 +171,21 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     }
   }
 
-  Future<bool> saveBoard(String brandName, String title, String subTitle, String content, List<String> uploadedUrls) async {
+  Future<bool> saveBoard(String brandName, String title, String subTitle,
+      String content, List<String> uploadedUrls) async {
     try {
+      // 대카테고리 추가
+      setState(() {
+        if (!widget.categoryIDs.contains(widget.parentID)) {
+          widget.categoryIDs.add(widget.parentID);
+        }
+      });
+
+      print(widget.categoryIDs);
+
       Save save = Save();
-      await save.call(brandName, title, subTitle, content, uploadedUrls, widget.categoryIDs);
+      await save.call(brandName, title, subTitle, content, uploadedUrls,
+          widget.categoryIDs);
 
       if (save.success != null && save.success) {
         return true;
@@ -190,27 +197,30 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     }
   }
 
-  _onSaveClicked(String brandName, int memberID, String title, String subTitle, String content, List<String> uploadedUrls) async {
+  _onSaveClicked(String brandName, int memberID, String title, String subTitle,
+      String content, List<String> uploadedUrls) async {
     try {
       // sharedPreferences = await SharedPreferences.getInstance();
       // await sharedPreferences.setStringList("images", _photosUrls);
 
-      bool success = await saveBoard(brandName, title, subTitle, content, uploadedUrls);
+      bool success =
+          await saveBoard(brandName, title, subTitle, content, uploadedUrls);
 
       if (success) {
-        showDialog(context: context, builder: (context) {
-          return AlertDialog(
-            content: new Text("작성 완료", style: TextStyle(fontSize: 13)),
-            actions: <Widget>[
-              new FlatButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, HomeScreen.routeName);
-                  },
-                  child: new Text("Close", style: TextStyle(fontSize: 13))
-              )
-            ],
-          );
-        });
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: new Text("작성 완료", style: TextStyle(fontSize: 13)),
+                actions: <Widget>[
+                  new FlatButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, HomeScreen.routeName);
+                      },
+                      child: new Text("Close", style: TextStyle(fontSize: 13)))
+                ],
+              );
+            });
       }
     } catch (e) {
       print('Error saving');
@@ -282,64 +292,61 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
   Widget images() {
     return Container(
-      height: 100,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _photos.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return _buildAddPhoto();
-            }
-            File image = _photos[index - 1];
-            PhotoSource source = _photosSources[index - 1];
+        height: 100,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _photos.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return _buildAddPhoto();
+              }
+              File image = _photos[index - 1];
+              PhotoSource source = _photosSources[index - 1];
 
-            return Stack(
-              children: <Widget>[
-                InkWell(
-                    onTap: () => _onPhotoClicked(index - 1),
+              return Stack(
+                children: <Widget>[
+                  InkWell(
+                      onTap: () => _onPhotoClicked(index - 1),
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        height: 100,
+                        width: 100,
+                        color: kLightGray,
+                        child: source == PhotoSource.FILE
+                            ? Image.file(image)
+                            : Image.network(_photosUrls[index - 1]),
+                      )),
+                  Visibility(
+                    visible: _photosStatus[index - 1] == PhotoStatus.LOADED,
+                    child: Positioned.fill(
+                      child: SpinKitWave(
+                        size: 25,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _photosStatus[index - 1] == PhotoStatus.ERROR,
+                    child: Positioned.fill(
+                      child: Icon(
+                        MaterialIcons.error,
+                        color: kErrorRed,
+                        size: 35,
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
                     child: Container(
-                      margin: EdgeInsets.all(5),
-                      height: 100,
-                      width: 100,
-                      color: kLightGray,
-                      child: source == PhotoSource.FILE
-                          ? Image.file(image)
-                          : Image.network(_photosUrls[index - 1]),
-                    )
-                ),
-                Visibility(
-                  visible: _photosStatus[index - 1] == PhotoStatus.LOADED,
-                  child: Positioned.fill(
-                    child: SpinKitWave(
-                      size: 25,
-                      color: Colors.white,
+                      padding: EdgeInsets.all(6),
+                      alignment: Alignment.topRight,
+                      child: DeleteWidget(
+                        () => _onDeleteReviewPhotoClicked(index - 1),
+                      ),
                     ),
-                  ),
-                ),
-                Visibility(
-                  visible: _photosStatus[index - 1] == PhotoStatus.ERROR,
-                  child: Positioned.fill(
-                    child: Icon(
-                      MaterialIcons.error,
-                      color: kErrorRed,
-                      size: 35,
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    padding: EdgeInsets.all(6),
-                    alignment: Alignment.topRight,
-                    child: DeleteWidget(
-                          () => _onDeleteReviewPhotoClicked(index - 1),
-                    ),
-                  ),
-                )
-              ],
-            );
-          }
-      )
-    );
+                  )
+                ],
+              );
+            }));
   }
 
   @override
@@ -389,7 +396,9 @@ class _WriteBoardForm extends State<WriteBoardForm> {
             DefaultButton(
               text: "작성 완료",
               press: () {
-                if (uploadedUrls == null || uploadedUrls.isEmpty || uploadedUrls.length == 0) {
+                if (uploadedUrls == null ||
+                    uploadedUrls.isEmpty ||
+                    uploadedUrls.length == 0) {
                   showSnackBar(context, "이미지를 하나이상 업로드 해주세요");
                 } else if (uploadedUrls.length > 5) {
                   showSnackBar(context, "이미지는 최대 5개 까지 업로드 가능 합니다.");
@@ -408,8 +417,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                       titleController.text,
                       subTitleController.text,
                       contentController.text,
-                      uploadedUrls
-                  );
+                      uploadedUrls);
                 }
               },
             ),
@@ -428,22 +436,16 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: "파트너명을 입력하세요. Ex) ㈜커넥피플, 홍길동",
-        hintStyle: TextStyle(
-            color: Colors.grey
-        ),
+        hintStyle: TextStyle(color: Colors.grey),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         contentPadding: EdgeInsets.all(10),
         enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFC3C3C3))
-        ),
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))),
         focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFC3C3C3))
-        ),
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))),
       ),
-      style: TextStyle(
-          fontSize: 12
-      ),
+      style: TextStyle(fontSize: 12),
     );
   }
 
@@ -454,22 +456,16 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: "제목을 입력하세요. Ex) 저희 0000을 소개합니다.",
-        hintStyle: TextStyle(
-            color: Colors.grey
-        ),
+        hintStyle: TextStyle(color: Colors.grey),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         contentPadding: EdgeInsets.all(10),
         enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFC3C3C3))
-        ),
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))),
         focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFC3C3C3))
-        ),
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))),
       ),
-      style: TextStyle(
-          fontSize: 12
-      ),
+      style: TextStyle(fontSize: 12),
     );
   }
 
@@ -480,22 +476,16 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: "연락처 Ex)010-0000-0000 or 카카오톡 ID or E-Mail",
-        hintStyle: TextStyle(
-            color: Colors.grey
-        ),
+        hintStyle: TextStyle(color: Colors.grey),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         contentPadding: EdgeInsets.all(10),
         enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFC3C3C3))
-        ),
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))),
         focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFC3C3C3))
-        ),
+            borderSide: BorderSide(color: Color(0xFFC3C3C3))),
       ),
-      style: TextStyle(
-          fontSize: 12
-      ),
+      style: TextStyle(fontSize: 12),
     );
   }
 
@@ -507,36 +497,27 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       textAlignVertical: TextAlignVertical.top,
       decoration: InputDecoration(
         border: InputBorder.none,
-        hintText: "내용을 입력하세요.\n\nEx) 안녕하세요.\n여드름패치 및 습윤밴드 해외수출 및 OEM, 오프라인 판매 진행하실 대표님들 모십니다.\n"
-            + "시중에나오는 메디폼과, 듀오덤이라고 생각해주시면 됩니다.\n온라인스토어가 아닌 해외수출, OEM, 오프라인 판매에\n"
-            + "관심있는 파트너 분들을 모집하며\n"
-            + "미국FDA/벤처인증/KTR인증/의약외품 인증받은 제품입니다.\n코로나로인한 마스크 착용으로 여드름패치가 각광받고있으며 함께 WIN-WIN하실분 연락주십시오.\n\n"
-            + "홈페이지: www.ConnectPeople.com",
-        hintStyle: TextStyle(
-          color: Colors.grey
-        ),
+        hintText: "내용을 입력하세요.\n\nEx) 안녕하세요.\n여드름패치 및 습윤밴드 해외수출 및 OEM, 오프라인 판매 진행하실 대표님들 모십니다.\n" +
+            "시중에나오는 메디폼과, 듀오덤이라고 생각해주시면 됩니다.\n온라인스토어가 아닌 해외수출, OEM, 오프라인 판매에\n" +
+            "관심있는 파트너 분들을 모집하며\n" +
+            "미국FDA/벤처인증/KTR인증/의약외품 인증받은 제품입니다.\n코로나로인한 마스크 착용으로 여드름패치가 각광받고있으며 함께 WIN-WIN하실분 연락주십시오.\n\n" +
+            "홈페이지: www.ConnectPeople.com",
+        hintStyle: TextStyle(color: Colors.grey),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         isDense: true,
         // contentPadding: new EdgeInsets.symmetric(vertical: 145.0, horizontal: 10.0),
         contentPadding: const EdgeInsets.all(8.0),
       ),
-      style: TextStyle(
-          fontSize: 12
-      ),
+      style: TextStyle(fontSize: 12),
     );
   }
 }
 
 void showSnackBar(BuildContext context, String message) {
   Scaffold.of(context).hideCurrentSnackBar();
-  Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-            message,
-            textAlign: TextAlign.center
-        ),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.lightBlue,
-      )
-  );
+  Scaffold.of(context).showSnackBar(SnackBar(
+    content: Text(message, textAlign: TextAlign.center),
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.lightBlue,
+  ));
 }
