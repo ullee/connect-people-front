@@ -17,6 +17,7 @@ import 'package:connect_people/screens/home_search/home_search_screen.dart';
 import 'package:connect_people/screens/category_search/category_search_screen.dart';
 import 'package:connect_people/screens/mobile_certification/mobile_certification_screen.dart';
 import 'package:connect_people/screens/notice/notice_screen.dart';
+import 'package:connect_people/screens/notice_detail/notice_detail_screen.dart';
 import 'package:connect_people/screens/my_board/my_board_screen.dart';
 
 // We use name route
@@ -40,5 +41,6 @@ final Map<String, WidgetBuilder> routes = {
   CategorySearchScreen.routeName: (context) => CategorySearchScreen(),
   MobileCertificationScreen.routeName: (context) => MobileCertificationScreen(),
   NoticeScreen.routeName: (context) => NoticeScreen(),
+  NoticeDetailScreen.routeName: (context) => NoticeDetailScreen(),
   MyBoardScreen.routeName: (context) => MyBoardScreen()
 };

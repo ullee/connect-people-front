@@ -8,14 +8,15 @@ part of 'MyBoards.dart';
 
 MyBoards _$MyBoardsFromJson(Map<String, dynamic> json) {
   return MyBoards(
-      boardID: json['boardID'] as int,
-      brandName: json['brandName'] as String,
-      memberID: json['memberID'] as int,
-      title: json['title'] as String,
-      subTitle: json['subTitle'] as String,
-      content: json['content'] as String,
-      imageUrl: json['imageUrl'] as String,
-      created: json['created'] as String);
+    boardID: json['boardID'] as int,
+    brandName: json['brandName'] as String,
+    memberID: json['memberID'] as int,
+    title: json['title'] as String,
+    subTitle: json['subTitle'] as String,
+    content: json['content'] as String,
+    imageUrl: json['imageUrl'] as String,
+    created: json['created'] as String,
+  );
 }
 
 Map<String, dynamic> _$MyBoardsToJson(MyBoards instance) => <String, dynamic>{
@@ -26,5 +27,5 @@ Map<String, dynamic> _$MyBoardsToJson(MyBoards instance) => <String, dynamic>{
       'subTitle': instance.subTitle,
       'content': instance.content,
       'imageUrl': instance.imageUrl,
-      'created': instance.created
+      'created': instance.created,
     };
