@@ -21,8 +21,7 @@ class NoticeDescription extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: Text(noticeDetail.title, style: Theme.of(context).textTheme.headline6),
         ),
         Padding(
@@ -31,10 +30,7 @@ class NoticeDescription extends StatelessWidget {
         ),
         SizedBox(height: 20),
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(20),
-            vertical: 10,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20), vertical: 10),
           child: Linkify(
             onOpen: (link) async {
               if (await canLaunch(link.url)) {
