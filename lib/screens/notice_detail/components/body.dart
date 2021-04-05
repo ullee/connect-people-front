@@ -44,9 +44,8 @@ class _BodyState extends State<Body> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: getProportionateScreenWidth(20)),
-                  padding:
-                      EdgeInsets.only(top: getProportionateScreenWidth(20)),
-                  width: double.infinity,
+                  padding: EdgeInsets.only(top: getProportionateScreenWidth(20)),
+                  // width: double.infinity,
                   color: Colors.white,
                   child: Column(
                     children: [

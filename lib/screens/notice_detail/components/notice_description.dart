@@ -23,21 +23,11 @@ class NoticeDescription extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Text(
-            noticeDetail.title,
-            style: Theme.of(context).textTheme.headline6,
-          ),
+          child: Text(noticeDetail.title, style: Theme.of(context).textTheme.headline6),
         ),
         Padding(
-          padding: EdgeInsets.only(
-            left: getProportionateScreenWidth(20),
-            right: getProportionateScreenWidth(64),
-          ),
-          child: Text(
-            noticeDetail.created,
-            style: Theme.of(context).textTheme.headline6,
-            maxLines: 3,
-          ),
+          padding: EdgeInsets.only(left: getProportionateScreenWidth(20), right: getProportionateScreenWidth(64)),
+          child: Text(noticeDetail.created, style: TextStyle(color: Colors.grey, fontSize: 12), maxLines: 3),
         ),
         SizedBox(height: 20),
         Padding(

@@ -1,6 +1,7 @@
 // import 'package:connect_people/components/WebViewContainer.dart';
 import 'dart:convert';
 import 'package:connect_people/screens/notice_detail/notice_detail_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,7 +46,7 @@ class Body extends StatelessWidget {
               return _noticeList(context, snapshot);
             } else {
               return Container(
-                child: Text("등록된 게시글이 없습니다.", style: TextStyle(color: Colors.black, fontSize: 12)),
+                child: Center(child: CupertinoActivityIndicator()),
               );
             }
           },

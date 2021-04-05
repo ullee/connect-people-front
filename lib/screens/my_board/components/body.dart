@@ -16,6 +16,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,8 +37,7 @@ class _BodyState extends State<Body> {
     }
 
     var jsonData = jsonDecode(response.body)['data'] as List;
-    List<MyBoards> boards =
-        jsonData.map((json) => MyBoards.fromJson(json)).toList();
+    List<MyBoards> boards = jsonData.map((json) => MyBoards.fromJson(json)).toList();
 
     return boards;
   }
@@ -74,9 +74,8 @@ class _BodyState extends State<Body> {
               return _myBoardList(context, snapshot);
             } else {
               return Container(
+                child: Center(child: Text("등록한 게시글이 없습니다.", style: TextStyle(color: Colors.black, fontSize: 12))),
                 // child: Center(child: CupertinoActivityIndicator()),
-                child: Text("등록된 게시글이 없습니다.",
-                    style: TextStyle(color: Colors.black, fontSize: 12)),
               );
             }
           },
@@ -91,32 +90,29 @@ class _BodyState extends State<Body> {
       child: Column(
         children: <Widget>[
           Expanded(
-              child: ListView.separated(
-            // physics: NeverScrollableScrollPhysics(), // 스크롤 막기
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              final item = snapshot.data[index].boardID.toString();
-              return Dismissible(
-                key: Key(item),
-                onDismissed: (direction) {
-                  _showDialog(snapshot, index);
-                },
-                background: Container(color: Colors.red),
-                child: ListTile(
-                  leading: Image.network(snapshot.data[index].imageUrl,
-                      fit: BoxFit.cover),
-                  title: Text(snapshot.data[index].title ?? ""),
-                  // trailing: Icon(Icons.restore_from_trash),
-                  dense: true,
-                  onTap: () => Navigator.pushNamed(
+            child: ListView.separated(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                final item = snapshot.data[index].boardID.toString();
+                return Dismissible(
+                  key: Key(item),
+                  onDismissed: (direction) {
+                    _showDialog(snapshot, index);
+                  },
+                  background: Container(color: Colors.red),
+                  child: ListTile(
+                    leading: Image.network(snapshot.data[index].imageUrl,
+                    fit: BoxFit.cover),
+                    title: Text(snapshot.data[index].title ?? ""),
+                    dense: true,
+                    onTap: () => Navigator.pushNamed(
                       context, BoardDetailScreen.routeName,
-                      arguments: BoardDetailArguments(
-                          boardID: snapshot.data[index].boardID)),
-                ),
-              );
-            },
+                      arguments: BoardDetailArguments(boardID: snapshot.data[index].boardID)),
+                  ),
+                );
+              },
             separatorBuilder: (context, index) {
               return Divider();
             },
