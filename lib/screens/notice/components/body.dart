@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
 
   Future<List<Notice>> _getNotices() async {
     final prefs = await SharedPreferences.getInstance();
-    final response = await http.get(HOST_LAMBDA + '/dev/v1/notice',
+    final response = await http.get(HOST_LAMBDA + '/v1/notice',
         headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request board API");
@@ -57,7 +57,7 @@ class Body extends StatelessWidget {
 
   Widget _noticeList(context, snapshot) {
     return Container(
-      height: 650,
+      height: 640,
       child: Column(
         children: <Widget>[
           Expanded(

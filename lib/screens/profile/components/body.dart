@@ -21,7 +21,7 @@ class _BodyState extends State<Body> {
   Future<Profile> _fetch() async {
     final prefs = await SharedPreferences.getInstance();
     final response = await http
-        .get(HOST_CORE + '/me', headers: {'token': prefs.getString('token')});
+        .get(HOST_LAMBDA + '/v1/member/me', headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }
@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
     }
 
     if (jsonData == null) {
-      var temp = {"ID": 0, "loginId": null, "name": null, "phone": null};
+      var temp = {"id": 0, "login_id": null, "name": null, "phone": null};
       jsonData = temp;
     }
 
@@ -98,7 +98,7 @@ class _BodyState extends State<Body> {
               ProfilePic(),
               SizedBox(height: 20),
               Text(snapshot.data.name ?? "-"),
-              Text(snapshot.data.loginId ?? "-"),
+              Text(snapshot.data.login_id ?? "-"),
               Text(snapshot.data.phone ?? "-"),
               Row(
                 children: [
@@ -183,7 +183,7 @@ class _BodyState extends State<Body> {
         future: _fetch(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.ID == 0) {
+            if (snapshot.data.id == null) {
               return notLogin(context, snapshot);
             }
             return isLogin(context, snapshot);

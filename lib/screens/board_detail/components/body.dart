@@ -24,9 +24,9 @@ class _BodyState extends State<Body> {
   Future<BoardDetail> fetch() async {
     final prefs = await SharedPreferences.getInstance();
 
-    if (prefs.getString('token') == null) {
-      Navigator.pushReplacementNamed(context, SignInScreen.routeName);
-    }
+    // if (prefs.getString('token') == null) {
+    //   Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+    // }
 
     final response = await http.get(
         HOST_CORE + '/boards/${widget.boardID}/detail',

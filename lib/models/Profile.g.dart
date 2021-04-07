@@ -8,16 +8,16 @@ part of 'Profile.dart';
 
 Profile _$ProfileFromJson(Map<String, dynamic> json) {
   return Profile(
-    ID: json['ID'] as int,
-    loginId: json['loginId'] as String,
+    id: json['id'] as int,
+    login_id: json['login_id'] as String,
     name: json['name'] as String,
     phone: json['phone'] as String,
   );
 }
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
-      'ID': instance.ID,
-      'loginId': instance.loginId,
+      'id': instance.id,
+      'login_id': instance.login_id,
       'name': instance.name,
       'phone': instance.phone,
     };

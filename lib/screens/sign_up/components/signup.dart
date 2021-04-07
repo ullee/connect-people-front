@@ -10,10 +10,10 @@ class Signup {
   Future<void> call(String loginId, String password, String name, String phone) async {
     try {
       final response = await http.post(
-          HOST_CORE + '/signup',
+          HOST_LAMBDA + '/v1/member/signup',
           body: jsonEncode(
               {
-                'loginId': loginId,
+                'login_id': loginId,
                 'password': password,
                 'name': name,
                 'phone': phone,
@@ -26,6 +26,11 @@ class Signup {
         var jsonResult = json.decode(response.body)['result'];
         code = jsonResult['code'];
         message = jsonResult['message'];
+      } else {
+        var error = json.decode(response.body)['error'];
+        code = response.statusCode;
+        message = error.toString();
+        print(error);
       }
 
     } catch (e) {

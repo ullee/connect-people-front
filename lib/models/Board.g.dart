@@ -8,15 +8,16 @@ part of 'Board.dart';
 
 Board _$BoardFromJson(Map<String, dynamic> json) {
   return Board(
-      ID: json['ID'] as int,
-      brandName: json['brandName'] as String,
-      memberID: json['memberID'] as int,
-      title: json['title'] as String,
-      subTitle: json['subTitle'] as String,
-      content: json['content'] as String,
-      majorCategoryName: json['majorCategoryName'] as String,
-      imageUrl: json['imageUrl'] as String,
-      created: json['created'] as String);
+    ID: json['ID'] as int,
+    brandName: json['brandName'] as String,
+    memberID: json['memberID'] as int,
+    title: json['title'] as String,
+    subTitle: json['subTitle'] as String,
+    content: json['content'] as String,
+    majorCategoryName: json['majorCategoryName'] as String,
+    imageUrl: json['imageUrl'] as String,
+    created: json['created'] as String,
+  );
 }
 
 Map<String, dynamic> _$BoardToJson(Board instance) => <String, dynamic>{
@@ -28,5 +29,5 @@ Map<String, dynamic> _$BoardToJson(Board instance) => <String, dynamic>{
       'content': instance.content,
       'majorCategoryName': instance.majorCategoryName,
       'imageUrl': instance.imageUrl,
-      'created': instance.created
+      'created': instance.created,
     };

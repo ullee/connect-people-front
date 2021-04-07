@@ -181,8 +181,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         }
       });
 
-      print(widget.categoryIDs);
-
       Save save = Save();
       await save.call(brandName, title, subTitle, content, uploadedUrls,
           widget.categoryIDs);
@@ -197,14 +195,13 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     }
   }
 
-  _onSaveClicked(String brandName, int memberID, String title, String subTitle,
+  _onSaveClicked(String brandName, String title, String subTitle,
       String content, List<String> uploadedUrls) async {
     try {
       // sharedPreferences = await SharedPreferences.getInstance();
       // await sharedPreferences.setStringList("images", _photosUrls);
 
-      bool success =
-          await saveBoard(brandName, title, subTitle, content, uploadedUrls);
+      bool success = await saveBoard(brandName, title, subTitle, content, uploadedUrls);
 
       if (success) {
         showDialog(
@@ -413,7 +410,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                 } else {
                   _onSaveClicked(
                       brandNameController.text,
-                      1,
                       titleController.text,
                       subTitleController.text,
                       contentController.text,

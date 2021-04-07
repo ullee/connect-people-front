@@ -24,7 +24,7 @@ class _SignFormState extends State<SignForm> {
   TextEditingController loginIdController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  String email;
+  String login_id;
   String password;
 
   Result result;
@@ -114,9 +114,11 @@ class _SignFormState extends State<SignForm> {
                   showSnackBar(context, "비밀번호를 입력해 주세요");
 
                 } else {
-                  email = loginIdController.text;
+                  login_id = loginIdController.text;
                   password = passwordController.text;
-                  _login(email, password);
+                  print(login_id);
+                  print(password);
+                  _login(login_id, password);
                 }
               },
             ),

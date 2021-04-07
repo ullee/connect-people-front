@@ -11,10 +11,10 @@ class Login {
   Future<void> call(String loginId, String password) async {
     try {
       final response = await http.post(
-          HOST_CORE + '/signin',
+          HOST_LAMBDA + '/v1/member/signin',
           body: jsonEncode(
               {
-                'loginId': loginId,
+                'login_id': loginId,
                 'password': password
               }
           ),
@@ -29,12 +29,18 @@ class Login {
         if (jsonData != null) {
           token = jsonData['token'];
         }
+      } else {
+        var error = json.decode(response.body)['error'];
+        code = response.statusCode;
+        message = error.toString();
       }
+      print(code);
+      print(message);
+      print(token);
 
     } catch (e) {
       code = 0;
       message = e;
-      throw ('Error login');
     }
   }
 }
