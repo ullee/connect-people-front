@@ -40,12 +40,14 @@ class _BodyState extends State<Body> {
         future: fetch(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Column(
+            return ListView(
+              shrinkWrap: true,
               children: [
                 Container(
+                  alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: getProportionateScreenWidth(20)),
                   padding: EdgeInsets.only(top: getProportionateScreenWidth(20)),
-                  // width: double.infinity,
+                  width: double.infinity,
                   color: Colors.white,
                   child: Column(
                     children: [

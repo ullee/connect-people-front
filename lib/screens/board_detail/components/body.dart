@@ -52,12 +52,13 @@ class _BodyState extends State<Body> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView(
+              shrinkWrap: true,
               children: [
                 ProductImages(boardDetail: snapshot.data),
                 Container(
+                  alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: getProportionateScreenWidth(20)),
-                  padding:
-                      EdgeInsets.only(top: getProportionateScreenWidth(20)),
+                  padding: EdgeInsets.only(top: getProportionateScreenWidth(20)),
                   width: double.infinity,
                   color: Colors.white,
                   child: Column(

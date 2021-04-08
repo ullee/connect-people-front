@@ -22,12 +22,8 @@ class ProductDescription extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Text(
-            boardDetail.title,
-            style: Theme.of(context).textTheme.headline6,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: Text(boardDetail.title, style: Theme.of(context).textTheme.headline6),
         ),
         Align(
           alignment: Alignment.centerRight,
