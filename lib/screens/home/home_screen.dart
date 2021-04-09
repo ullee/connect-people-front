@@ -7,7 +7,6 @@ import 'package:connect_people/screens/category_search/category_search_screen.da
 import 'package:connect_people/size_config.dart';
 
 import 'components/body.dart';
-import '../../components/WebViewContainer.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = "/home";

@@ -111,6 +111,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       permissionStatus = await permission.request();
 
       if (permissionStatus != PermissionStatus.granted) {
+        print("Only continue if permission granted");
         //Only continue if permission granted
         return;
       }
@@ -129,7 +130,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       }
     }
 
-    if (permissionStatus == PermissionStatus.granted) {
+    if (permissionStatus == PermissionStatus.granted || permissionStatus == PermissionStatus.limited) {
       print('Permission granted');
       final picker = ImagePicker();
       PickedFile image = await picker.getImage(

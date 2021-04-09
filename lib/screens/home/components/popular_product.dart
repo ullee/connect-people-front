@@ -42,7 +42,7 @@ class _PopularProducts extends State<PopularProducts> {
 
   Widget _images(context, snapshot, index) {
     return Container(
-        height: 189,
+        height: 180,
         child: InkWell(
           onTap: () => {
             if (hasToken == false) {
@@ -72,49 +72,42 @@ class _PopularProducts extends State<PopularProducts> {
   }
 
   Widget _content(context, snapshot, index, rand) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SizedBox(height: 5.0),
-      Text(
-        snapshot.data[index].majorCategoryName,
-        style: TextStyle(
-            color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      SizedBox(height: 10.0),
-      Text(
-        snapshot.data[index].title,
-        style: TextStyle(
-            color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      SizedBox(height: 10.0),
-      Text(
-        snapshot.data[index].content,
-        style: TextStyle(color: Colors.black, fontSize: 12),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      SizedBox(height: 10.0),
-      Container(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start, 
+      children: [
+        SizedBox(height: 5.0),
+        Text(
+          snapshot.data[index].majorCategoryName,
+          style: TextStyle(color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(height: 10.0),
+        Text(snapshot.data[index].title, 
+          style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(height: 10.0),
+        Text(snapshot.data[index].content,
+          style: TextStyle(color: Colors.black, fontSize: 12),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(height: 10.0),
+        Container(
           child: Row(
-        children: <Widget>[
-          Container(
-            child: SvgPicture.asset(
-              "assets/icons/Heart Icon_2.svg",
-              color: Colors.orange,
-              height: getProportionateScreenWidth(9),
+            children: <Widget>[
+              Container(
+                child: SvgPicture.asset("assets/icons/Heart Icon_2.svg", color: Colors.orange, height: getProportionateScreenWidth(9),
             ),
           ),
           Container(
-            child: Text(
-              " " + rand.toString(),
-              style: TextStyle(color: Colors.black, fontSize: 11),
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text(" " + rand.toString(), style: TextStyle(color: Colors.black, fontSize: 11),
+            overflow: TextOverflow.ellipsis,
           ),
-        ],
+        ),
+      ],
       ))
     ]);
   }
@@ -127,9 +120,8 @@ class _PopularProducts extends State<PopularProducts> {
 
   @override
   Widget build(BuildContext context) {
-    // double heightD = MediaQuery.of(context).size.height;
     return Container(
-        height: 520,
+        height: MediaQuery.of(context).size.height - 340,
         // constraints: BoxConstraints.tightForFinite(height: 1000),
         padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         child: FutureBuilder(

@@ -40,8 +40,7 @@ class _BodyState extends State<Body> {
                   style: TextStyle(fontSize: 11, color: Colors.grey),
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.01),
-                WriteBoardForm(
-                    categoryIDs: widget.categoryIDs, parentID: widget.parentID),
+                WriteBoardForm(categoryIDs: widget.categoryIDs, parentID: widget.parentID),
                 SizedBox(height: SizeConfig.screenHeight * 0.01),
               ],
             ),
