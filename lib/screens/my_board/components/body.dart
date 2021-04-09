@@ -30,7 +30,8 @@ class _BodyState extends State<Body> {
 
   Future<List<MyBoards>> _getMyBoards() async {
     final prefs = await SharedPreferences.getInstance();
-    final response = await http.get(HOST_CORE + '/my/boards',
+    var uri = HOST_CORE + '/my/boards';
+    final response = await http.get(Uri.parse(uri),
         headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request board API");
@@ -44,8 +45,8 @@ class _BodyState extends State<Body> {
 
   Future<void> _delete(int boardID) async {
     try {
-      final response =
-          await http.delete(HOST_CORE + '/boards/' + boardID.toString());
+      var uri = HOST_CORE + '/boards/' + boardID.toString();
+      final response = await http.delete(Uri.parse(uri));
 
       if (response.statusCode == 200) {
         return true;

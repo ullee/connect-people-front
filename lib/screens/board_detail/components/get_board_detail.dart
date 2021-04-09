@@ -17,9 +17,8 @@ class GetBoardDetail {
 
   Future<void> call(int boardID) async {
     try {
-      final response = await http.get(
-          HOST_CORE + '/boards/${boardID}/detail'
-      );
+      var uri = HOST_CORE + '/boards/$boardID/detail';
+      final response = await http.get(Uri.parse(uri));
 
       if (response.statusCode == 200) {
         success = true;

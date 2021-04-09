@@ -10,8 +10,9 @@ class SendSms {
 
   Future<void> call(String phone) async {
     try {
+      var uri = HOST_CORE + '/send/sms';
       final response = await http.post(
-          HOST_CORE + '/send/sms',
+          Uri.parse(uri),
           body: jsonEncode(
               {
                 'phone': phone
@@ -33,7 +34,7 @@ class SendSms {
   Future<void> auth(String number) async {
     try {
       final response = await http.post(
-          HOST_CORE + '/auth/sms',
+          Uri.parse(HOST_CORE + '/auth/sms'),
           body: jsonEncode(
               {
                 'number': number

@@ -15,7 +15,8 @@ import '../../../constants.dart';
 import '../../../models/Board.dart';
 
 Future<List<Board>> fetchAll() async {
-  final response = await http.get(HOST_CORE + '/boards?limit=20');
+  var uri = HOST_CORE + '/boards?limit=20';
+  final response = await http.get(Uri.parse(uri));
   if (response.statusCode != 200) {
     throw Exception("Fail to request API");
   }

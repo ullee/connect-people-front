@@ -22,9 +22,8 @@ class _BodySate extends State<Body> {
   Future<List<Category>> fetch() async {
     final prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
-
-    final response = await http.get(HOST_CORE + '/categories/major',
-        headers: {'token': prefs.getString('token')});
+    var uri = HOST_CORE + '/categories/major';
+    final response = await http.get(Uri.parse(uri), headers: {'token': prefs.getString('token')});
 
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");

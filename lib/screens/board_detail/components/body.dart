@@ -23,14 +23,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   Future<BoardDetail> fetch() async {
     final prefs = await SharedPreferences.getInstance();
-
-    // if (prefs.getString('token') == null) {
-    //   Navigator.pushReplacementNamed(context, SignInScreen.routeName);
-    // }
-
-    final response = await http.get(
-        HOST_CORE + '/boards/${widget.boardID}/detail',
-        headers: {'token': prefs.getString('token')});
+    var uri = HOST_CORE + '/boards/${widget.boardID}/detail';
+    final response = await http.get(Uri.parse(uri), headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }

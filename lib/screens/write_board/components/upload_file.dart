@@ -14,8 +14,9 @@ class UploadFile {
 
   Future<void> call(File image) async {
     try {
+      var uri = HOST_CORE + '/boards/images';
       var request = new http.MultipartRequest('POST',
-          Uri.parse(HOST_CORE + '/boards/images'))
+          Uri.parse(uri))
         ..files.add(
             await http.MultipartFile.fromPath(
                 'tempFile',

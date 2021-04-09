@@ -20,8 +20,8 @@ class Boards extends StatefulWidget {
 
 class _Boards extends State<Boards> {
   Future<List<Board>> fetch(int categoryID) async {
-    final response = await http
-        .get(HOST_CORE + '/boards/categories/' + categoryID.toString());
+    var uri = HOST_CORE + '/boards/categories/' + categoryID.toString();
+    final response = await http.get(Uri.parse(uri));
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }

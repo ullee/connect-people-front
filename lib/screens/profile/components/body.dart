@@ -20,8 +20,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   Future<Profile> _fetch() async {
     final prefs = await SharedPreferences.getInstance();
-    final response = await http
-        .get(HOST_LAMBDA + '/v1/member/me', headers: {'token': prefs.getString('token')});
+    var uri = HOST_LAMBDA + '/v1/member/me';
+    final response = await http.get(Uri.parse(uri), headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }

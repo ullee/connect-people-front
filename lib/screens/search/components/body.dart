@@ -55,8 +55,9 @@ class _BodyState extends State<Body> {
   final TextEditingController searchController = TextEditingController();
 
   Future<List<dynamic>> getCategoryNames() async {
+    var uri = HOST_CORE + '/categories/names';
     final response = await http.post(
-        HOST_CORE + '/categories/names',
+        Uri.parse(uri),
         body: jsonEncode(
             {
               'categoryIDs': widget.categoryIDs,
@@ -73,7 +74,7 @@ class _BodyState extends State<Body> {
 
   Future<List<Board>> getSearchResult() async {
     final response = await http.post(
-        HOST_CORE + '/boards/search',
+        Uri.parse(HOST_CORE + '/boards/search'),
         body: jsonEncode(
             {
               // 'keyword': searchText,

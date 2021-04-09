@@ -15,7 +15,8 @@ class HomeBanner extends StatefulWidget {
 
 class _HomeBannerState extends State<HomeBanner> {
   Future<List<Banners>> fetch() async {
-    final response = await http.get(HOST_CORE + '/banners');
+    var uri = HOST_CORE + '/banners';
+    final response = await http.get(Uri.parse(uri));
     if (response.statusCode != 200) {
       throw Exception("Fail to request banners API");
     }

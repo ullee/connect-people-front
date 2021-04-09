@@ -9,8 +9,9 @@ class Signup {
 
   Future<void> call(String loginId, String password, String name, String phone) async {
     try {
+      var uri = HOST_LAMBDA + '/v1/member/signup';
       final response = await http.post(
-          HOST_LAMBDA + '/v1/member/signup',
+          Uri.parse(uri),
           body: jsonEncode(
               {
                 'login_id': loginId,

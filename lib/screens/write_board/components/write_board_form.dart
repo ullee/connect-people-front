@@ -131,8 +131,8 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
     if (permissionStatus == PermissionStatus.granted) {
       print('Permission granted');
-
-      File image = await ImagePicker.pickImage(
+      final picker = ImagePicker();
+      PickedFile image = await picker.getImage(
         source: ImageSource.gallery,
       );
 
@@ -151,13 +151,13 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         );
 
         setState(() {
-          _photos.add(image);
+          _photos.add(File(image.path));
           _photosStatus.add(PhotoStatus.LOADING);
           _photosSources.add(PhotoSource.FILE);
         });
 
         try {
-          bool isUploaded = await uploadFile(context, image);
+          bool isUploaded = await uploadFile(context, File(image.path));
           if (isUploaded) {
             print('Uploaded');
           }

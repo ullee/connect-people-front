@@ -33,7 +33,8 @@ class _MediumDepthState extends State<MediumDepth> {
   List<int> categoryIDs = new List<int>();
 
   Future<List<Category>> fetch() async {
-    final response = await http.get(HOST_CORE + '/categories/minor');
+    var uri = HOST_CORE + '/categories/minor';
+    final response = await http.get(Uri.parse(uri));
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");
     }

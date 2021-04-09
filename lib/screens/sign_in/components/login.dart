@@ -10,8 +10,9 @@ class Login {
 
   Future<void> call(String loginId, String password) async {
     try {
+      var uri = HOST_LAMBDA + '/v1/member/signin';
       final response = await http.post(
-          HOST_LAMBDA + '/v1/member/signin',
+          Uri.parse(uri),
           body: jsonEncode(
               {
                 'login_id': loginId,

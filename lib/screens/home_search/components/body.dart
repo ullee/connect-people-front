@@ -47,8 +47,9 @@ class _BodyState extends State<Body> {
   final TextEditingController searchController = TextEditingController();
 
   Future<List<Board>> getSearchResult() async {
+    var uri = HOST_CORE + '/boards/search-brand';
     final response = await http.post(
-        HOST_CORE + '/boards/search-brand',
+        Uri.parse(uri),
         body: jsonEncode(
             {
               'keyword': searchText,
