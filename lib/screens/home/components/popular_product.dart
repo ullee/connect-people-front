@@ -1,11 +1,11 @@
 import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connect_people/screens/sign_in/sign_in_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:connect_people/screens/board_detail/board_detail_screen.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -51,22 +51,26 @@ class _PopularProducts extends State<PopularProducts> {
               Navigator.pushNamed(context, BoardDetailScreen.routeName, arguments: BoardDetailArguments(boardID: snapshot.data[index].ID))
             }
           },
-          child: Container(
-            // padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(snapshot.data[index].imageUrl),
-                  fit: BoxFit.cover),
-              borderRadius: BorderRadius.circular(5.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 2.0,
-                  blurRadius: 5.0,
-                )
-              ],
-              color: Colors.white,
+          child: CachedNetworkImage(
+            imageUrl: snapshot.data[index].imageUrl,
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2.0,
+                    blurRadius: 5.0,
+                    )
+                ],
+                color: Colors.white,
+              ),
             ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ));
   }

@@ -104,8 +104,9 @@ class _BodyState extends State<Body> {
                   },
                   background: Container(color: Colors.red),
                   child: ListTile(
-                    leading: Image.network(snapshot.data[index].imageUrl,
-                    fit: BoxFit.cover),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(snapshot.data[index].imageUrl,
+                      )),
                     title: Text(snapshot.data[index].title ?? ""),
                     dense: true,
                     onTap: () => Navigator.pushNamed(
