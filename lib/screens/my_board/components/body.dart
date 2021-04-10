@@ -30,14 +30,14 @@ class _BodyState extends State<Body> {
 
   Future<List<MyBoards>> _getMyBoards() async {
     final prefs = await SharedPreferences.getInstance();
-    var uri = HOST_CORE + '/my/boards';
+    var uri = HOST_LAMBDA + '/v1/board/me';
     final response = await http.get(Uri.parse(uri),
         headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
       throw Exception("Fail to request board API");
     }
 
-    var jsonData = jsonDecode(response.body)['data'] as List;
+    var jsonData = jsonDecode(response.body)['items'] as List;
     List<MyBoards> boards = jsonData.map((json) => MyBoards.fromJson(json)).toList();
 
     return boards;
@@ -96,7 +96,7 @@ class _BodyState extends State<Body> {
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
-                final item = snapshot.data[index].boardID.toString();
+                final item = snapshot.data[index].ID.toString();
                 return Dismissible(
                   key: Key(item),
                   onDismissed: (direction) {
@@ -110,7 +110,7 @@ class _BodyState extends State<Body> {
                     dense: true,
                     onTap: () => Navigator.pushNamed(
                       context, BoardDetailScreen.routeName,
-                      arguments: BoardDetailArguments(boardID: snapshot.data[index].boardID)),
+                      arguments: BoardDetailArguments(boardID: snapshot.data[index].ID)),
                   ),
                 );
               },
@@ -134,7 +134,7 @@ class _BodyState extends State<Body> {
             new FlatButton(
               child: new Text("Yes", style: TextStyle(fontSize: 13)),
               onPressed: () {
-                _delete(snapshot.data[index].boardID);
+                _delete(snapshot.data[index].ID);
                 setState(() {
                   snapshot.data.removeAt(index);
                 });

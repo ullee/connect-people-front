@@ -8,7 +8,7 @@ part of 'MyBoards.dart';
 
 MyBoards _$MyBoardsFromJson(Map<String, dynamic> json) {
   return MyBoards(
-    boardID: json['boardID'] as int,
+    ID: json['ID'] as int,
     brandName: json['brandName'] as String,
     memberID: json['memberID'] as int,
     title: json['title'] as String,
@@ -20,7 +20,7 @@ MyBoards _$MyBoardsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$MyBoardsToJson(MyBoards instance) => <String, dynamic>{
-      'boardID': instance.boardID,
+      'ID': instance.ID,
       'brandName': instance.brandName,
       'memberID': instance.memberID,
       'title': instance.title,

@@ -90,7 +90,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
       permissionStatus = await permission.status;
 
-      if (permissionStatus != PermissionStatus.granted) {
+      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
         //Only continue if permission granted
         return;
       }
@@ -101,7 +101,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
       permissionStatus = await permission.status;
 
-      if (permissionStatus != PermissionStatus.granted) {
+      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
         //Only continue if permission granted
         return;
       }
@@ -110,8 +110,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     if (permissionStatus == PermissionStatus.undetermined) {
       permissionStatus = await permission.request();
 
-      if (permissionStatus != PermissionStatus.granted) {
-        print("Only continue if permission granted");
+      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
         //Only continue if permission granted
         return;
       }
@@ -124,7 +123,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         permissionStatus = await permission.request();
       }
 
-      if (permissionStatus != PermissionStatus.granted) {
+      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
         //Only continue if permission granted
         return;
       }

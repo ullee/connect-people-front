@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:connect_people/models/Profile.dart';
 import 'package:connect_people/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'profile_pic.dart';
 
 class Body extends StatefulWidget {
@@ -127,9 +126,6 @@ class _BodyState extends State<Body> {
                 children: [
                   Text("공지사항"),
                   GestureDetector(
-                    // onTap: () async {
-                    // await launch("http://ec2-3-35-207-154.ap-northeast-2.compute.amazonaws.com:8080/notice/list");
-                    // },
                     onTap: () {
                       Navigator.pushNamed(context, NoticeScreen.routeName);
                     },
