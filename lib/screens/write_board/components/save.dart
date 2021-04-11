@@ -11,7 +11,7 @@ class Save {
   Future<void> call(String brandName, String title, String subTitle, String content, List<String> uploadedUrls, List<int> categoryIDs) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      var uri = HOST_CORE + '/boards';
+      var uri = HOST_LAMBDA + '/v1/board';
       final response = await http.post(
           Uri.parse(uri),
           body: jsonEncode(

@@ -130,7 +130,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     }
 
     if (permissionStatus == PermissionStatus.granted || permissionStatus == PermissionStatus.limited) {
-      print('Permission granted');
       final picker = ImagePicker();
       PickedFile image = await picker.getImage(
         source: ImageSource.gallery,
@@ -303,16 +302,15 @@ class _WriteBoardForm extends State<WriteBoardForm> {
               return Stack(
                 children: <Widget>[
                   InkWell(
-                      onTap: () => _onPhotoClicked(index - 1),
-                      child: Container(
-                        margin: EdgeInsets.all(5),
-                        height: 100,
-                        width: 100,
-                        color: kLightGray,
-                        child: source == PhotoSource.FILE
-                            ? Image.file(image)
-                            : Image.network(_photosUrls[index - 1]),
-                      )),
+                    onTap: () => _onPhotoClicked(index - 1),
+                    child: Container(
+                      margin: EdgeInsets.all(5),
+                      height: 100,
+                      width: 100,
+                      color: kLightGray,
+                      child: source == PhotoSource.FILE ? Image.file(image) : Image.network(_photosUrls[index - 1]),
+                    )
+                  ),
                   Visibility(
                     visible: _photosStatus[index - 1] == PhotoStatus.LOADED,
                     child: Positioned.fill(
@@ -343,7 +341,9 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                   )
                 ],
               );
-            }));
+            }
+        )
+    );
   }
 
   @override
@@ -363,33 +363,6 @@ class _WriteBoardForm extends State<WriteBoardForm> {
             SizedBox(height: getProportionateScreenHeight(10)),
             buildContentFormField(),
             SizedBox(height: getProportionateScreenHeight(10)),
-            /* 그라데이션 버튼 예제
-            RaisedButton(
-              onPressed: () {},
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-              padding: EdgeInsets.all(0.0),
-              child: Ink(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [Color(0xff374ABE), Color(0xff64B6FF)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0)
-                ),
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: 400.0, minHeight: 50.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "작성 완료",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            */
             DefaultButton(
               text: "작성 완료",
               press: () {

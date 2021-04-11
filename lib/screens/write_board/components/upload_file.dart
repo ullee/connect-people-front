@@ -14,7 +14,7 @@ class UploadFile {
 
   Future<void> call(File image) async {
     try {
-      var uri = HOST_CORE + '/boards/images';
+      var uri = HOST_LAMBDA + '/v1/board/images';
       var request = new http.MultipartRequest('POST',
           Uri.parse(uri))
         ..files.add(
@@ -30,6 +30,7 @@ class UploadFile {
       if (response.statusCode == 200) {
         isUploaded = true;
         returnUrl = json.decode(response.body)["data"]["returnUrl"];
+        print(returnUrl);
       }
     } catch (e) {
       throw ('Error uploading photo');
