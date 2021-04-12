@@ -26,15 +26,26 @@ class _BodyState extends State<Body> {
     var uri = HOST_LAMBDA + '/v1/board/${widget.boardID}';
     final response = await http.get(Uri.parse(uri), headers: {'token': prefs.getString('token')});
     if (response.statusCode != 200) {
-      throw Exception("Fail to request API");
+      if (response.statusCode == 404) {
+        // 토큰 인증 실패
+        prefs.remove('token');
+        Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+      } else {
+        Map jsonData = json.decode(response.body);
+        if (jsonData != null) {
+          print(jsonData);
+        }
+        throw Exception("Fail to request API");
+      }
     }
 
-    Map jsonResult = json.decode(response.body)['result'];
+    // Map jsonResult = json.decode(response.body)['result'];
     Map jsonData = json.decode(response.body)['data'];
 
-    if (jsonResult != null && jsonResult['code'] != 200) {
-      Navigator.pushReplacementNamed(context, SignInScreen.routeName);
-    }
+    // if (jsonResult != null && jsonResult['code'] != 200) {
+    //   prefs.remove('token');
+    //   Navigator.pushReplacementNamed(context, SignInScreen.routeName);
+    // }
 
     return BoardDetail.fromJson(jsonData);
   }

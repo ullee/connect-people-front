@@ -15,13 +15,14 @@ import '../../../constants.dart';
 import '../../../models/Board.dart';
 
 Future<List<Board>> fetchAll() async {
-  var uri = HOST_CORE + '/boards?limit=20';
+  var uri = HOST_LAMBDA + '/v1/board';
   final response = await http.get(Uri.parse(uri));
   if (response.statusCode != 200) {
     throw Exception("Fail to request API");
   }
 
-  var jsonData = jsonDecode(response.body)['data'] as List;
+  var jsonData = jsonDecode(response.body)['items'] as List;
+  // for (var i in jsonData) {print(i);}
   List<Board> boards = jsonData.map((json) => Board.fromJson(json)).toList();
 
   return boards;

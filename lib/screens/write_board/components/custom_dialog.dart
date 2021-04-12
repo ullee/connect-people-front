@@ -25,6 +25,7 @@ class CustomDialog {
           content: Text(
             subHeading,
             style: TextStyle(
+              fontSize: 13,
               color: kDarkGray,
             ),
           ),
@@ -60,6 +61,7 @@ class CustomDialog {
           content: Text(
             subHeading,
             style: TextStyle(
+              fontSize: 13,
               color: kDarkGray,
             ),
           ),

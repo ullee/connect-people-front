@@ -38,6 +38,9 @@ class WriteBoardForm extends StatefulWidget {
 }
 
 class _WriteBoardForm extends State<WriteBoardForm> {
+
+  bool _isButtonDisabled = false;
+
   List<String> uploadedUrls = [];
 
   List<File> _photos = List<File>();
@@ -53,6 +56,23 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   TextEditingController titleController = TextEditingController();
   TextEditingController subTitleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
+
+  void _buttonPressed(String onoff) {
+    if (onoff == "ON") {
+      setState(() {
+        _isButtonDisabled = true;
+      });
+    } else {
+      setState(() {
+        _isButtonDisabled = false;
+      });
+    }
+  }
+
+  void initState() {
+    super.initState();
+    _isButtonDisabled = false;
+  }
 
   _buildAddPhoto() {
     return InkWell(
@@ -90,7 +110,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
       permissionStatus = await permission.status;
 
-      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
+      if (permissionStatus != PermissionStatus.granted) {
         //Only continue if permission granted
         return;
       }
@@ -101,7 +121,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
       permissionStatus = await permission.status;
 
-      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
+      if (permissionStatus != PermissionStatus.granted) {
         //Only continue if permission granted
         return;
       }
@@ -110,7 +130,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     if (permissionStatus == PermissionStatus.undetermined) {
       permissionStatus = await permission.request();
 
-      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
+      if (permissionStatus != PermissionStatus.granted) {
         //Only continue if permission granted
         return;
       }
@@ -123,13 +143,26 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         permissionStatus = await permission.request();
       }
 
-      if (permissionStatus != PermissionStatus.granted && permissionStatus != PermissionStatus.limited) {
+      if (permissionStatus != PermissionStatus.granted) {
         //Only continue if permission granted
         return;
       }
     }
 
-    if (permissionStatus == PermissionStatus.granted || permissionStatus == PermissionStatus.limited) {
+    if (permissionStatus == PermissionStatus.limited) {
+      if (Platform.isIOS) {
+        _showOpenAppSettingsDialog(context);
+      } else {
+        permissionStatus = await permission.request();
+      }
+
+      if (permissionStatus != PermissionStatus.granted) {
+        //Only continue if permission granted
+        return;
+      }
+    }
+
+    if (permissionStatus == PermissionStatus.granted) {
       final picker = ImagePicker();
       PickedFile image = await picker.getImage(
         source: ImageSource.gallery,
@@ -140,6 +173,25 @@ class _WriteBoardForm extends State<WriteBoardForm> {
         length = _photos.length + 1;
 
         String fileExtension = path.extension(image.path);
+
+        var allowExtensions = [".jpeg", ".jpg", ".png"];
+
+        if (!allowExtensions.contains(fileExtension.toLowerCase())) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                // title: new Text("필수"),
+                content: new Text("이미지파일 jpeg, jpg, png 권장"),
+                actions: <Widget>[
+                  new FlatButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    child: new Text("Close"))
+                ],
+              );
+            });
+          return;
+        }
 
         _galleryItems.add(
           GalleryItem(
@@ -204,6 +256,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
       if (success) {
         showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) {
               return AlertDialog(
@@ -226,9 +279,9 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   _showOpenAppSettingsDialog(context) {
     return CustomDialog.show(
       context,
-      'Permission needed',
-      'Photos permission is needed to select photos',
-      'Open settings',
+      '"모든사진 권한" 이 필요합니다',
+      '설정-커넥피플을 통해 접근 할 수 있도록 해주세요',
+      '설정',
       openAppSettings,
     );
   }
@@ -346,6 +399,35 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     );
   }
 
+  void _press(context) {
+    if (uploadedUrls == null || uploadedUrls.isEmpty || uploadedUrls.length == 0) {
+      showSnackBar(context, "이미지를 하나이상 업로드 해주세요");
+      _buttonPressed("OFF");
+    } else if (uploadedUrls.length > 5) {
+      showSnackBar(context, "이미지는 최대 5개 까지 업로드 가능 합니다.");
+      _buttonPressed("OFF");
+    } else if (brandNameController.text.isEmpty) {
+      showSnackBar(context, "파트너명을 입력해 주세요");
+      _buttonPressed("OFF");
+    } else if (titleController.text.isEmpty) {
+      showSnackBar(context, "제목을 입력해 주세요");
+      _buttonPressed("OFF");
+    } else if (subTitleController.text.isEmpty) {
+      showSnackBar(context, "연락처를 입력해 주세요");
+      _buttonPressed("OFF");
+    } else if (contentController.text.isEmpty) {
+      showSnackBar(context, "내용을 입력해 주세요");
+      _buttonPressed("OFF");
+    } else {
+      _onSaveClicked(
+        brandNameController.text,
+        titleController.text,
+        subTitleController.text,
+        contentController.text,
+        uploadedUrls);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -363,32 +445,28 @@ class _WriteBoardForm extends State<WriteBoardForm> {
             SizedBox(height: getProportionateScreenHeight(10)),
             buildContentFormField(),
             SizedBox(height: getProportionateScreenHeight(10)),
-            DefaultButton(
-              text: "작성 완료",
-              press: () {
-                if (uploadedUrls == null ||
-                    uploadedUrls.isEmpty ||
-                    uploadedUrls.length == 0) {
-                  showSnackBar(context, "이미지를 하나이상 업로드 해주세요");
-                } else if (uploadedUrls.length > 5) {
-                  showSnackBar(context, "이미지는 최대 5개 까지 업로드 가능 합니다.");
-                } else if (brandNameController.text.isEmpty) {
-                  showSnackBar(context, "파트너명을 입력해 주세요");
-                } else if (titleController.text.isEmpty) {
-                  showSnackBar(context, "제목을 입력해 주세요");
-                } else if (subTitleController.text.isEmpty) {
-                  showSnackBar(context, "연락처를 입력해 주세요");
-                } else if (contentController.text.isEmpty) {
-                  showSnackBar(context, "내용을 입력해 주세요");
-                } else {
-                  _onSaveClicked(
-                      brandNameController.text,
-                      titleController.text,
-                      subTitleController.text,
-                      contentController.text,
-                      uploadedUrls);
-                }
-              },
+            SizedBox(
+              width: double.infinity,
+              height: getProportionateScreenHeight(45),
+              child: FlatButton(
+                color: _isButtonDisabled? Colors.grey : Colors.blue,
+                onPressed: () {
+                  if (_isButtonDisabled) {
+                    print("progress...");
+                    return null;
+                  } else {
+                    _buttonPressed("ON");
+                  }
+                    _press(context);
+                },
+                child: Text(
+                  _isButtonDisabled ? "진행중" : "작성완료",
+                  style: TextStyle(
+                  fontSize: getProportionateScreenWidth(12),
+                  color: Colors.white,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: getProportionateScreenHeight(10)),
             Text("(등록 후 수정 불가)", style: TextStyle(color: Colors.grey))
