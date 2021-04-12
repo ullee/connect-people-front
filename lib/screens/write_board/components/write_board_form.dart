@@ -39,6 +39,7 @@ class WriteBoardForm extends StatefulWidget {
 
 class _WriteBoardForm extends State<WriteBoardForm> {
 
+  int _uploadCount = 0;
   bool _isButtonDisabled = false;
 
   List<String> uploadedUrls = [];
@@ -72,6 +73,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
   void initState() {
     super.initState();
     _isButtonDisabled = false;
+    _uploadCount = 0;
   }
 
   _buildAddPhoto() {
@@ -169,6 +171,22 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       );
 
       if (image != null) {
+        if (_uploadCount > 4) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: new Text("이미지 업로드 최대 갯수는 5개 입니다"),
+                actions: <Widget>[
+                  new FlatButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    child: new Text("Close"))
+                ],
+              );
+            });
+          return;
+        }
+
         int length;
         length = _photos.length + 1;
 
@@ -211,6 +229,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
           bool isUploaded = await uploadFile(context, File(image.path));
           if (isUploaded) {
             print('Uploaded');
+            _uploadCount++;
           }
         } catch (e) {
           print(e);
@@ -335,7 +354,9 @@ class _WriteBoardForm extends State<WriteBoardForm> {
     _photosStatus.removeAt(index);
     _photosSources.removeAt(index);
     _galleryItems.removeAt(index);
-    setState(() {});
+    setState(() {
+      _uploadCount--;
+    });
     return true;
   }
 
