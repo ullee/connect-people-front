@@ -3,13 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
-import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
 
 class HomeHeader extends StatelessWidget {
+
   const HomeHeader({
     Key key,
   }) : super(key: key);
@@ -19,7 +16,6 @@ class HomeHeader extends StatelessWidget {
     int rand1 = Random().nextInt(9); // 총 등록건수 @TODO:추후 실제 카운팅으로 변경
     int rand2 = Random().nextInt(9); // 신규 등록건수 @TODO:추후 실제 카운팅으로 변경
 
-    // Future<Post> post = fetchPost();
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),

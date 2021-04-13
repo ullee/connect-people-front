@@ -170,7 +170,8 @@ class _BodyState extends State<Body> {
 
   void _signout() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
+    // prefs.remove('token');
+    prefs.clear();
   }
 
   @override

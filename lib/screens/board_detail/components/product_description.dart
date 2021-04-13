@@ -45,33 +45,17 @@ class ProductDescription extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
-            left: getProportionateScreenWidth(20),
-            right: getProportionateScreenWidth(64),
-          ),
-          child: Text(
-            boardDetail.brandName,
-            style: Theme.of(context).textTheme.headline6,
-            maxLines: 3,
-          ),
+          padding: EdgeInsets.only(left: getProportionateScreenWidth(20), right: getProportionateScreenWidth(64)),
+          child: Text(boardDetail.brandName, style: Theme.of(context).textTheme.headline6, maxLines: 3),
         ),
         SizedBox(height: 20),
         Padding(
-          padding: EdgeInsets.only(
-            left: getProportionateScreenWidth(20),
-            right: getProportionateScreenWidth(64),
-          ),
-          child: Text(
-            boardDetail.subTitle,
-            maxLines: 3,
-          ),
+          padding: EdgeInsets.only(left: getProportionateScreenWidth(20), right: getProportionateScreenWidth(64)),
+          child: Text(boardDetail.subTitle, maxLines: 3),
         ),
         SizedBox(height: 20),
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(20),
-            vertical: 10,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20), vertical: 10),
           child: Linkify(
             onOpen: (link) async {
               if (await canLaunch(link.url)) {
@@ -81,6 +65,7 @@ class ProductDescription extends StatelessWidget {
               }
             },
             text: boardDetail.content,
+            options: LinkifyOptions(humanize: false),
           ),
         )
       ],

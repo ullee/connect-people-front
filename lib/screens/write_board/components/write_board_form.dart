@@ -478,7 +478,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
                   } else {
                     _buttonPressed("ON");
                   }
-                    _press(context);
+                  _press(context);
                 },
                 child: Text(
                   _isButtonDisabled ? "진행중" : "작성완료",
