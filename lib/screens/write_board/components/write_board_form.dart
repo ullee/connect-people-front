@@ -168,6 +168,7 @@ class _WriteBoardForm extends State<WriteBoardForm> {
       final picker = ImagePicker();
       PickedFile image = await picker.getImage(
         source: ImageSource.gallery,
+        imageQuality: 90
       );
 
       if (image != null) {
@@ -345,8 +346,26 @@ class _WriteBoardForm extends State<WriteBoardForm> {
 
   Future<bool> _onDeleteReviewPhotoClicked(int index) async {
     print("delete index : " + (index).toString());
+    // 이미지 업로드 중에 삭제 했거나, 이미지 업로드 실패 할 경우
+    if (uploadedUrls.isEmpty) {
+      setState(() {
+        if (_photos.isNotEmpty) {
+          _photos.removeAt(index);
+        }
+        if (_photosStatus.isNotEmpty) {
+          _photosStatus.removeAt(index);
+        }
+        if (_photosSources.isNotEmpty) {
+          _photosSources.removeAt(index);
+        }
+        if (_galleryItems.isNotEmpty) {
+          _galleryItems.removeAt(index);
+        }
+      });
+      return false;
+    }
+    
     uploadedUrls.removeAt(index);
-    print(uploadedUrls);
     if (_photosStatus[index] == PhotoStatus.LOADED) {
       _photosUrls.removeAt(index);
     }

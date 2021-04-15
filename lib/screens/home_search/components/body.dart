@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../size_config.dart';
 import '../../../constants.dart';
@@ -46,15 +47,11 @@ class _BodyState extends State<Body> {
   final TextEditingController searchController = TextEditingController();
 
   Future<List<Board>> getSearchResult() async {
-    var uri = HOST_CORE + '/boards/search-brand';
-    final response = await http.post(
+    final prefs = await SharedPreferences.getInstance();
+    var uri = HOST_LAMBDA + '/v1/board/search-brand?keyword=$searchText';
+    final response = await http.get(
         Uri.parse(uri),
-        body: jsonEncode(
-            {
-              'keyword': searchText,
-            }
-        ),
-        headers: {'Content-Type': 'application/json'}
+        headers: {'token': prefs.getString('token')}
     );
     if (response.statusCode != 200) {
       throw Exception("Fail to request API");

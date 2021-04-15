@@ -126,11 +126,11 @@ class _BodyState extends State<Body> {
 
   void _showDialog(snapshot, index) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content:
-              new Text("정말 게시글을 삭제 하시겠습니까?", style: TextStyle(fontSize: 13)),
+          content: new Text("정말 게시글을 삭제 하시겠습니까?", style: TextStyle(fontSize: 13)),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Yes", style: TextStyle(fontSize: 13)),
