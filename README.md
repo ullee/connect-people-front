@@ -1,3 +1,3 @@
-## private project
+## connect-people project
 
-This is a admin frontend source in Connect-People
+This is the client code made with flutter and dart of "connect-people".
